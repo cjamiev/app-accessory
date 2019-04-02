@@ -1,0 +1,184 @@
+/* BODY */
+html, body {
+	height: 100%;
+}
+
+body {
+  background-color: #fff;
+	color: #000;
+	font-family: 'Open Sans', sans-serif;
+}
+
+/* HEADER */
+header {
+	background-color: #191970;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+header nav {
+	background-color: #24292e;
+	margin: 0 0 40px 0;
+}
+
+/* LINKS */
+a:link,
+a:visited,
+a:hover,
+a:active {
+	color: #0266c2;
+	text-decoration: none;
+}
+
+a:hover,
+a:active,
+a:focus {
+	color: #191970;
+	text-decoration: underline;
+}
+
+/* TEXT */
+h1, h2, h3, h4, h5, h6 {
+	color: #555;
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 180%;
+}
+
+h2 {
+	font-size: 145%;
+}
+
+h3 {
+	font-size: 120%;
+}
+
+h4 {
+	font-size: 100%;
+}
+
+p {
+	font-size: 100%;
+}
+
+/* LIST */
+ul {
+	list-style-position: inside;
+}
+
+ul li {
+	line-height: 160%
+}
+
+/* INPUTS */
+input[type=text],
+input[type=password],
+textarea,
+select {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	font-family: inherit;
+	font-size: inherit;
+	font-size: 90%;
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #ccc;
+  height: 40px;
+  padding: 0 10px;
+}
+
+input[type=checkbox]+label,
+input[type=radio]+label{
+	display: inline;
+	font-weight: normal;
+}
+
+button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+	display: inline-block;
+	width: auto;
+	padding: 0 20px;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	background-color: #191970;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+button:hover,
+button:active,
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=reset]:hover,
+input[type=button]:active,
+input[type=submit]:active,
+input[type=reset]:active {
+	color: #fff;
+	background-color: #0266c2;
+}
+
+textarea {
+	height: 150px;
+	padding: 10px;
+	resize: none;
+}
+
+label {
+	display: block;
+	font-size: 100%;
+	font-weight: normal;
+	margin: 0 0 8px 0;
+	padding: 0;
+}
+
+/* TABLES */
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 0;
+}
+
+td {
+	padding: 20px 10px;
+	border: 0;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+}
+
+th {
+	padding: 10px 10px;
+	color: #999;
+	font-size: 80%;
+	font-weight: normal;
+	text-align: left;	
+	border: 0;
+	border-bottom: 1px solid #ddd;
+}
+
+/* FOOTER */
+footer {
+  background-color: #24292e;
+	color: #fff;
+	text-align: center;
+	box-sizing: border-box;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	position: absolute;
+	width: 100%;
+	right: 0;
+  bottom: 0;
+  left: 0;
+}

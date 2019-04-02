@@ -1,0 +1,141 @@
+.container {
+	width: 92%;
+	height: calc(100%-70px);
+	margin: 0 auto 0 auto;
+}
+
+.message-box {
+	background-color: #FFFF00;
+	color: #555;
+	font-size: 110%;
+	font-weight: normal;
+	line-height: 140%;
+	box-sizing: border-box;
+	margin: 0 0 30px 0;
+	padding: 30px;
+	width: 100%;
+}
+
+.nav-container {
+	position: relative;
+	width: 100%;
+	min-height: 35px;
+	margin: 0 auto 0 auto;
+}
+
+.nav-container:after {
+	content: " ";
+	display: table;
+	clear: both;
+}
+
+.main-menu {
+	display: block;
+	float: left;
+}
+
+.main-menu:after {
+	content: " ";
+	display: table;
+	clear: both;
+}
+
+.main-menu li {
+	display: none;
+	float: left;	
+}
+
+.main-menu li a:link,
+.main-menu li a:visited,
+.main-menu li a:hover,
+.main-menu li a:active {
+	padding: 0 1em;
+	margin: 0;
+	line-height: 35px;
+	color: #fff;
+	font-size: 90%;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.main-menu li a:hover {
+	border-bottom: 2px solid #fff;
+}
+
+@media only screen and (min-width: 960px) {
+	.nav-container {
+		width: 100%;
+		margin: 0 auto 0 auto;
+	}
+}
+
+@media only screen and (min-width: 330px) {
+	nav ul.main-menu li:nth-child(1) {
+		display: inline-block;
+	}
+}
+
+@media only screen and (min-width: 430px) {
+	nav ul.main-menu li:nth-child(2) {
+		display: inline-block;
+	}
+}
+
+@media only screen and (min-width: 530px) {
+	nav ul.main-menu li:nth-child(3) {
+		display: inline-block;
+	}
+}
+
+@media only screen and (min-width: 630px) {
+	nav ul.main-menu li:nth-child(4) {
+		display: inline-block;
+	}
+}
+
+.form-row {
+	margin: 0 0 25px 0;
+}
+
+.button-bar {
+	text-align: right;
+}
+
+.button-bar *,
+.button-bar .standard-button,
+.button-bar a.standard-button,
+.button-bar button,
+.button-bar input[type=button],
+.button-bar input[type=submit] {
+	display: block;
+	width: 100%;
+	margin: 0 0 10px 0;
+}
+
+@media only screen and (min-width: 450px) {
+	.button-bar *,
+	.button-bar .standard-button,
+	.button-bar a.standard-button,
+	.button-bar button,
+	.button-bar input[type=button],
+	.button-bar input[type=submit] {
+		display: inline-block;
+		width: 100%;
+		margin: 0;
+	}	
+}
+
+@media only screen and (min-width: 960px) {
+	.container, .nav-container {
+		width: 800px;
+	}
+	
+	.nav-container .main-menu {
+		transform: translateX(-15px);
+	}
+	
+	.nav-container .hamburger-menu-button {
+		transform: translateX(15px);
+	}
+}

@@ -1,0 +1,101 @@
+/* COLLAPSIBLE MENU */
+.collapsible-menu-button {
+	display: block;
+	float: right;
+	width: auto;
+	padding: 0 15px;
+	cursor: pointer;
+}
+
+.collapsible-menu-button:hover,
+.collapsible-menu-button:active,
+.collapsible-menu-button:focus {
+	background-color: #333;
+}
+
+.collapsible-menu-button:after {
+	content: " ";
+	display: table;
+	clear: both;
+}
+
+.collapsible-menu-caption {
+	display: block;
+	float: left;
+	padding: 0 7px 0 0;
+	color: #fff;
+	font-size: 90%;
+	font-weight: bold;
+	line-height: 35px;
+	text-transform: uppercase;
+}
+
+.collapsible-icon {
+	float: right;
+	padding: 3px 0 0 0;
+	cursor: pointer;
+}
+
+.collapsible-top-bar, .collapsible-middle-bar, .collapsible-bottom-bar {
+	position: relative;
+	width: 24px;
+	height: 3px;
+	background-color: #fff;
+	margin: 5px 0;
+	transition: 0.4s;
+}
+
+.close-collapsible-menu .collapsible-top-bar {
+	transform-origin: center;
+	transform: translate(0, 8px) rotate(-45deg);
+}
+
+.close-collapsible-menu .collapsible-middle-bar { 
+	opacity: 0;
+} 
+
+.close-collapsible-menu .collapsible-bottom-bar {
+	transform-origin: center;
+	transform: translate(0, -8px) rotate(45deg);
+}
+
+ul.collapsible-menu {
+	display: none;
+	position: absolute;
+	width: 280px;
+	top: 35px;
+	right: 0;
+	background-color: #444;
+}
+
+ul.show-collapsible-menu {
+	display: block;
+	list-style-type: none;
+}
+
+ul.collapsible-menu li {
+	display: block;
+	margin: 0;
+}
+
+ul.collapsible-menu li a:link,
+ul.collapsible-menu li a:visited,
+ul.collapsible-menu li a:hover,
+ul.collapsible-menu li a:active {
+	display: block;
+	padding: 0 2em;
+	border: 1px solid #555;
+	margin: 0;
+	line-height: 45px;
+	color: #fff;
+	font-size: 100%;
+	font-weight: normal;
+	text-transform: none;
+	text-decoration: none;
+}
+
+ul.collapsible-menu li a:hover,
+ul.collapsible-menu li a:active,
+ul.collapsible-menu li a:focus {
+	background-color: #555;
+}

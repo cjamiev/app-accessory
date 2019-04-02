@@ -1,0 +1,28 @@
+<div>
+  <div class="message-box error message" *ngIf="formErrors.submit">{{formErrors.submit }}</div>
+  <h1 role="heading">React/Redux Generator</h1> 
+  <form #someForm="ngForm" (ngSubmit) = "submit()">
+    
+    <div class="col-md-4"> 
+      <div class="form-row">
+        <label for="generator-type">Select Type</label>
+        <select id="generator-type" name="type" required [(ngModel)]="type" (change)="chooseType()">
+          <option [value]="item" *ngFor="let item of typeList">{{item}}</option> 
+        </select> 
+      </div>
+
+    <div class="form-row">
+      <label for="generator-filename">File Name</label>
+      <input id="generator-filename" name="filename" type="text" value="" required [(ngModel)]="fileName"> 
+    </div>
+  </div>
+
+  <div class="row margin-top-48px">
+      <div class="col-md-12 button-bar">
+        <input id="generator-submit" type="submit" value="submit" /> 
+      </div> 
+    </div>
+
+  </form>
+
+</div>

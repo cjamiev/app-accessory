@@ -1,0 +1,7 @@
+<div
+  id='system-message-statusmessage'
+  class='status-message-box'
+  [ngClass]="{'status-message-error': statusType=='error', 'status-message-warn': statusType=='warn', 'status-message-success': statusType=='success'}"
+>
+  {{statusMessage}}
+</div>
