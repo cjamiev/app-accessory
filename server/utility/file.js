@@ -11,11 +11,4 @@ const getAllFilesInTreeDirectory = (dir, filelist = []) => {
   return filelist;
 }
 
-function walkSync(dir) {
-  return fs.lstatSync(dir).isDirectory()
-      ? fs.readdirSync(dir).map(f => walkSync(path.join(dir, f)))
-      : dir;
-}
-
 module.exports.getAllFilesInTreeDirectory = getAllFilesInTreeDirectory;
-module.exports.walkSync = walkSync;
