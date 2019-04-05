@@ -1,5 +1,6 @@
 const getTemplateVariables = require('../utility/generator').getTemplateVariables;
-const getGenerators = require('../utility/generator').getGenerators;
+const getCategorizedFiles = require('../utility/generator').getCategorizedFiles;
+const getGeneratorsAsJSON = require('../utility/generator').getGeneratorsAsJSON;
 const getCustomizedLine = require('../utility/generator').getCustomizedLine;
 const getCustomizedFile = require('../utility/generator').getCustomizedFile;
 
@@ -41,55 +42,230 @@ describe('generator', () => {
       expect(recievedVariables).toEqual(expectedVariables);
     });
   });
-
-  describe(':getGenerators', () => {
-    it('files is empty', () => {
-      const files = [];
-      const expectedGenerators = [];
-      
-      const recievedGenerators = getGenerators(files);
   
-      expect(recievedGenerators).toEqual(expectedGenerators);
-    });
-
-    it('files is has single file', () => {
-      const files = ['dirOne\\subDirOne\\fileOne.js'];
-      const expectedGenerators = [
+  describe(':getCategorizedFiles', () => {
+    it('templatesAndVariables is has single file and no variables', () => {
+      const templatesAndVariables = [
+        { 
+          file: 'dirOne\\subDirOne\\fileOne.js',
+          variables: []
+        }
+      ];
+      const expectedCategorizedFiles = [
         {
           category:'dirOne',
           group:'subDirOne',
-          file:['fileOne.js']
+          file:['fileOne.js'],
+          variables: []
         }
       ];
      
-      const recievedGenerators = getGenerators(files);
+      const recievedCategorizedFiles = getCategorizedFiles(templatesAndVariables);
 
-      expect(recievedGenerators).toEqual(expectedGenerators);
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
     });
 
-    it('files is has multiple file', () => {
-      const files = ['dirOne\\subDirOne\\fileOne.js', 'dirOne\\subDirOne\\fileTwo.js','dirTwo\\subDirOne\\fileOne.js'];
-      const expectedGenerators = [
+    it('templatesAndVariables is has multiple file', () => {
+      const templatesAndVariables = [
+        {
+          file:'dirOne\\subDirOne\\fileOne.js',
+          variables: ['varOne','varTwo']
+        },
+        {
+          file:'dirOne\\subDirOne\\fileTwo.js',
+          variables: ['varThree','varFour']
+        },
+        {
+          file:'dirTwo\\subDirOne\\fileOne.js',
+          variables: ['varOne','varTwo']
+        }
+      ];
+      const expectedCategorizedFiles = [
         {
           category:'dirOne',
           group:'subDirOne',
-          file:['fileOne.js']
+          file:['fileOne.js'],
+          variables: ['varOne','varTwo']
         },
         {
           category:'dirOne',
           group:'subDirOne',
-          file:['fileTwo.js']
+          file:['fileTwo.js'],
+          variables: ['varThree','varFour']
         },
         {
           category:'dirTwo',
           group:'subDirOne',
-          file:['fileOne.js']
+          file:['fileOne.js'],
+          variables: ['varOne','varTwo']
         }
       ];
      
-      const recievedGenerators = getGenerators(files);
+      const recievedCategorizedFiles = getCategorizedFiles(templatesAndVariables);
 
-      expect(recievedGenerators).toEqual(expectedGenerators);
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
+    });
+  });
+
+  describe(':getGeneratorsAsJSON', () => {
+    it('categorizedFiles is has single entry', () => {
+      const categorizedFiles = [ 
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        }
+      ];
+      const expectedCategorizedFiles = {
+        'dirOne':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          }
+        }
+      };
+     
+      const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
+
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
+    });
+
+    it('categorizedFiles is has two distinct categories', () => {
+      const categorizedFiles = [ 
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        },
+        { category: 'dirTwo',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        }
+      ];
+      const expectedCategorizedFiles = {
+        'dirOne':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          }
+        },
+        'dirTwo':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          }
+        }
+      };
+     
+      const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
+
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
+    });
+
+    it('categorizedFiles is has two distinct groups', () => {
+      const categorizedFiles = [ 
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        },
+        { category: 'dirOne',
+          group: 'subDirTwo',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        }
+      ];
+      const expectedCategorizedFiles = {
+        'dirOne':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          },
+          'subDirTwo': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          }
+        }
+      };
+     
+      const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
+
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
+    });
+
+    it('categorizedFiles is has two entries same group', () => {
+      const categorizedFiles = [ 
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree','varFour'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        },
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree','varFive'],
+          file: ['dirOne\\subDirOne\\fileTwo.js'] 
+        }
+      ];
+      const expectedCategorizedFiles = {
+        'dirOne':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree','varFour','varFive'],
+            file:['dirOne\\subDirOne\\fileOne.js','dirOne\\subDirOne\\fileTwo.js'] 
+          }
+        }
+      };
+     
+      const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
+
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
+    });
+
+    it('categorizedFiles is has multiple entries same/different category/groups', () => {
+      const categorizedFiles = [ 
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree','varFour'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        },
+        { category: 'dirOne',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree','varFive'],
+          file: ['dirOne\\subDirOne\\fileTwo.js'] 
+        },
+        { category: 'dirOne',
+          group: 'subDirTwo',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        },
+        { category: 'dirTwo',
+          group: 'subDirOne',
+          variables: ['varOne','varTwo','varThree'],
+          file: ['dirOne\\subDirOne\\fileOne.js'] 
+        }
+      ];
+      const expectedCategorizedFiles = {
+        'dirOne':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree','varFour','varFive'],
+            file:['dirOne\\subDirOne\\fileOne.js','dirOne\\subDirOne\\fileTwo.js'] 
+          },
+          'subDirTwo': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          }
+        },
+        'dirTwo':{
+          'subDirOne': {
+            variables: ['varOne','varTwo','varThree'],
+            file:['dirOne\\subDirOne\\fileOne.js'] 
+          }
+        }
+      };
+     
+      const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
+
+      expect(recievedCategorizedFiles).toEqual(expectedCategorizedFiles);
     });
   });
 
@@ -173,7 +349,6 @@ describe('generator', () => {
       
       const recievedCustomizedFile = getCustomizedFile(file, variables);
   
-      console.log(recievedCustomizedFile,expectedCustomizedFile);
       expect(recievedCustomizedFile).toEqual(expectedCustomizedFile);
     });
   });

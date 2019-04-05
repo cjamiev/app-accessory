@@ -1,96 +1,91 @@
-const fs = require('fs');
-const getAllFilesInTreeDirectory = require('./file').getAllFilesInTreeDirectory;
 const getUniqueArray = require('./data-util').getUniqueArray;
 
-const GENERATOR_DIR = '../generator';
 const HANDLE_BARS_GLOBAL_REGEX = /{{.+}}/g;
 const HANDLE_BARS_REGEX = /{{.+}}/;
+const LETTERS_AND_SPACE_REGEX = /{{[a-zA-Z ]+/g; 
+const NEW_LINE = '\n';
+const FOLDER_SEPARATOR = '\\';
 
 const getTemplateVariables = (template) => {
   if(!HANDLE_BARS_GLOBAL_REGEX.test(template)){
     return [];
   }
 
-  const reduceToVariablesOnly = template.split('}}').join('\n').match(/{{[a-zA-Z ]+/g).map(item => item.replace('{{','').trim());
+  const reduceToVariablesOnly = template.split('}}')
+    .join(NEW_LINE)
+    .match(LETTERS_AND_SPACE_REGEX)
+    .map(line => line.replace('{{','').trim());
   const uniqueVariables = getUniqueArray(reduceToVariablesOnly);
 
   return uniqueVariables;
 }
 
-const getGenerators = (files) => {
-  const foldersAndFiles = files.map(item => item.split('\\').filter(item => item !== '..' && item !== 'generator'));
-  const categorizedFoldersAndFiles = foldersAndFiles.map(item => {
-    const category = item[0];
-    const group = item[1];
-    const file = [item[2]];
-    return { 
-      category, group, file
-    }
+const getCategorizedFiles = (templatesAndVariables) => {
+  const foldersFilesAndVariables = templatesAndVariables.map(filePathAndVariables => {
+    const file = filePathAndVariables.file.split(FOLDER_SEPARATOR)
+      .filter(filePathSegment => filePathSegment !== '..' && filePathSegment !== 'generator');
+    const variables = filePathAndVariables.variables;
+
+    return { file, variables }
   });
 
-  return categorizedFoldersAndFiles;
+  const categorizedFilesAndVariables = foldersFilesAndVariables.map(fileAndVariables => {
+    const category = fileAndVariables.file[0];
+    const group = fileAndVariables.file[1];
+    const file = [fileAndVariables.file[2]];
+    const variables = fileAndVariables.variables
+
+    return { category, group, file, variables }
+  });
+
+  return categorizedFilesAndVariables;
 }
 
-const getGeneratorsAsJSON = () => {
-  const files = getAllFilesInTreeDirectory(GENERATOR_DIR);
-  const categorizedFoldersAndFiles = getGenerators(files);
+const getGeneratorsAsJSON = (categorizedFiles) => {
+  const foldersAndFilesJSON = categorizedFiles.reduce((total, generator)=>{
+    if(total[generator.category] && total[generator.category][generator.group]){
+      const reducedVariables = getUniqueArray(total[generator.category][generator.group].variables.concat(generator.variables));
+      const mergedGroup = total[generator.category][generator.group].file.concat(generator.file);
+      const mergedCategory = { [generator.category]: {[generator.group]: {file: mergedGroup, variables: reducedVariables}}};
 
-  const foldersAndFilesJSON = categorizedFoldersAndFiles.reduce((total, item)=>{
-    if(total[item.category] && total[item.category][item.group]){
-      const template = fs.readFileSync(`..\\generator\\${item.category}\\${item.group}\\${item.file}`, 'utf8');
-      const templateVariables = getTemplateVariables(template);
-      const reducedTemplateVariables = getUniqueArray(templateVariables.concat(total[item.category][item.group].variables));
-      const mergedGroup = total[item.category][item.group].file.concat(item.file);
-      const mergedCategory = { [item.category]: {[item.group]: {file: mergedGroup, variables: reducedTemplateVariables}}};
-      return {...total, ...mergedCategory};      
+      return { ...total, ...mergedCategory };      
     }
-    if(total[item.category]){
-      const template = fs.readFileSync(`..\\generator\\${item.category}\\${item.group}\\${item.file}`, 'utf8');
-      const templateVariables = getTemplateVariables(template);
-      const mergedCategory = { [item.category]: {[item.group]: {file: item.file, variables: templateVariables}, ...total[item.category]}};
-      return {...total, ...mergedCategory};      
+    if(total[generator.category]){
+      const mergedCategory = { [generator.category]: {[generator.group]: {file: generator.file, variables: generator.variables}, ...total[generator.category]}};
+
+      return { ...total, ...mergedCategory };      
     }
-    const template = fs.readFileSync(`..\\generator\\${item.category}\\${item.group}\\${item.file}`, 'utf8');
-    const templateVariables = getTemplateVariables(template);
-    return {...total, [item.category]: {[item.group]: {file: item.file, variables: templateVariables} }};
+    return { ...total, [generator.category]: {[generator.group]: {file: generator.file, variables: generator.variables} }};
   }, {});
 
   return foldersAndFilesJSON;
 }
 
 const getCustomizedLine = (line,variables) => {
-  const handleBarsVariables = Object.keys(variables).map(item => `{{${item}}}`).join('|');  
+  const handleBarsVariables = Object.keys(variables)
+    .map(variable => `{{${variable}}}`)
+    .join('|');  
   const variablesRegex = RegExp(handleBarsVariables,'g');
   
   const customizedLine = line.replace(variablesRegex, (matched) => {
     const matchedVariableKey = matched.replace(/{|}/g,'');
+    
     return variables[matchedVariableKey];
   });
   
-    return customizedLine;
+  return customizedLine;
 }
 
 const getCustomizedFile = (file,variables) => {
-  const customizedLines = file.split('\n').map(line => (HANDLE_BARS_REGEX.test(line,variables)) ? getCustomizedLine(line,variables): line);
-
-  return customizedLines.join('\n');
-};
-
-const generateFile = (file, variables) => {
-  if(!file||!variables){
-    console.log('Arguments Error: file and variables are required');
-    return;
-  }
-
-  const template = fs.readFileSync(`..\\generator\\${file}`, 'utf8');
-  const customizedFile = getCustomizedFile(template,variables);
+  const customizedLines = file.split(NEW_LINE)
+    .map(line => (HANDLE_BARS_REGEX.test(line,variables)) ? getCustomizedLine(line,variables): line);
+  const customizedFile = customizedLines.join(NEW_LINE);
 
   return customizedFile;
 };
 
 module.exports.getTemplateVariables = getTemplateVariables;
-module.exports.getGenerators = getGenerators;
+module.exports.getCategorizedFiles = getCategorizedFiles;
 module.exports.getGeneratorsAsJSON = getGeneratorsAsJSON;
 module.exports.getCustomizedLine = getCustomizedLine;
 module.exports.getCustomizedFile = getCustomizedFile;
-module.exports.generateFile = generateFile;
