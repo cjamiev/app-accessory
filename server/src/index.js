@@ -2,36 +2,21 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fs = require('fs'); 
-const getAllFilesInTreeDirectory = require('../utility/file').getAllFilesInTreeDirectory;
 const Service = require('./api-service');
-const mockServiceFiles = getAllFilesInTreeDirectory('./server/mock-services');
-
-const mockFiles = mockServiceFiles.map(fileName => {
-  const file = fs.readFileSync(fileName, 'utf8');
-  const cleanLines = file.split('\n').map(line => line.trim().replace(/[^\x20-\x7E]/g, ''));
-  const cleanFile = cleanLines.join('');
-
-  return JSON.parse(cleanFile);
-});
-const mockGets = mockFiles.filter(file => (file.type).toUpperCase()==='GET');
-const mockPosts = mockFiles.filter(file => (file.type).toUpperCase()==='POST');
+const mockGets = require('./mock-service').mockGets;
+const mockPosts = require('./mock-service').mockPosts;
 
 const server = express();
 const PUBLIC_DIR = path.resolve(__dirname, '../public');
 const ApiService = new Service();
 const port = process.env.PORT || 8080;
 
-
-
-
 server
   .use(cors())
   .use(express.static(PUBLIC_DIR))
   .use(bodyParser.json())
-  .get('/api', ApiService.getData)
-  .post('/api', ApiService.postData)
-  .delete('/api', ApiService.deleteData)
+  .get('/api/generator', ApiService.getGenerator)
+  .post('/api/generator', ApiService.postRunGenerator);
   
 mockGets.forEach(file => {
     server.get(file.url,(req, res) => {

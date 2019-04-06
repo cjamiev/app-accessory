@@ -1,75 +1,61 @@
-const fs = require("fs"); 
+const fs = require('fs');
+const getAllFilesInTreeDirectory = require('../utility/file').getAllFilesInTreeDirectory;
+const getTemplateVariables = require('../utility/generator').getTemplateVariables;
+const getCategorizedFiles = require('../utility/generator').getCategorizedFiles;
+const getGeneratorsAsJSON = require('../utility/generator').getGeneratorsAsJSON;
+const getCustomizedFile = require('../utility/generator').getCustomizedFile;
 
 class ApiService {
   constructor() {
-    this.data = require('./data');
-    this.missingDataMessage = 'Missing data: an id, name, date, and description is required';
-    this.duplicateIdMessage = 'Data with this id already exists; ids must be unique';
-    this.missingDataIdMessage = 'Missing data: an id is required';
-    this.idDoesNotExistMessage = 'No exists with this id';
-    this.serverErrorMessage = 'Oops, a server error occurred';
-
-    this.getData = this.getData.bind(this);
-    this.postData = this.postData.bind(this);
-    this.deleteData = this.deleteData.bind(this);
+    this.getGenerator = this.getGenerator.bind(this);
+    this.postRunGenerator = this.postRunGenerator.bind(this);
   }
 
   static shouldSendServerError() {
     return Math.random() > 1;
   }
 
-  static hasId(id, data) {
-    return !!data.find(data => data.id === id);
-  }
+  getGenerator(req, res){
+    if (ApiService.shouldSendServerError()) {
+      res.status(500).send({ message: 'Oops, a server error occurred' });
+      return;
+    }
 
-  createFile(filename, content) { 
-    fs.writeFile(filename, content, (err) => { 
-      err && console.log(err);
+    const files = getAllFilesInTreeDirectory('server/generator');
+    const templatesAndVariables = files.map(file => {
+      const template = fs.readFileSync(file,'utf8');
+      const fileRebased = file.replace('server\\','');
+      const variables = getTemplateVariables(template);
+      
+      return { file:fileRebased, variables }
     });
-  };
+    
+    const categorizedFiles = getCategorizedFiles(templatesAndVariables);
+    const generators = getGeneratorsAsJSON(categorizedFiles);
 
-  getData(req, res) {
-    if (ApiService.shouldSendServerError()) {
-      res.status(500).send(this.serverErrorMessage);
-      return;
-    }
-
-    res.status(200).send(this.data);
+    res.status(200).send(generators||{ message:'cannot load generators' });
   }
 
-  postData(req, res) {
+  postRunGenerator(req, res) {
     if (ApiService.shouldSendServerError()) {
       res.status(500).send(this.serverErrorMessage);
       return;
     }
 
     const { body } = req;
-    if (!body.fileName) {
-      res.status(400).send(this.missingDataMessage);
+    if (!body.files) {
+      res.status(400).send({ message:'missing files parameter' });
+      return;
+    }
+    if (!body.variables) {
+      res.status(400).send({ message:'missing variables parameter' });
       return;
     }
 
-    this.createFile(body.fileName,'test');
-    res.status(200).end();
-  }
+    const templates = body.files.map(file => fs.readFileSync(`server\\generator\\${file}`,'utf8'));
+    const customizedFiles = templates.map(template => getCustomizedFile(template,body.variables));
 
-  deleteData(req, res) {
-    if (ApiService.shouldSendServerError()) {
-      res.status(500).send(this.serverErrorMessage);
-      return;
-    }
-
-    const { body } = req;
-    if (!body || !body.id) {
-      res.status(400).send(this.missingEventIdMessage);
-      return;
-    } else if (!ApiService.hasId(body.id, this.data)) {
-      res.status(400).send(this.idDoesNotExistMessage);
-      return;
-    }
-
-    this.data = this.data.filter(data => data.id !== body.id);
-    res.status(200).end();
+    res.status(200).send(customizedFiles||{ message:'cannot find generators' });
   }
 }
 
