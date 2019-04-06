@@ -9,6 +9,8 @@ class ApiService {
   constructor() {
     this.getGenerator = this.getGenerator.bind(this);
     this.postRunGenerator = this.postRunGenerator.bind(this);
+    this.postCreateTemplate = this.postCreateTemplate.bind(this);
+    this.postDeleteTemplate = this.postDeleteTemplate.bind(this);
   }
 
   static shouldSendServerError() {
@@ -56,6 +58,69 @@ class ApiService {
     const customizedFiles = templates.map(template => getCustomizedFile(template,body.variables));
 
     res.status(200).send(customizedFiles||{ message:'cannot find generators' });
+  }
+
+  postCreateTemplate(req, res) {
+    if (ApiService.shouldSendServerError()) {
+      res.status(500).send(this.serverErrorMessage);
+      return;
+    }
+
+    const { body } = req;
+    if (!body.file) {
+      res.status(400).send({ message:'missing file parameter' });
+      return;
+    }
+    if (!body.content) {
+      res.status(400).send({ message:'missing content parameter' });
+      return;
+    }
+
+    const segments = body.file.split('\\');
+    if(segments.length !== 3){
+      res.status(400).send({ message:'file format is not correct' });
+      return;
+    }
+    if (!fs.existsSync(`server\\generator\\${segments[0]}`)) {
+      fs.mkdirSync(`server\\generator\\${segments[0]}`);
+    }
+    if (!fs.existsSync(`server\\generator\\${segments[0]}\\${segments[1]}`)) {
+      fs.mkdirSync(`server\\generator\\${segments[0]}\\${segments[1]}`);
+    }
+
+    fs.writeFile(`server\\generator\\${body.file}`,body.content, err => {
+      if(err){
+        res.status(200).send({ message:`error in creating file: ${err}` });
+      } else {
+        res.status(200).send({ message:'successfully created file' });
+      }
+    });
+  }
+
+  postDeleteTemplate(req, res) {
+    if (ApiService.shouldSendServerError()) {
+      res.status(500).send(this.serverErrorMessage);
+      return;
+    }
+
+    const { body } = req;
+    if (!body.file) {
+      res.status(400).send({ message:'missing file parameter' });
+      return;
+    }
+    const segments = body.file.split('\\');
+    if(segments.length !== 3){
+      res.status(400).send({ message:'file format is not correct' });
+      return;
+    }
+
+    fs.unlink(`server\\generator\\${body.file}`, err => {
+      if(err){
+        res.status(200).send({ message:`error in deleting file: ${err}` });
+      } else {
+        res.status(200).send({ message:'successfully deleted file' });
+      }
+    });
   }
 }
 

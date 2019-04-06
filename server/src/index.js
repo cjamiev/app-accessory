@@ -16,7 +16,9 @@ server
   .use(express.static(PUBLIC_DIR))
   .use(bodyParser.json())
   .get('/api/generator', ApiService.getGenerator)
-  .post('/api/generator', ApiService.postRunGenerator);
+  .post('/api/generator', ApiService.postRunGenerator)
+  .post('/api/create-template', ApiService.postCreateTemplate)
+  .post('/api/delete-template', ApiService.postDeleteTemplate);
   
 mockGets.forEach(file => {
     server.get(file.url,(req, res) => {
