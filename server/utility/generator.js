@@ -31,34 +31,59 @@ const getCategorizedFiles = (templatesAndVariables) => {
 
   const categorizedFilesAndVariables = foldersFilesAndVariables.map(fileAndVariables => {
     const category = fileAndVariables.file[0];
-    const group = fileAndVariables.file[1];
-    const file = [fileAndVariables.file[2]];
+    const groups = fileAndVariables.file[1];
+    const files = [fileAndVariables.file[2]];
     const variables = fileAndVariables.variables
 
-    return { category, group, file, variables }
+    return { category, groups, files, variables }
   });
 
   return categorizedFilesAndVariables;
 }
 
+const getMergedFiles = (groups, item) => {
+	const mergedGroups = groups.map(group => {
+		if(group.type === item.groups){
+      const merged = group.files.concat(item.files);
+      const mergedVariables = group.variables.concat(item.variables);
+			const reducedVariables = getUniqueArray(mergedVariables)
+			return { type: item.groups, files: merged, variables: reducedVariables };
+		}
+			
+		return generator;
+	});
+		
+	return { category: item.category, groups: [...mergedGroups ]}; 	
+}
+		
+const getMergedGroups = (generator,item) => {
+	const isFound = generator.groups.findIndex(group => group.type === item.groups) !==-1;
+	if(isFound){
+		return getMergedFiles(generator.groups,item);
+	}
+				
+	return { category: item.category, groups: [...generator.groups,{ type: item.groups, files: item.files, variables: item.variables }]};
+}
+
+const getMergedCategory = (total,item) => {
+	return total.map(generator => {
+		if(generator.category === item.category){
+			return getMergedGroups(generator,item);
+		}
+		return generator;
+	});
+}		
+
 const getGeneratorsAsJSON = (categorizedFiles) => {
-  const foldersAndFilesJSON = categorizedFiles.reduce((total, generator)=>{
-    if(total[generator.category] && total[generator.category][generator.group]){
-      const reducedVariables = getUniqueArray(total[generator.category][generator.group].variables.concat(generator.variables));
-      const mergedGroup = total[generator.category][generator.group].file.concat(generator.file);
-      const mergedCategory = { [generator.category]: {[generator.group]: {file: mergedGroup, variables: reducedVariables}}};
-
-      return { ...total, ...mergedCategory };      
+  const generatorsAsJSON = categorizedFiles.reduce((total,item) => {
+    const isFound = total.findIndex(generator=> generator.category === item.category) !== -1;
+    if(isFound){
+      return getMergedCategory(total,item);
     }
-    if(total[generator.category]){
-      const mergedCategory = { [generator.category]: {[generator.group]: {file: generator.file, variables: generator.variables}, ...total[generator.category]}};
+    return [...total,{ category: item.category, groups: [{ type: item.groups, files: item.files, variables: item.variables }] }];
+  },[]);
 
-      return { ...total, ...mergedCategory };      
-    }
-    return { ...total, [generator.category]: {[generator.group]: {file: generator.file, variables: generator.variables} }};
-  }, {});
-
-  return foldersAndFilesJSON;
+  return generatorsAsJSON;
 }
 
 const getCustomizedLine = (line,variables) => {

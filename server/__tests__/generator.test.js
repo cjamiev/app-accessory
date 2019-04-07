@@ -54,8 +54,8 @@ describe('generator', () => {
       const expectedCategorizedFiles = [
         {
           category:'dirOne',
-          group:'subDirOne',
-          file:['fileOne.js'],
+          groups:'subDirOne',
+          files:['fileOne.js'],
           variables: []
         }
       ];
@@ -83,20 +83,20 @@ describe('generator', () => {
       const expectedCategorizedFiles = [
         {
           category:'dirOne',
-          group:'subDirOne',
-          file:['fileOne.js'],
+          groups:'subDirOne',
+          files:['fileOne.js'],
           variables: ['varOne','varTwo']
         },
         {
           category:'dirOne',
-          group:'subDirOne',
-          file:['fileTwo.js'],
+          groups:'subDirOne',
+          files:['fileTwo.js'],
           variables: ['varThree','varFour']
         },
         {
           category:'dirTwo',
-          group:'subDirOne',
-          file:['fileOne.js'],
+          groups:'subDirOne',
+          files:['fileOne.js'],
           variables: ['varOne','varTwo']
         }
       ];
@@ -110,20 +110,25 @@ describe('generator', () => {
   describe(':getGeneratorsAsJSON', () => {
     it('categorizedFiles is has single entry', () => {
       const categorizedFiles = [ 
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         }
       ];
-      const expectedCategorizedFiles = {
-        'dirOne':{
-          'subDirOne': {
-            variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          }
+      const expectedCategorizedFiles = [ 
+        { 
+          category: 'dirOne',
+          groups: [
+            {
+              type: 'subDirOne',
+              variables: ['varOne','varTwo','varThree'],
+              files: ['dirOne\\subDirOne\\fileOne.js'] 
+            }
+          ]
         }
-      };
+      ];
      
       const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
 
@@ -132,31 +137,41 @@ describe('generator', () => {
 
     it('categorizedFiles is has two distinct categories', () => {
       const categorizedFiles = [ 
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         },
-        { category: 'dirTwo',
-          group: 'subDirOne',
+        { 
+          category: 'dirTwo',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         }
       ];
-      const expectedCategorizedFiles = {
-        'dirOne':{
-          'subDirOne': {
+      const expectedCategorizedFiles = [ 
+        { 
+          category: 'dirOne',
+          groups: [
+            {
+            type: 'subDirOne',
             variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          }
+            files: ['dirOne\\subDirOne\\fileOne.js'] 
+            }
+          ]
         },
-        'dirTwo':{
-          'subDirOne': {
-            variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          }
+        { 
+          category: 'dirTwo',
+          groups: [
+            {
+              type: 'subDirOne',
+              variables: ['varOne','varTwo','varThree'],
+              files: ['dirOne\\subDirOne\\fileOne.js'] 
+            }
+          ]
         }
-      };
+      ];
      
       const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
 
@@ -165,29 +180,36 @@ describe('generator', () => {
 
     it('categorizedFiles is has two distinct groups', () => {
       const categorizedFiles = [ 
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         },
-        { category: 'dirOne',
-          group: 'subDirTwo',
+        { 
+          category: 'dirOne',
+          groups: 'subDirTwo',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         }
       ];
-      const expectedCategorizedFiles = {
-        'dirOne':{
-          'subDirOne': {
-            variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          },
-          'subDirTwo': {
-            variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          }
-        }
-      };
+      const expectedCategorizedFiles = [
+        { 
+          category: 'dirOne',
+          groups: [
+            {
+              type: 'subDirOne',
+              variables: ['varOne','varTwo','varThree'],
+              files: ['dirOne\\subDirOne\\fileOne.js'] 
+            },
+            {
+              type: 'subDirTwo',
+              variables: ['varOne','varTwo','varThree'],
+              files: ['dirOne\\subDirOne\\fileOne.js'] 
+            }
+          ]
+        },
+      ];
      
       const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
 
@@ -196,25 +218,31 @@ describe('generator', () => {
 
     it('categorizedFiles is has two entries same group', () => {
       const categorizedFiles = [ 
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree','varFour'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         },
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree','varFive'],
-          file: ['dirOne\\subDirOne\\fileTwo.js'] 
+          files: ['dirOne\\subDirOne\\fileTwo.js'] 
         }
       ];
-      const expectedCategorizedFiles = {
-        'dirOne':{
-          'subDirOne': {
-            variables: ['varOne','varTwo','varThree','varFour','varFive'],
-            file:['dirOne\\subDirOne\\fileOne.js','dirOne\\subDirOne\\fileTwo.js'] 
-          }
+      const expectedCategorizedFiles = [
+        { 
+          category: 'dirOne',
+          groups: [
+            {
+              type: 'subDirOne',
+              variables: ['varOne','varTwo','varThree','varFour','varFive'],
+              files: ['dirOne\\subDirOne\\fileOne.js','dirOne\\subDirOne\\fileTwo.js'] 
+            }
+          ]
         }
-      };
+      ];
      
       const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
 
@@ -223,45 +251,58 @@ describe('generator', () => {
 
     it('categorizedFiles is has multiple entries same/different category/groups', () => {
       const categorizedFiles = [ 
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree','varFour'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         },
-        { category: 'dirOne',
-          group: 'subDirOne',
+        { 
+          category: 'dirOne',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree','varFive'],
-          file: ['dirOne\\subDirOne\\fileTwo.js'] 
+          files: ['dirOne\\subDirOne\\fileTwo.js'] 
         },
-        { category: 'dirOne',
-          group: 'subDirTwo',
+        { 
+          category: 'dirOne',
+          groups: 'subDirTwo',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         },
-        { category: 'dirTwo',
-          group: 'subDirOne',
+        { 
+          category: 'dirTwo',
+          groups: 'subDirOne',
           variables: ['varOne','varTwo','varThree'],
-          file: ['dirOne\\subDirOne\\fileOne.js'] 
+          files: ['dirOne\\subDirOne\\fileOne.js'] 
         }
       ];
-      const expectedCategorizedFiles = {
-        'dirOne':{
-          'subDirOne': {
-            variables: ['varOne','varTwo','varThree','varFour','varFive'],
-            file:['dirOne\\subDirOne\\fileOne.js','dirOne\\subDirOne\\fileTwo.js'] 
-          },
-          'subDirTwo': {
-            variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          }
+      const expectedCategorizedFiles = [
+        { 
+          category: 'dirOne',
+          groups: [
+            {
+              type: 'subDirOne',
+              variables: ['varOne','varTwo','varThree','varFour','varFive'],
+              files: ['dirOne\\subDirOne\\fileOne.js','dirOne\\subDirOne\\fileTwo.js'] 
+            },
+            {
+              type: 'subDirTwo',
+              variables: ['varOne','varTwo','varThree'],
+              files: ['dirOne\\subDirOne\\fileOne.js'] 
+            }
+          ]
         },
-        'dirTwo':{
-          'subDirOne': {
-            variables: ['varOne','varTwo','varThree'],
-            file:['dirOne\\subDirOne\\fileOne.js'] 
-          }
+        { 
+          category: 'dirTwo',
+          groups: [
+            {
+              type: 'subDirOne',
+              variables: ['varOne','varTwo','varThree'],
+              files: ['dirOne\\subDirOne\\fileOne.js'] 
+            }
+          ]
         }
-      };
+      ];
      
       const recievedCategorizedFiles = getGeneratorsAsJSON(categorizedFiles);
 

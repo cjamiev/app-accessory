@@ -1,6 +1,20 @@
 <div>
   <div class="message-box error message" *ngIf="formErrors.submit">{{formErrors.submit }}</div>
-  <h1 role="heading">React/Redux Generator</h1> 
+  <h1 role="heading">React/Redux Generator</h1>
+  
+  <div *ngFor="let generator of result;">
+    Category:{{generator.category}}
+    <div *ngFor="let group of generator.groups;">
+      group:{{group.type}}
+      <div *ngFor="let file of group.files;">
+        file:{{file}}
+      </div>
+      <div *ngFor="let variable of group.variables;">
+        variable:{{variable}}
+      </div>
+    </div>
+  </div>
+
   <form #someForm="ngForm" (ngSubmit) = "submit()">
     
     <div class="col-md-4"> 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { GeneratorService } from './generator.service'; 
 
@@ -12,10 +12,12 @@ const SUBMIT_ERROR: string = 'Please fill in missing fields';
   templateUrl: './generator-form.component.html'
 })
 
-export class GeneratorFormComponent {
+export class GeneratorFormComponent implements OnInit {
   type: string;
   typeList: string[];
   fileName: string;
+  categories: string[];
+  result: Object;
 
   formErrors: FormError;
 
@@ -24,6 +26,12 @@ export class GeneratorFormComponent {
     this.type = TYPE_LIST[0];
     this.fileName = '';
     this.formErrors = new FormError();
+  }
+
+  ngOnInit(){
+    this.generatorService.getTest$().subscribe(response => {
+      this.result = response;
+    });
   }
 
   chooseType(): void { 
@@ -50,8 +58,7 @@ export class GeneratorFormComponent {
   }
 
   execute(): void { 
-    this.generatorService.getTest$().subscribe(response => console.log(response));
-    this.generatorService.postTest$().subscribe(response => console.log(response));
+    //this.generatorService.postTest$().subscribe(response => console.log(response));
     //this.download(this.fileName, this.generatorService.generateFile(this.fileName));
   }
    
