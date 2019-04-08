@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneratorService } from './generator.service'; 
 
 import { FormError } from './formerror';
+import { Generator, Group } from './generators.model';
 
 const TYPE_LIST: string[] = ['Component', 'PureComponent', 'Stateless Component', 'Container'];
 const SUBMIT_ERROR: string = 'Please fill in missing fields';
@@ -17,7 +18,9 @@ export class GeneratorFormComponent implements OnInit {
   typeList: string[];
   fileName: string;
   categories: string[];
-  result: Object;
+  choices: string[];
+  selectedGenerator: Generator;
+  result: Generator[];
 
   formErrors: FormError;
 
@@ -26,12 +29,21 @@ export class GeneratorFormComponent implements OnInit {
     this.type = TYPE_LIST[0];
     this.fileName = '';
     this.formErrors = new FormError();
+    this.choices = [''];
+    this.selectedGenerator = new Generator();
   }
 
   ngOnInit(){
     this.generatorService.getTest$().subscribe(response => {
+      this.choices = response.map(entry => entry.category);
+      this.selectedGenerator = response[0];
       this.result = response;
     });
+  }
+
+  onSelectGenerator(choice): void {
+    this.selectedGenerator = this.result.find(generator => generator.category === choice);
+    console.log(this.selectedGenerator);
   }
 
   chooseType(): void { 

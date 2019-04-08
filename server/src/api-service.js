@@ -1,6 +1,6 @@
 const fs = require('fs');
 const getAllFilesInTreeDirectory = require('../utility/file').getAllFilesInTreeDirectory;
-const getTemplateVariables = require('../utility/generator').getTemplateVariables;
+const getTemplateHandlebars = require('../utility/generator').getTemplateHandlebars;
 const getCategorizedFiles = require('../utility/generator').getCategorizedFiles;
 const getGeneratorsAsJSON = require('../utility/generator').getGeneratorsAsJSON;
 const getCustomizedFile = require('../utility/generator').getCustomizedFile;
@@ -24,15 +24,15 @@ class ApiService {
     }
 
     const files = getAllFilesInTreeDirectory('server/generator');
-    const templatesAndVariables = files.map(file => {
+    const templatesAndHandlebars = files.map(file => {
       const template = fs.readFileSync(file,'utf8');
       const fileRebased = file.replace('server\\','');
-      const variables = getTemplateVariables(template);
+      const handlebars = getTemplateHandlebars(template);
       
-      return { file:fileRebased, variables }
+      return { file:fileRebased, handlebars }
     });
     
-    const categorizedFiles = getCategorizedFiles(templatesAndVariables);
+    const categorizedFiles = getCategorizedFiles(templatesAndHandlebars);
     const generators = getGeneratorsAsJSON(categorizedFiles);
 
     res.status(200).send(generators||{ message:'cannot load generators' });
@@ -49,13 +49,13 @@ class ApiService {
       res.status(400).send({ message:'missing files parameter' });
       return;
     }
-    if (!body.variables) {
-      res.status(400).send({ message:'missing variables parameter' });
+    if (!body.handlebars) {
+      res.status(400).send({ message:'missing handlebars parameter' });
       return;
     }
 
     const templates = body.files.map(file => fs.readFileSync(`server\\generator\\${file}`,'utf8'));
-    const customizedFiles = templates.map(template => getCustomizedFile(template,body.variables));
+    const customizedFiles = templates.map(template => getCustomizedFile(template,body.handlebars));
 
     res.status(200).send(customizedFiles||{ message:'cannot find generators' });
   }

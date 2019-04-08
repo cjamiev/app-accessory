@@ -6,48 +6,48 @@ const LETTERS_AND_SPACE_REGEX = /{{[a-zA-Z ]+/g;
 const NEW_LINE = '\n';
 const FOLDER_SEPARATOR = '\\';
 
-const getTemplateVariables = (template) => {
+const getTemplateHandlebars = (template) => {
   if(!HANDLE_BARS_GLOBAL_REGEX.test(template)){
     return [];
   }
 
-  const reduceToVariablesOnly = template.split('}}')
+  const reduceToHandlebarsOnly = template.split('}}')
     .join(NEW_LINE)
     .match(LETTERS_AND_SPACE_REGEX)
     .map(line => line.replace('{{','').trim());
-  const uniqueVariables = getUniqueArray(reduceToVariablesOnly);
+  const uniqueHandlebars = getUniqueArray(reduceToHandlebarsOnly);
 
-  return uniqueVariables;
+  return uniqueHandlebars;
 }
 
-const getCategorizedFiles = (templatesAndVariables) => {
-  const foldersFilesAndVariables = templatesAndVariables.map(filePathAndVariables => {
-    const file = filePathAndVariables.file.split(FOLDER_SEPARATOR)
+const getCategorizedFiles = (templatesAndHandlebars) => {
+  const foldersFilesAndHandlebars = templatesAndHandlebars.map(filePathAndHandlebars => {
+    const file = filePathAndHandlebars.file.split(FOLDER_SEPARATOR)
       .filter(filePathSegment => filePathSegment !== '..' && filePathSegment !== 'generator');
-    const variables = filePathAndVariables.variables;
+    const handlebars = filePathAndHandlebars.handlebars;
 
-    return { file, variables }
+    return { file, handlebars }
   });
 
-  const categorizedFilesAndVariables = foldersFilesAndVariables.map(fileAndVariables => {
-    const category = fileAndVariables.file[0];
-    const groups = fileAndVariables.file[1];
-    const files = [fileAndVariables.file[2]];
-    const variables = fileAndVariables.variables
+  const categorizedFilesAndHandlebars = foldersFilesAndHandlebars.map(fileAndHandlebars => {
+    const category = fileAndHandlebars.file[0];
+    const groups = fileAndHandlebars.file[1];
+    const files = [fileAndHandlebars.file[2]];
+    const handlebars = fileAndHandlebars.handlebars;
 
-    return { category, groups, files, variables }
+    return { category, groups, files, handlebars }
   });
 
-  return categorizedFilesAndVariables;
+  return categorizedFilesAndHandlebars;
 }
 
 const getMergedFiles = (groups, item) => {
 	const mergedGroups = groups.map(group => {
 		if(group.type === item.groups){
       const merged = group.files.concat(item.files);
-      const mergedVariables = group.variables.concat(item.variables);
-			const reducedVariables = getUniqueArray(mergedVariables)
-			return { type: item.groups, files: merged, variables: reducedVariables };
+      const mergedHandlebars = group.handlebars.concat(item.handlebars);
+      const uniqueHandlebars = getUniqueArray(mergedHandlebars);
+			return { type: item.groups, files: merged, handlebars: uniqueHandlebars };
 		}
 			
 		return generator;
@@ -62,7 +62,7 @@ const getMergedGroups = (generator,item) => {
 		return getMergedFiles(generator.groups,item);
 	}
 				
-	return { category: item.category, groups: [...generator.groups,{ type: item.groups, files: item.files, variables: item.variables }]};
+	return { category: item.category, groups: [...generator.groups,{ type: item.groups, files: item.files, handlebars: item.handlebars }]};
 }
 
 const getMergedCategory = (total,item) => {
@@ -80,36 +80,36 @@ const getGeneratorsAsJSON = (categorizedFiles) => {
     if(isFound){
       return getMergedCategory(total,item);
     }
-    return [...total,{ category: item.category, groups: [{ type: item.groups, files: item.files, variables: item.variables }] }];
+    return [...total,{ category: item.category, groups: [{ type: item.groups, files: item.files, handlebars: item.handlebars }] }];
   },[]);
 
   return generatorsAsJSON;
 }
 
-const getCustomizedLine = (line,variables) => {
-  const handleBarsVariables = Object.keys(variables)
+const getCustomizedLine = (line,handlebars) => {
+  const handleBarsHandlebars = Object.keys(handlebars)
     .map(variable => `{{${variable}}}`)
     .join('|');  
-  const variablesRegex = RegExp(handleBarsVariables,'g');
+  const handlebarsRegex = RegExp(handleBarsHandlebars,'g');
   
-  const customizedLine = line.replace(variablesRegex, (matched) => {
-    const matchedVariableKey = matched.replace(/{|}/g,'');
+  const customizedLine = line.replace(handlebarsRegex, (matched) => {
+    const matchedHandlebarKey = matched.replace(/{|}/g,'');
     
-    return variables[matchedVariableKey];
+    return handlebars[matchedHandlebarKey];
   });
   
   return customizedLine;
 }
 
-const getCustomizedFile = (file,variables) => {
+const getCustomizedFile = (file,handlebars) => {
   const customizedLines = file.split(NEW_LINE)
-    .map(line => (HANDLE_BARS_REGEX.test(line,variables)) ? getCustomizedLine(line,variables): line);
+    .map(line => (HANDLE_BARS_REGEX.test(line,handlebars)) ? getCustomizedLine(line,handlebars): line);
   const customizedFile = customizedLines.join(NEW_LINE);
 
   return customizedFile;
 };
 
-module.exports.getTemplateVariables = getTemplateVariables;
+module.exports.getTemplateHandlebars = getTemplateHandlebars;
 module.exports.getCategorizedFiles = getCategorizedFiles;
 module.exports.getGeneratorsAsJSON = getGeneratorsAsJSON;
 module.exports.getCustomizedLine = getCustomizedLine;

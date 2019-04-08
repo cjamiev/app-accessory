@@ -2,18 +2,19 @@
   <div class="message-box error message" *ngIf="formErrors.submit">{{formErrors.submit }}</div>
   <h1 role="heading">React/Redux Generator</h1>
   
-  <div *ngFor="let generator of result;">
-    Category:{{generator.category}}
-    <div *ngFor="let group of generator.groups;">
+  <div *ngFor="let choice of choices;">
+    <button (click)="onSelectGenerator(choice)">{{choice}}</button>
+  </div>
+
+    <div *ngFor="let group of selectedGenerator.groups;">
       group:{{group.type}}
       <div *ngFor="let file of group.files;">
         file:{{file}}
       </div>
-      <div *ngFor="let variable of group.variables;">
-        variable:{{variable}}
-      </div>
+      <div *ngFor="let handlebar of group.handlebars;">
+          handlebar:{{handlebar}}
+        </div>
     </div>
-  </div>
 
   <form #someForm="ngForm" (ngSubmit) = "submit()">
     
@@ -27,7 +28,7 @@
 
     <div class="form-row">
       <label for="generator-filename">File Name</label>
-      <input id="generator-filename" name="filename" type="text" value="" required [(ngModel)]="fileName"> 
+      <input id="generator-filename" name="filename" type="text" value="" required [(ngModel)]="fileName">
     </div>
   </div>
 
