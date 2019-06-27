@@ -11,7 +11,7 @@ import {
 } from './generator-service';
 import { mockGets, mockPosts } from './mock-service';
 import { createClipboard, getClipboard } from './clipboard-service';
-import { isEqual, isEmpty } from '../global';
+import { isEqual, isEmpty, replaceStringByObjectMapper } from '../global';
 
 const server = express();
 const PUBLIC_DIR = path.resolve(__dirname, '../public');
@@ -29,9 +29,20 @@ server
   .post('/api/delete-template', deleteGeneratorTemplate);
   
 mockGets.forEach(file => {
-    server.get(file.url,(req, res) => {
-      res.status(200).send(file.response);
-    });
+    if(file.body){
+      file.body.forEach(entry => {
+
+        const parameterizedURL = replaceStringByObjectMapper(file.url, entry.queryParameters);
+        server.get(parameterizedURL,(req, res) => {
+          res.status(200).send(entry.response);
+        });
+      });
+    }
+    else {
+      server.get(file.url,(req, res) => {
+        res.status(200).send(file.defaultResponse);
+      });
+    }
   });
 
 mockPosts.forEach(file => {
