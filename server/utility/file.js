@@ -11,4 +11,7 @@ const getAllFilesInTreeDirectory = (dir, filelist = []) => {
   return filelist;
 }
 
+const getAllDirectoriesInFolder = dir => fs.readdirSync(dir);
+
 module.exports.getAllFilesInTreeDirectory = getAllFilesInTreeDirectory;
+module.exports.getAllDirectoriesInFolder = getAllDirectoriesInFolder;

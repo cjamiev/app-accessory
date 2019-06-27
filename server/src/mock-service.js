@@ -1,7 +1,7 @@
 const fs = require('fs'); 
 const getAllFilesInTreeDirectory = require('../utility/file').getAllFilesInTreeDirectory;
 
-const mockServiceFiles = getAllFilesInTreeDirectory('./server/mock-services');
+const mockServiceFiles = getAllFilesInTreeDirectory('./storage/mock-services');
 
 const mockFiles = mockServiceFiles.map(fileName => {
   const file = fs.readFileSync(fileName, 'utf8');
@@ -14,5 +14,7 @@ const mockFiles = mockServiceFiles.map(fileName => {
 const mockGets = mockFiles.filter(file => (file.type).toUpperCase()==='GET');
 const mockPosts = mockFiles.filter(file => (file.type).toUpperCase()==='POST');
 
-module.exports.mockGets = mockGets;
-module.exports.mockPosts = mockPosts;
+module.exports = {
+  mockGets,
+  mockPosts
+};
