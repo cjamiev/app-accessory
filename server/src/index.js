@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import fs from 'fs';
 
 import {  
   getGenerator,
@@ -15,7 +16,11 @@ import { isEqual, isEmpty, replaceStringByObjectMapper } from '../global';
 
 const server = express();
 const PUBLIC_DIR = path.resolve(__dirname, '../public');
-const port = process.env.PORT || 8080;
+const serverConfigPath = `storage\\serverConfig.json`;
+const mockServerError = { message: 'mock server error has occurred' };
+const noValidMockPostResponseFound = { message: 'no valid response found found' };
+const serviceConfig = JSON.parse(fs.readFileSync(serverConfigPath,'utf8'));
+const port = serviceConfig.port || 8080;
 
 server
   .use(cors())
@@ -28,36 +33,47 @@ server
   .post('/api/create-template', createGeneratorTemplate)
   .post('/api/delete-template', deleteGeneratorTemplate);
   
-mockGets.forEach(file => {
-    if(file.body){
-      file.body.forEach(entry => {
-
-        const parameterizedURL = replaceStringByObjectMapper(file.url, entry.queryParameters);
-        server.get(parameterizedURL,(req, res) => {
-          res.status(200).send(entry.response);
-        });
-      });
+const mockGetHandler = response => {
+  return (req, res) => {
+    const { mockError } = JSON.parse(fs.readFileSync(serverConfigPath,'utf8'));
+    if(mockError){
+      res.status(500).send(mockServerError);
+    } else {
+      res.status(200).send(response);
     }
+  };
+};
+
+mockGets.forEach(({url, defaultResponse, body}) => {
+  if(body){
+    body.forEach(({queryParameters, response }) => {
+      const parameterizedURL = replaceStringByObjectMapper(url, queryParameters);
+      server.get(parameterizedURL,mockGetHandler(response));
+    });
+  }
+  else {
+    server.get(url,mockGetHandler(defaultResponse));
+  }
+});
+
+mockPosts.forEach(({url, defaultResponse, body}) => {
+  server.post(url,(req, res) => {
+    const { mockError } = JSON.parse(fs.readFileSync(serverConfigPath,'utf8'));
+    if(mockError){
+      res.status(500).send(mockServerError);
+    } 
     else {
-      server.get(file.url,(req, res) => {
-        res.status(200).send(file.defaultResponse);
-      });
-    }
-  });
-
-mockPosts.forEach(file => {
-    server.post(file.url,(req, res) => {
-      const match = file.body.find(entry => isEqual(entry.request,req.body));
+      const match = body.find(entry => isEqual(entry.request,req.body));
 
       if(!isEmpty(match)){
         res.status(200).send(match.response);
       } else {
-        res.status(200).send(file.defaultResponse||{message: 'no valid response found found'})
+        res.status(200).send(defaultResponse|| noValidMockPostResponseFound);
       }
-    });
+    }
   });
+});
 
-server  
-  .listen(port, () => {
-    console.info('server is running on http://localhost:' + port);
-  });
+server.listen(port, () => {
+  console.info('server is running on http://localhost:' + port);
+});
