@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "concurrently \"ng serve --aot --proxy-config client/config/proxy.config.json\" \"node server/src/index.js\"",
     "client": "ng serve --aot --proxy-config client/config/proxy.config.json",
-    "server": "node server/src/index.js",
+    "server": "babel-node server/src/index.js",
     "server-pm2": "pm2 start --name app-accessory server/src/index.js --watch -o server/tmp/pm2.log -e server/tmp/pm2.err",
     "build": "ng build",
     "test": "ng test",
@@ -33,6 +33,10 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "7.4.0",
+    "@babel/preset-env": "^7.4.4",
     "@angular-devkit/build-angular": "0.13.0",
     "@angular/cli": "7.3.7",
     "@angular/compiler-cli": "7.2.0",
@@ -40,6 +44,7 @@
     "@types/node": "8.9.4",
     "@types/jasmine": "2.8.8",
     "@types/jasminewd2": "2.0.3",
+    "babel-plugin-module-resolver": "^3.2.0",
     "codelyzer": "4.5.0",
     "concurrently": "4.1.0",
     "jasmine-core": "2.99.1",
@@ -55,5 +60,21 @@
     "ts-node": "7.0.0",
     "tslint": "5.11.0",
     "typescript": "3.2.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./"
+          ]
+        }
+      ],
+      "@babel/plugin-proposal-class-properties"
+    ]
   }
 }

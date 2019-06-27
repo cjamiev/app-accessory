@@ -6,6 +6,7 @@
 
 # dependencies
 /node_modules
+/my_modules
 
 # misc
 /coverage

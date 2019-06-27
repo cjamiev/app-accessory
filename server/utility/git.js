@@ -1,5 +1,6 @@
-const exec = require('child_process').exec; 
-const execSync = require('child_process').execSync; 
+import { exec } from 'child_process'; 
+import { execSync } from 'child_process';
+ 
 const DAYS_IN_SECONDS = 1000 * 60 * 60 * 24;
 
 const getListOfModifiedFiles = (file) => {

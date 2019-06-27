@@ -1,9 +1,13 @@
-const fs = require('fs');
-const getAllFilesInTreeDirectory = require('../utility/file').getAllFilesInTreeDirectory;
-const getTemplateHandlebars = require('../utility/generator').getTemplateHandlebars;
-const getCategorizedFiles = require('../utility/generator').getCategorizedFiles;
-const getGeneratorsAsJSON = require('../utility/generator').getGeneratorsAsJSON;
-const getCustomizedFile = require('../utility/generator').getCustomizedFile;
+import fs from 'fs';
+
+import { getAllFilesInTreeDirectory } from '../utility/file';
+
+import {
+  getTemplateHandlebars,
+  getCategorizedFiles,
+  getGeneratorsAsJSON,
+  getCustomizedFile
+} from '../utility/generator';
 
 const getGenerator = (req, res) => {
   const files = getAllFilesInTreeDirectory('storage/generator');
@@ -91,7 +95,7 @@ const deleteGeneratorTemplate = (req, res) => {
   });
 };
 
-module.exports = {
+export {
   getGenerator,
   generateCustomTemplates,
   createGeneratorTemplate,

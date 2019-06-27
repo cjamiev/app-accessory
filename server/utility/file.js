@@ -1,5 +1,5 @@
-const fs = require('fs'); 
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const getAllFilesInTreeDirectory = (dir, filelist = []) => {
   fs.readdirSync(dir).forEach(file => {
@@ -13,5 +13,8 @@ const getAllFilesInTreeDirectory = (dir, filelist = []) => {
 
 const getAllDirectoriesInFolder = dir => fs.readdirSync(dir);
 
-module.exports.getAllFilesInTreeDirectory = getAllFilesInTreeDirectory;
-module.exports.getAllDirectoriesInFolder = getAllDirectoriesInFolder;
+
+export {
+  getAllFilesInTreeDirectory,
+  getAllDirectoriesInFolder
+};

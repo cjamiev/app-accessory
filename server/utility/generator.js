@@ -1,4 +1,4 @@
-const getUniqueArray = require('./data-util').getUniqueArray;
+import { getUniqueArray } from '../global';
 
 const HANDLE_BARS_GLOBAL_REGEX = /{{.+}}/g;
 const HANDLE_BARS_REGEX = /{{.+}}/;
@@ -109,8 +109,11 @@ const getCustomizedFile = (file,handlebars) => {
   return customizedFile;
 };
 
-module.exports.getTemplateHandlebars = getTemplateHandlebars;
-module.exports.getCategorizedFiles = getCategorizedFiles;
-module.exports.getGeneratorsAsJSON = getGeneratorsAsJSON;
-module.exports.getCustomizedLine = getCustomizedLine;
-module.exports.getCustomizedFile = getCustomizedFile;
+
+export {
+  getTemplateHandlebars,
+  getCategorizedFiles,
+  getGeneratorsAsJSON,
+  getCustomizedLine,
+  getCustomizedFile
+};

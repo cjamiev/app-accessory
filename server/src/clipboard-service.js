@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const createClipboard = (req, res) => {
   const clipboard = fs.readFileSync(`storage\\clipboard.json`,'utf8');
@@ -27,7 +27,7 @@ const createBackup = (clipboard) => {
   fs.writeFile(`backup\\clipboard-${timestamp}.json`,clipboard, err => { console.log(err)});
 }
 
-module.exports = {
+export {
   createClipboard,
   getClipboard
 };

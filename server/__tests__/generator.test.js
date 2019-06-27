@@ -1,8 +1,10 @@
-const getTemplateHandlebars = require('../utility/generator').getTemplateHandlebars;
-const getCategorizedFiles = require('../utility/generator').getCategorizedFiles;
-const getGeneratorsAsJSON = require('../utility/generator').getGeneratorsAsJSON;
-const getCustomizedLine = require('../utility/generator').getCustomizedLine;
-const getCustomizedFile = require('../utility/generator').getCustomizedFile;
+import {
+  getTemplateHandlebars,
+  getCategorizedFiles,
+  getGeneratorsAsJSON,
+  getCustomizedLine,
+  getCustomizedFile
+} from '../utility/generator';
 
 describe('generator', () => {
   describe(':getTemplateHandlebars', () => {

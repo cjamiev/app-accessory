@@ -1,5 +1,5 @@
-const fs = require('fs'); 
-const getAllFilesInTreeDirectory = require('./file').getAllFilesInTreeDirectory;
+import fs from 'fs';
+import { getAllFilesInTreeDirectory } from './file';
 
 const searchFile = (fileName, pattern) => {
   const file = fs.readFileSync(fileName, 'utf8');
