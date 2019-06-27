@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { getAllFilesInTreeDirectory } from '../utility/file';
+import { getAllFilesInTreeDirectory } from '../my_modules';
 
 const mockServiceFiles = getAllFilesInTreeDirectory('./storage/mock-services');
 
