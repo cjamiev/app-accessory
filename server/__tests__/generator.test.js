@@ -4,7 +4,7 @@ import {
   getGeneratorsAsJSON,
   getCustomizedLine,
   getCustomizedFile
-} from '../utility/generator';
+} from '../src/generator';
 
 describe('generator', () => {
   describe(':getTemplateHandlebars', () => {

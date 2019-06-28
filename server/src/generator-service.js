@@ -7,7 +7,7 @@ import {
   getCategorizedFiles,
   getGeneratorsAsJSON,
   getCustomizedFile
-} from '../utility/generator';
+} from './generator';
 
 const getGenerator = (req, res) => {
   const files = getAllFilesInTreeDirectory('storage/generator');
@@ -58,14 +58,14 @@ const createGeneratorTemplate = (req, res) => {
     res.status(400).send({ message:'file format is not correct' });
     return;
   }
-  if (!fs.existsSync(`server\\generator\\${segments[0]}`)) {
-    fs.mkdirSync(`server\\generator\\${segments[0]}`);
+  if (!fs.existsSync(`storage\\generator\\${segments[0]}`)) {
+    fs.mkdirSync(`storage\\generator\\${segments[0]}`);
   }
-  if (!fs.existsSync(`server\\generator\\${segments[0]}\\${segments[1]}`)) {
-    fs.mkdirSync(`server\\generator\\${segments[0]}\\${segments[1]}`);
+  if (!fs.existsSync(`storage\\generator\\${segments[0]}\\${segments[1]}`)) {
+    fs.mkdirSync(`storage\\generator\\${segments[0]}\\${segments[1]}`);
   }
 
-  fs.writeFile(`server\\generator\\${body.file}`,body.content, err => {
+  fs.writeFile(`storage\\generator\\${body.file}`,body.content, err => {
     if(err){
       res.status(200).send({ message:`error in creating file: ${err}` });
     } else {
@@ -86,7 +86,7 @@ const deleteGeneratorTemplate = (req, res) => {
     return;
   }
 
-  fs.unlink(`server\\generator\\${body.file}`, err => {
+  fs.unlink(`storage\\generator\\${body.file}`, err => {
     if(err){
       res.status(200).send({ message:`error in deleting file: ${err}` });
     } else {
