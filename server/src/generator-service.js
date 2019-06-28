@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { getAllFilesInTreeDirectory } from '../utility/file';
+import { getAllFilesInTreeDirectory } from '../global';
 
 import {
   getTemplateHandlebars,
