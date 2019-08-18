@@ -5,7 +5,7 @@ const { testRouter } = require('./routers/testRouter');
 
 const server = serverFactory();
 
-const port = 8080;
+const port = 8081;
 
 server
   .addCors()

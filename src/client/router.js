@@ -1,9 +1,5 @@
 const getRoute = {
-  table: routeTable,
-  modal: routeModal,
-  accordion: routeAccordion,
-  alert: routeAlert,
-  form: routeForm,
+  createclipmark: routeCreateClipMark,
   home: routeHome
 };
 
