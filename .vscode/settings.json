@@ -1,0 +1,32 @@
+{
+  "editor.formatOnSave": true,
+  "javascript.format.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.options": { 
+    "extensions": [
+      ".html",
+      ".js",
+      ".vue",
+      ".jsx"
+      ]
+  },
+  "eslint.validate": [
+    {
+      "language": "html",
+      "autoFix": true
+    },
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "javascriptreact",
+      "autoFix": true
+    }
+  ]
+}
