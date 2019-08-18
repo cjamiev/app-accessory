@@ -2,14 +2,19 @@ const createClipMarkPayloadId = 'clipmark-payload';
 const responseDivId = 'clipmark-payload-response';
 
 const addClipMarkEntry = () => {
-  const payload = sessionStorage.getItem(createClipMarkPayloadId);
+  const loadClipMarkSelection = JSON.parse(sessionStorage.getItem(createClipMarkPayloadId));
+
+  const payload = {
+    type: 'Clipboard',
+    ...loadClipMarkSelection
+  };
 
   fetch('/add-clipmark-entry', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: payload,
+    body: JSON.stringify(payload),
     method: 'POST'
   })
     .then(resp => resp.json())

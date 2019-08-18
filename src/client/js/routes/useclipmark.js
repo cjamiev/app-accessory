@@ -1,4 +1,5 @@
 const clipboardDivId = 'clipboard-div';
+const urlDivId = 'url-div';
 
 const copyToClipboard = text => {
   return () => {
@@ -21,8 +22,8 @@ const loadClipMarks = () => {
   })
     .then(resp => resp.json())
     .then(data => {
-      console.log(data);
       createClipboardButtons(data.clipmarks.clipboards);
+      createUrlLinks(data.clipmarks.urls);
     });
 };
 
@@ -41,6 +42,24 @@ const createClipboardButtons = (data) => {
   });
 
   router.appendChild(clipboardDiv);
+};
+
+const createUrlLinks = (data) => {
+  const router = document.getElementById('router');
+  const urlDiv = document.createElement('div');
+  urlDiv.id = urlDivId;
+
+  data.forEach(item => {
+    const newUrlLink = document.createElement('a');
+    newUrlLink.innerHTML = item.name;
+    newUrlLink.className = 'url-link';
+    newUrlLink.href = item.value;
+    newUrlLink.target = '_blank';
+
+    urlDiv.appendChild(newUrlLink);
+  });
+
+  router.appendChild(urlDiv);
 };
 
 const routeUseClipMark = () => {
