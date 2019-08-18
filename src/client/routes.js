@@ -5,18 +5,14 @@ const routeHome = () => {
 const createClipMarkPayloadId = 'clipmark-payload';
 
 const submitClipMarkEntry = () => {
-  const payloadSelection = JSON.parse(sessionStorage.getItem(createClipMarkPayloadId));
-  const payload = {
-    name: payloadSelection.name,
-    value: payloadSelection.value
-  };
+  const payload = sessionStorage.getItem(createClipMarkPayloadId);
 
-  fetch('/add-clipboard-entry', {
+  fetch('/add-clipmark-entry', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(payload),
+    body: payload,
     method: 'POST'
   })
     .then(resp => resp.json())

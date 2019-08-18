@@ -3,7 +3,14 @@ const { loadJSONFromFile } = require('../utility/read');
 const { writeToFile } = require('../utility/write');
 
 const CLIPBOARD_PATH = './storage/clipboard.json';
+const URL_PATH = './storage/url.json';
+const COMMAND_PATH = './storage/command.json';
 const UTF8 = 'utf8';
+const filepathMap = {
+  'Clipboard': CLIPBOARD_PATH,
+  'Url': URL_PATH,
+  'Command': COMMAND_PATH
+};
 
 const executeCommand = (command) => {
   try {
@@ -18,34 +25,48 @@ const executeCommand = (command) => {
   }
 };
 
-const loadClipboardEntries = () => loadJSONFromFile(CLIPBOARD_PATH, []);
+const loadClipmarkByType = (filepath) => loadJSONFromFile(filepath, []);
 
-const addClipboardEntry = (content) => {
-  const currentClipboard = loadClipboardEntries();
+const loadClipmarkEntries = () => {
+  const clipboards = loadClipmarkByType(CLIPBOARD_PATH);
+  const urls = loadClipmarkByType(URL_PATH);
+  const commands = loadClipmarkByType(COMMAND_PATH);
 
-  const matched = currentClipboard.find(item => item.name === content.name);
+  return {
+    clipboards,
+    urls,
+    commands
+  };
+};
+
+const addClipmarkEntry = (content) => {
+  const filepath = filepathMap[content.type];
+  current = loadClipmarkByType(filepath);
+
+  const matched = current.find(item => item.name === content.name);
 
   if (matched) {
     return 'duplicate name';
   }
   else {
-    const updatedClipboard = currentClipboard.concat([content]);
+    const updated = current.concat([content]);
 
-    return writeToFile(CLIPBOARD_PATH, JSON.stringify(updatedClipboard));
+    return writeToFile(filepath, JSON.stringify(updated));
   }
 };
 
-const deleteClipboardEntry = (name) => {
-  const currentClipboard = loadClipboardEntries();
+const deleteClipmarkEntry = (content) => {
+  const filepath = filepathMap[content.type];
+  const currentClipmark = loadClipmarkByType(filepath);
 
-  const updatedClipboard = currentClipboard.filter(item => item.name !== name);
+  const updatedClipmark = currentClipmark.filter(item => item.name !== content.name);
 
-  return writeToFile(CLIPBOARD_PATH, JSON.stringify(updatedClipboard));
+  return writeToFile(filepath, JSON.stringify(updatedClipmark));
 };
 
 module.exports = {
-  addClipboardEntry,
-  deleteClipboardEntry,
-  loadClipboardEntries,
+  addClipmarkEntry,
+  deleteClipmarkEntry,
+  loadClipmarkEntries,
   executeCommand
 };
