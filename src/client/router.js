@@ -1,5 +1,6 @@
 const getRoute = {
   createclipmark: routeCreateClipMark,
+  useclipmark: routeUseClipMark,
   home: routeHome
 };
 
