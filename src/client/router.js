@@ -24,6 +24,7 @@ const changePage = page => {
 const init = () => {
   const page = sessionStorage.getItem('page');
   if (page) {
+    resetRouter();
     getRoute[page]();
   }
 };
