@@ -17,7 +17,8 @@ const executeCommand = (command) => {
     return execSync(command, { encoding: UTF8 });
   } catch (ex) {
     return {
-      error: {
+      error: true,
+      message: {
         status: ex.status,
         message: ex.message
       }
@@ -46,7 +47,10 @@ const addClipmarkEntry = (content) => {
   const matched = current.find(item => item.name === content.name);
 
   if (matched) {
-    return 'duplicate name';
+    return {
+      error: true,
+      message: 'duplicate name'
+    };
   }
   else {
     const updated = current.concat([content]);

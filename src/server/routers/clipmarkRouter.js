@@ -9,9 +9,9 @@ const {
 const clipmarkRouter = router();
 
 clipmarkRouter.post('/add-clipmark-entry', (req, res) => {
-  const message = addClipmarkEntry(req.body);
+  const response = addClipmarkEntry(req.body);
 
-  send(res, { message });
+  send(res, response);
 });
 
 clipmarkRouter.post('/delete-clipmark-entry', (req, res) => {

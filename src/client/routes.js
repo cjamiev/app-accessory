@@ -3,8 +3,9 @@ const routeHome = () => {
 };
 
 const createClipMarkPayloadId = 'clipmark-payload';
+const responseDivId = 'clipmark-payload-response';
 
-const submitClipMarkEntry = () => {
+const addClipMarkEntry = () => {
   const payload = sessionStorage.getItem(createClipMarkPayloadId);
 
   fetch('/add-clipmark-entry', {
@@ -17,7 +18,11 @@ const submitClipMarkEntry = () => {
   })
     .then(resp => resp.json())
     .then(data => {
-      console.log(data);
+      const responseType = data.error ? 'error' : 'success';
+      const responseMessage = data.error ? data.message : 'Added new entry';
+
+      const responseAlert = createAlert('clipmark-payload-alert', responseType, responseMessage);
+      document.getElementById(responseDivId).appendChild(responseAlert);
     });
 };
 
@@ -48,11 +53,15 @@ const routeCreateClipMark = () => {
   const submitButton = document.createElement('input');
   submitButton.innerHTML = 'submit';
   submitButton.type = 'submit';
-  submitButton.onclick = submitClipMarkEntry;
+  submitButton.onclick = addClipMarkEntry;
+
+  const responseDiv = document.createElement('div');
+  responseDiv.id = responseDivId;
 
   const formDiv = document.createElement('div');
   formDiv.className = 'form-container';
 
+  formDiv.appendChild(responseDiv);
   formDiv.appendChild(typeOfClipboardComponent);
   formDiv.appendChild(nameOfClipboardComponent);
   formDiv.appendChild(valueOfClipboardComponent);

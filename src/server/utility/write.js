@@ -1,13 +1,17 @@
 const fs = require('fs');
 
-const SUCCESS = 'SUCCESS';
-
 const writeToFile = (filepath, content) => {
   try {
     fs.writeFileSync(filepath, content);
-    return SUCCESS;
+    return {
+      error: false,
+      message: 'Wrote to file:' + filepath
+    };
   } catch (e) {
-    return e;
+    return {
+      error: true,
+      message: e
+    };
   }
 };
 
