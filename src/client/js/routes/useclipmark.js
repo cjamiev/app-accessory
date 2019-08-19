@@ -1,5 +1,7 @@
 const clipboardDivId = 'clipboard-div';
+const commandDivId = 'command-div';
 const urlDivId = 'url-div';
+const commandResponseDivId = 'command-response';
 
 const copyToClipboard = text => {
   return () => {
@@ -9,6 +11,24 @@ const copyToClipboard = text => {
     copyText.select();
     document.execCommand('copy');
     document.body.removeChild(copyText);
+  };
+};
+
+const executeCommand = (command) => {
+  return () => {
+    fetch('/execute-command', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ command }),
+      method: 'POST'
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data.message);
+        document.getElementById(commandResponseDivId).innerHTML = data.message;
+      });
   };
 };
 
@@ -23,6 +43,7 @@ const loadClipMarks = () => {
     .then(resp => resp.json())
     .then(data => {
       createClipboardButtons(data.clipmarks.clipboards);
+      createCommandButtons(data.clipmarks.commands);
       createUrlLinks(data.clipmarks.urls);
     });
 };
@@ -35,13 +56,30 @@ const createClipboardButtons = (data) => {
   data.forEach(item => {
     const newCopyButton = document.createElement('button');
     newCopyButton.innerHTML = item.name;
-    newCopyButton.className = 'command-btn';
+    newCopyButton.className = 'copy-btn';
     newCopyButton.onclick = copyToClipboard(item.value);
 
     clipboardDiv.appendChild(newCopyButton);
   });
 
   router.appendChild(clipboardDiv);
+};
+
+const createCommandButtons = (data) => {
+  const router = document.getElementById('router');
+  const commandDiv = document.createElement('div');
+  commandDiv.id = commandDivId;
+
+  data.forEach(item => {
+    const newCommandButton = document.createElement('button');
+    newCommandButton.innerHTML = item.name;
+    newCommandButton.className = 'command-btn';
+    newCommandButton.onclick = executeCommand(item.value);
+
+    commandDiv.appendChild(newCommandButton);
+  });
+
+  router.appendChild(commandDiv);
 };
 
 const createUrlLinks = (data) => {
@@ -64,6 +102,10 @@ const createUrlLinks = (data) => {
 
 const routeUseClipMark = () => {
   const router = document.getElementById('router');
+  const commandDiv = document.createElement('div');
+  commandDiv.id = commandResponseDivId;
 
+
+  router.appendChild(commandDiv);
   loadClipMarks();
 };
