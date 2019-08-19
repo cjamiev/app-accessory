@@ -14,14 +14,16 @@ const filepathMap = {
 
 const executeCommand = (command) => {
   try {
-    return execSync(command, { encoding: UTF8 });
+    const message = execSync(command, { encoding: UTF8 });
+    return {
+      error: false,
+      message
+    };
   } catch (ex) {
     return {
       error: true,
-      message: {
-        status: ex.status,
-        message: ex.message
-      }
+      status: ex.status,
+      message: ex.message
     };
   }
 };

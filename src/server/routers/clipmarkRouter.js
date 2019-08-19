@@ -27,9 +27,9 @@ clipmarkRouter.get('/load-clipmark-entries', (req, res) => {
 });
 
 clipmarkRouter.post('/execute-command', (req, res) => {
-  const message = executeCommand(req.body.command);
+  const response = executeCommand(req.body.command);
 
-  send(res, { message });
+  send(res, response);
 });
 
 module.exports = { clipmarkRouter };

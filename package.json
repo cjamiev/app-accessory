@@ -4,7 +4,7 @@
   "description": "Project is used to help build other projects",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/services/index.js"
+    "start": "node src/server/index.js"
   },
   "author": "CJV",
   "license": "ISC",
