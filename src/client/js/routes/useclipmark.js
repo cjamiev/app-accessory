@@ -1,7 +1,7 @@
 const clipboardDivId = 'clipboard-div';
 const commandDivId = 'command-div';
 const urlDivId = 'url-div';
-const commandResponseDivId = 'command-response';
+const useResponseDiv = 'use-response-div';
 
 const copyToClipboard = text => {
   return () => {
@@ -26,8 +26,28 @@ const executeCommand = (command) => {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log(data.message);
-        document.getElementById(commandResponseDivId).innerHTML = data.message;
+        document.getElementById(useResponseDiv).innerHTML = data.message;
+      });
+  };
+};
+
+const deleteClipMarkEntry = (content) => {
+  return () => {
+    fetch('/delete-clipmark-entry', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(content),
+      method: 'POST'
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        const responseType = data.error ? 'error' : 'success';
+        const responseMessage = data.error ? data.message : 'Successfully removed entry';
+
+        const responseAlert = createAlert('clipmark-delete-alert', responseType, responseMessage);
+        document.getElementById(useResponseDiv).appendChild(responseAlert);
       });
   };
 };
@@ -54,12 +74,21 @@ const createClipboardButtons = (data) => {
   clipboardDiv.id = clipboardDivId;
 
   data.forEach(item => {
-    const newCopyButton = document.createElement('button');
-    newCopyButton.innerHTML = item.name;
-    newCopyButton.className = 'copy-btn';
-    newCopyButton.onclick = copyToClipboard(item.value);
+    const itemDiv = document.createElement('div');
 
-    clipboardDiv.appendChild(newCopyButton);
+    const copyButton = document.createElement('button');
+    copyButton.innerHTML = item.name;
+    copyButton.className = 'copy-btn';
+    copyButton.onclick = copyToClipboard(item.value);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'x';
+    deleteButton.className = 'delete-btn';
+    deleteButton.onclick = deleteClipMarkEntry(item);
+
+    itemDiv.appendChild(copyButton);
+    itemDiv.appendChild(deleteButton);
+    clipboardDiv.appendChild(itemDiv);
   });
 
   router.appendChild(clipboardDiv);
@@ -71,12 +100,21 @@ const createCommandButtons = (data) => {
   commandDiv.id = commandDivId;
 
   data.forEach(item => {
-    const newCommandButton = document.createElement('button');
-    newCommandButton.innerHTML = item.name;
-    newCommandButton.className = 'command-btn';
-    newCommandButton.onclick = executeCommand(item.value);
+    const itemDiv = document.createElement('div');
 
-    commandDiv.appendChild(newCommandButton);
+    const commandButton = document.createElement('button');
+    commandButton.innerHTML = item.name;
+    commandButton.className = 'command-btn';
+    commandButton.onclick = executeCommand(item.value);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'x';
+    deleteButton.className = 'delete-btn';
+    deleteButton.onclick = deleteClipMarkEntry(item);
+
+    itemDiv.appendChild(commandButton);
+    itemDiv.appendChild(deleteButton);
+    commandDiv.appendChild(itemDiv);
   });
 
   router.appendChild(commandDiv);
@@ -88,13 +126,22 @@ const createUrlLinks = (data) => {
   urlDiv.id = urlDivId;
 
   data.forEach(item => {
-    const newUrlLink = document.createElement('a');
-    newUrlLink.innerHTML = item.name;
-    newUrlLink.className = 'url-link';
-    newUrlLink.href = item.value;
-    newUrlLink.target = '_blank';
+    const itemDiv = document.createElement('div');
 
-    urlDiv.appendChild(newUrlLink);
+    const urlLink = document.createElement('a');
+    urlLink.innerHTML = item.name;
+    urlLink.className = 'url-link';
+    urlLink.href = item.value;
+    urlLink.target = '_blank';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'x';
+    deleteButton.className = 'delete-btn';
+    deleteButton.onclick = deleteClipMarkEntry(item);
+
+    itemDiv.appendChild(urlLink);
+    itemDiv.appendChild(deleteButton);
+    urlDiv.appendChild(itemDiv);
   });
 
   router.appendChild(urlDiv);
@@ -103,7 +150,7 @@ const createUrlLinks = (data) => {
 const routeUseClipMark = () => {
   const router = document.getElementById('router');
   const commandDiv = document.createElement('div');
-  commandDiv.id = commandResponseDivId;
+  commandDiv.id = useResponseDiv;
 
 
   router.appendChild(commandDiv);

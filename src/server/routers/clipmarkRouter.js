@@ -15,9 +15,9 @@ clipmarkRouter.post('/add-clipmark-entry', (req, res) => {
 });
 
 clipmarkRouter.post('/delete-clipmark-entry', (req, res) => {
-  const message = deleteClipmarkEntry(req.body);
+  const response = deleteClipmarkEntry(req.body);
 
-  send(res, { message });
+  send(res, response);
 });
 
 clipmarkRouter.get('/load-clipmark-entries', (req, res) => {

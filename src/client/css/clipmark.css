@@ -1,17 +1,14 @@
 .copy-btn {
-  display: block;
   background-color: #73ee00;
   font-weight: bold;
 }
 
 .command-btn {
-  display: block;
   background-color: #c0b411;
   font-weight: bold;
 }
 
 .url-link {
-  display: block;
   border: 5px solid #830000;
   text-decoration: none;
 }
