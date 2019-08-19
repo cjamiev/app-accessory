@@ -72,6 +72,7 @@ const createClipboardButtons = (data) => {
   const router = document.getElementById('router');
   const clipboardDiv = document.createElement('div');
   clipboardDiv.id = clipboardDivId;
+  clipboardDiv.className = 'column';
 
   data.forEach(item => {
     const itemDiv = document.createElement('div');
@@ -98,6 +99,7 @@ const createCommandButtons = (data) => {
   const router = document.getElementById('router');
   const commandDiv = document.createElement('div');
   commandDiv.id = commandDivId;
+  commandDiv.className = 'column';
 
   data.forEach(item => {
     const itemDiv = document.createElement('div');
@@ -124,6 +126,7 @@ const createUrlLinks = (data) => {
   const router = document.getElementById('router');
   const urlDiv = document.createElement('div');
   urlDiv.id = urlDivId;
+  urlDiv.className = 'column';
 
   data.forEach(item => {
     const itemDiv = document.createElement('div');
