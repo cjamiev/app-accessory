@@ -1,14 +1,8 @@
-# compiled output
-/dist
-**/tmp
-/backup
-/storage
-
 # dependencies
 /node_modules
-/my_modules
 
 # misc
+/tmp
 /coverage
 npm-debug.log
 yarn-error.log

@@ -1,7 +1,7 @@
 {
-  "name": "wrapper",
-  "version": "1.0.0",
-  "description": "Project is used to help build other projects",
+  "name": "q",
+  "version": "2.0.0",
+  "description": "Project is to help make me more efficient",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/server/index.js"
@@ -9,9 +9,9 @@
   "author": "CJV",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "6.0.1",
-    "eslint-config-prettier": "6.0.0",
-    "eslint-plugin-import": "2.18.0",
+    "eslint": "6.5.1",
+    "eslint-config-prettier": "6.4.0",
+    "eslint-plugin-import": "2.18.2",
     "prettier": "1.18.2"
   }
 }

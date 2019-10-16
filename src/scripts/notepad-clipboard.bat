@@ -1,0 +1,1 @@
+start notepad++ B:\CJV\Documents\workspace\scratch\clipboard.txt
