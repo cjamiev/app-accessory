@@ -26,16 +26,17 @@ const handleAsyncCommandResponse = (request, response) => {
   const filePath = request.url.replace('/command-async', '');
 
   exec(getCommand(filePath), { encoding: UTF8, detached: true }, (error, stdout, stderr) => {
-    if (error || stderr) {
+    if (error) {
       response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
       response.end(JSON.stringify({
         error: true,
         message: error || stderr
       }));
     }
-
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({ message: stdout }), UTF8);
+    else {
+      response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+      response.end(JSON.stringify({ message: stderr.concat(stdout) }), UTF8);
+    }
   });
 };
 

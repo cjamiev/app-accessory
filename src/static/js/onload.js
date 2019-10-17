@@ -1,12 +1,17 @@
+const HEADERS = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+};
+
 const executeCommand = (command, async = false) => {
   const url = async ? '/command-async' : '/command';
 
   return fetch(url + command, {
-    method: 'GET'
+    method: 'GET',
+    headers: HEADERS
   })
     .then(response => response.json())
     .then(result => {
-      console.log(result);
       const lines = result.message.replace('\r', '').split('\n').filter(line => line);
       const responseDiv = document.getElementById('response');
       const responseElements = [...document.getElementsByClassName('card-text')];
