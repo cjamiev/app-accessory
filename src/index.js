@@ -25,7 +25,7 @@ const getCommand = (command) => `cd ./src/scripts && ${command}`;
 const handleAsyncCommandResponse = (request, response) => {
   const filePath = request.url.replace('/command-async', '');
 
-  exec(getCommand(filePath), { encoding: UTF8, detached: true }, (error, stdout, stderr) => {
+  exec(getCommand(filePath), { encoding: UTF8 }, (error, stdout, stderr) => {
     if (error) {
       response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
       response.end(JSON.stringify({
