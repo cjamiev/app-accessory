@@ -5,7 +5,7 @@ const path = require('path');
 const execSync = child_process.execSync;
 const exec = child_process.exec;
 
-const port = process.argv[2] || 1000;
+const port = process.argv[2] || 999;
 const ROOT_DIR = './src/static/';
 const UTF8 = 'utf-8';
 const TYPE_JSON = 'application/json';

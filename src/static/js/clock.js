@@ -5,7 +5,9 @@ const MINUTE_IN_MILLISECONDS = 60000;
 const SECOND_IN_MILLISECONDS = 1000;
 const SIXTY_TIMES_SIXTY = 3600;
 const SIXTY = 60;
+const HOURS_IN_DAY = 24;
 const DOUBLE_DIGIT = 10;
+const DECIMAL_FORMAT = 2;
 const ZERO = 0;
 
 const secondsToClock = s => {
@@ -48,8 +50,8 @@ const formattedClock = (h = ZERO, m = ZERO, s = ZERO) => {
 const clockBetweenDates = (date1, date2) => {
   const diff = date1.getTime() - date2.getTime();
 
-  if (diff < 0) {
-    return { hours: 0, minutes: 0, seconds: 0 };
+  if (diff < ZERO) {
+    return { hours: ZERO, minutes: ZERO, seconds: ZERO };
   }
 
   const weeks = Math.floor(diff / WEEK_IN_MILLISECONDS);
@@ -62,4 +64,28 @@ const clockBetweenDates = (date1, date2) => {
   );
 
   return { weeks, days, hours, minutes, seconds };
+};
+
+const countdown = () => {
+  const timerElements = document.querySelectorAll('[data-date]');
+  const today = new Date();
+
+  timerElements.forEach(el => {
+    const data = el.getAttribute('data-date').split(',').map(item => Number(item));
+    const futureDate = new Date(...data);
+    const { weeks, days, hours, minutes, seconds } = clockBetweenDates(futureDate, today);
+
+    if (weeks > ZERO) {
+      el.innerHTML = weeks + ' week(s) and ' + (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
+    }
+    else if (days > ZERO) {
+      el.innerHTML = (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
+    }
+    else if (hours > ZERO || minutes > ZERO || seconds > ZERO) {
+      el.innerHTML = formattedClock(hours, minutes, seconds);
+    }
+    else {
+      el.innerHTML = 'DONE!!!';
+    }
+  });
 };

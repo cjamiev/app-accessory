@@ -1,0 +1,86 @@
+.menu-btn {
+  background-color: white;
+  border: 1px solid white;
+  width: 40px;
+}
+
+.submit-btn {
+  background-color: #fff;
+  border: 1px solid #61dafb;
+  width: 50%;
+  height: 30px;
+  margin: 10px auto;
+  color: #000;
+}
+
+.copy-btn {
+  background-color: #61dafb;
+  border: 1px solid #61dafb;
+  color: black;
+  width: 100px;
+  height: 30px;
+  margin: 10px auto;
+}
+
+.copy-btn:active {
+  background-color: #61dafb;
+  box-shadow: 0 5px #61dafb;
+  transform: translateY(4px);
+}
+
+.copy-btn:hover {
+  background-color: #fff;
+  border: 1px solid #61dafb;
+  color: #000;
+  box-shadow: 2px 2px 0px #61dafb;
+}
+
+.command-btn {
+  background-color: #24292e;
+  border: 1px solid #24292e;
+  color: white;
+  font-weight: 500;
+  width: 100px;
+  height: 20px;
+  margin: 0px auto;
+}
+
+.command-btn:active {
+  background-color: #24292e;
+  box-shadow: 0 5px #24292e;
+  transform: translateY(4px);
+}
+
+.command-btn:hover {
+  background-color: #24292e;
+  border: 1px solid #24292e;
+  color: white;
+  box-shadow: 2px 2px 0px #24292e;
+}
+
+.submit-btn:hover {
+  background-color: #61dafb;
+  border: 1px solid #61dafb;
+  color: white;
+}
+
+.submit-btn:active {
+  color: #61dafb;
+  background-color: #fff;
+  box-shadow: 2px 2px 0px #61dafb;
+  transform: translateY(4px);
+}
+
+.show-add-form-btn {
+  background-color: red;
+  border: 1px solid red;
+  color: white;
+  margin-left: 10px;
+}
+
+.hide-add-form-btn {
+  background-color: white;
+  border: 1px solid white;
+  color: black;
+  margin-left: 10px;
+}

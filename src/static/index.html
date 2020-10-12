@@ -4,24 +4,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/all.css">
   <title>Home</title>
 </head>
 
 <body>
   <header>
-    <nav class="navbar bg-dark">
+    <nav class="nav-bar">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link active" href="./index.html">Home</a>
+          <button class="menu-btn" onClick="toggleSideMenu()">---</button>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./example.html">Example</a>
+          <a class="nav-link" href="./index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./example.html">Example Page</a>
         </li>
     </nav>
   </header>
 
-  <p> Welcome to q app</p>
+  <div class="main">
+    <div id="side-menu" class="side-menu">
+      <div id="side-menu-content" class="side-menu-content">
+      </div>
+    </div>
+    <div class="center">
+      <h1 class="display-3"> Home </h1>
+      <div class="clipboard-content">
+        <div class="clipboard-header"> Test 1</div>
+        <div class="clipboard-row">
+          <span class="clipboard-cell"> Item 1</span>
+          <a class="clipboard-cell links" href="https://github.com/cjamiev/playground"
+            target="_blank">cjamiev/playground</a>
+          <div class="clipboard-cell">
+            <span>Mouse over me</span>
+            <div class="dropdown-content">
+              <p>Hello World!</p>
+            </div>
+          </div>
+        </div>
+        <div class="clipboard-row">
+          <span class="clipboard-cell">
+            <button class="command-btn" onClick="executeCommand('ls.bat', false)">Example Sync Command: ls</button>
+          </span>
+          <a class="clipboard-cell" href="https://github.com/cjamiev/playground" target="_blank">cjamiev/playground</a>
+          <span class="clipboard-cell"> Item 3</span>
+        </div>
+        <div class="clipboard-row">
+          <span class="clipboard-cell"> Item 1</span>
+          <a class="clipboard-cell" href="https://github.com/cjamiev/playground" target="_blank">cjamiev/playground</a>
+          <div class="clipboard-cell">35th Bday: <span data-date="2025,3,18,0,0,0">Example Date:...loading</span></div>
+        </div>
+      </div>
+
+      <div>
+        <form class="formbox" onsubmit="return false;">
+          <div id="formheader" class="form-header">
+            <p class="form-title"> Add New Item </p>
+            <button id="add-form-btn" class="show-add-form-btn" onClick="showAddNewItemForm()"> + </button>
+          </div>
+          <div id="formcontent" class="formcontent">
+            <div class="form-field">
+              <label class="form-field-label">Type:</label>
+              <div class="form-field-radio-group">
+                <label class="form-field-label">
+                  <input class="form-field-in" name="operation" type="radio" value="copy" checked />
+                  Copy
+                </label>
+                <label class="form-field-label">
+                  <input class="form-field-in" name="operation" type="radio" value="execute" />
+                  Execute
+                </label>
+                <label class="form-field-label">
+                  <input class="form-field-in" name="operation" type="radio" value="link" />
+                  Link
+                </label>
+                <label class="form-field-label">
+                  <input class="form-field-in" name="operation" type="radio" value="timer" />
+                  Timer
+                </label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-field-label" for="name">Name:</label>
+              <input id="new-item-name" class="form-field-in" id="name" type="text" />
+            </div>
+            <div class="form-field">
+              <label class="form-field-label" for="form-field-in">Value</label>
+              <pre id="new-item-value" class="form-field-in form-field-inarea" contenteditable="true"> </pre>
+            </div>
+            <button class="submit-btn" onClick="addNewItem()">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="right-side">
+      <div id="response">
+        <h1>Results:</h5>
+          <p>Command output will be shown here.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/actions.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/onload.js"></script>
 
 </body>
 

@@ -1,0 +1,62 @@
+@import 'reset.css';
+@import 'navigation.css';
+@import 'button.css';
+@import 'side-menu.css';
+@import 'clipboard.css';
+@import 'contentblock.css';
+@import 'forms.css';
+
+.main {
+  background-color: #f6f8fa;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 870px;
+  width: 100%;
+}
+
+.center {
+  flex: 10;
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.center-content {
+  flex: 4;
+}
+
+.footer {
+  flex: 1;
+}
+
+.right-side {
+  flex: 3;
+}
+
+.add-new-btn-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-new-btn-inputs {
+  display: flex;
+  flex-direction: row;
+}
+
+.add-label {
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  font-weight: bold;
+  margin: auto 10px;
+  flex: 1;
+}
+
+.add-input {
+  border: 1px solid #ccc;
+  color: #333;
+  margin: auto 10px;
+  flex: 3;
+}
