@@ -101,14 +101,35 @@
     </div>
 
     <div class="right-side">
+      <form onsubmit="return false">
+        <fieldset>
+          <legend>IO Operation:</legend>
+          <div>
+            <label for="filesData">Load File:</label>
+            <select id="filesData">
+              <option value="none">Select</option>
+            </select>
+            <label for="filenameData">Create new file:</label>
+            <input id="filenameData" type="text"><br>
+          </div>
+          <label for="contentData">Enter Content:</label>
+          <textarea id="contentData" rows="10" cols="100"></textarea>
+          <input type="button" value="Copy to Clipboard" onclick="copyFileToClipboard()">
+          <input type="button" value="Validate JSON Format" onclick="validateJson()">
+          <input type="submit" value="Save" onclick="writeToFile()">
+        </fieldset>
+      </form><br>
+
       <div id="response">
         <h1>Results:</h5>
+          <p id="output"></p>
           <p>Command output will be shown here.</p>
       </div>
     </div>
   </div>
 
   <script src="js/actions.js"></script>
+  <script src="js/io.js"></script>
   <script src="js/clock.js"></script>
   <script src="js/onload.js"></script>
 
