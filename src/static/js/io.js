@@ -2,8 +2,16 @@ const setOutput = (data) => {
   document.getElementById('output').innerHTML = JSON.stringify(data, undefined, 4);
 };
 
-const writeToFile = (event) => {
-  console.log('hit');
+const copyFileToClipboard = () => {
+  copyToClipboard(document.getElementById('contentData').value);
+};
+
+const validateJson = () => {
+  const contentData = parseObject(document.getElementById('contentData').value);
+  document.getElementById('output').value = contentData;
+};
+
+const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
   const content = document.getElementById('contentData').value;
 
@@ -49,15 +57,3 @@ const getFile = () => {
     document.getElementById('filenameData').value = filename;
   });
 };
-
-const copyFileToClipboard = () => {
-  copyToClipboard(document.getElementById('contentData').value);
-};
-
-const validateJson = () => {
-  const contentData = parseObject(document.getElementById('contentData').value);
-  document.getElementById('output').value = contentData;
-};
-
-getAllFiles();
-document.getElementById('filesData').addEventListener('change', getFile);

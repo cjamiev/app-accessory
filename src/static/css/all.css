@@ -1,7 +1,21 @@
+/*
+Palette	      Hex Code
+----------------------
+Background	  #272822
+Foreground	  #F8F8F2
+Comment	      #75715E
+Red	          #F92672
+Orange	      #FD971F
+Light Orange	#E69F66
+Yellow	      #E6DB74
+Green	        #A6E22E
+Blue	        #66D9EF
+Purple	      #AE81FF
+*/
 @import 'reset.css';
 @import 'navigation.css';
 @import 'button.css';
-@import 'side-menu.css';
+@import 'quick-clipboard.css';
 @import 'clipboard.css';
 @import 'contentblock.css';
 @import 'forms.css';
@@ -10,13 +24,12 @@
   background-color: #f6f8fa;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   height: 870px;
   width: 100%;
 }
 
 .center {
-  flex: 10;
+  flex: 4;
   display: flex;
   flex-direction: column;
   margin-right: 50px;
@@ -32,7 +45,7 @@
 }
 
 .right-side {
-  flex: 3;
+  flex: 4;
 }
 
 .add-new-btn-form {

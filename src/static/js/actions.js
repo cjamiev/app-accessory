@@ -1,8 +1,3 @@
-const toggleSideMenu = () => {
-  const sideMenu = document.getElementById('side-menu');
-  sideMenu.classList.toggle('side-menu-active');
-};
-
 const showAddNewItemForm = () => {
   const button = document.getElementById('add-form-btn');
   const content = document.getElementById('formcontent');
@@ -32,62 +27,32 @@ const copyToClipboard = text => {
 };
 
 const loadItems = () => {
-  const clipboard = JSON.parse((localStorage.getItem('clipboard') || '[]'));
-  const menu = document.getElementById('side-menu-content');
-  clipboard.forEach(entry => {
+  const clipboardData = JSON.parse((localStorage.getItem('clipboard') || '[]'));
+  const quickClipboard = document.getElementById('quick-clipboard');
+  clipboardData.forEach(entry => {
     if (entry.operationType === 'copy') {
       const el = document.createElement('button');
-      el.className = 'copy-btn';
+      el.className = 'quick-clipboard-copy-btn';
       el.onclick = () => { copyToClipboard(entry.value); };
       el.innerHTML = entry.name;
 
-      menu.appendChild(el);
-    }
-    else if (entry.operationType === 'link') {
-      const el = document.createElement('a');
-      el.target = '_blank';
-      el.href = entry.value;
-      el.className = 'menu-link';
-      el.innerHTML = entry.name;
-
-      menu.appendChild(el);
+      quickClipboard.appendChild(el);
     }
     else if (entry.operationType === 'timer') {
       const elParent = document.createElement('div');
-      elParent.className = 'menu-timer';
-      elParent.innerHTML = entry.name;
-      const el = document.createElement('span');
-      el.setAttribute('data-date', entry.value);
-      elParent.appendChild(el);
+      elParent.className = 'quick-clipboard-timer';
 
-      menu.appendChild(elParent);
+      const elName = document.createElement('span');
+      elName.innerHTML = entry.name;
+      elParent.appendChild(elName);
+
+      const elTimer = document.createElement('span');
+      elTimer.setAttribute('data-date', entry.value);
+      elParent.appendChild(elTimer);
+
+      quickClipboard.appendChild(elParent);
     }
   });
-};
-
-const HEADERS = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-};
-
-const api = {
-  post: (url, payload) => {
-    return fetch(url, {
-      headers: HEADERS,
-      body: JSON.stringify(payload),
-      method: 'POST'
-    })
-      .then(resp => resp.json())
-      .catch(error => console.log('error:', error));
-  },
-  get: (url) => {
-    return fetch(url, {
-      headers: HEADERS,
-      method: 'GET'
-    })
-      .then(resp => resp.json())
-      .catch(error => console.log('error:', error));
-  }
 };
 
 const parseObject = obj => {
@@ -97,31 +62,4 @@ const parseObject = obj => {
     return 'invalid';
   }
   return 'valid';
-};
-
-const executeCommand = (command, async = false) => {
-  const url = async ? '/command-async' : '/command';
-
-  return fetch(url + command, {
-    method: 'GET',
-    headers: HEADERS
-  })
-    .then(response => response.json())
-    .then(result => {
-      const lines = result.message.replace('\r', '').split('\n').filter(line => line);
-      const responseDiv = document.getElementById('response');
-      const responseElements = [...document.getElementsByClassName('card-text')];
-      responseElements.forEach(el => {
-        responseDiv.removeChild(el);
-      });
-
-      lines.forEach(line => {
-        const p = document.createElement('p');
-        p.innerHTML = line;
-        p.classList.add('card-text');
-
-        responseDiv.appendChild(p);
-      });
-    })
-    .catch(error => console.log('error:', error));
 };

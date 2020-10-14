@@ -25,12 +25,10 @@
   </header>
 
   <div class="main">
-    <div id="side-menu" class="side-menu">
-      <div id="side-menu-content" class="side-menu-content">
-      </div>
+    <div id="quick-clipboard" class="quick-clipboard">
     </div>
     <div class="center">
-      <h1 class="display-3"> Home </h1>
+      <h1> Home </h1>
       <div class="clipboard-content">
         <div class="clipboard-header"> Test 1</div>
         <div class="clipboard-row">
@@ -113,7 +111,7 @@
             <input id="filenameData" type="text"><br>
           </div>
           <label for="contentData">Enter Content:</label>
-          <textarea id="contentData" rows="10" cols="100"></textarea>
+          <pre id="contentData" class="form-field-in form-field-inarea" contenteditable="true"> </pre>
           <input type="button" value="Copy to Clipboard" onclick="copyFileToClipboard()">
           <input type="button" value="Validate JSON Format" onclick="validateJson()">
           <input type="submit" value="Save" onclick="writeToFile()">
@@ -128,6 +126,7 @@
     </div>
   </div>
 
+  <script src="js/api.js"></script>
   <script src="js/actions.js"></script>
   <script src="js/io.js"></script>
   <script src="js/clock.js"></script>
