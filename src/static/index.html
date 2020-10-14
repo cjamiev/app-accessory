@@ -26,6 +26,31 @@
 
   <div class="main">
     <div id="quick-clipboard" class="quick-clipboard">
+      <button class="quick-clipboard-add-btn" onClick="showQuickClipboardForm()">Add</button>
+      <div id="quick-clipboard-add-new-container" class="quick-clipboard-add-new-container">
+        <form class="quick-clipboard-add-form" onsubmit="return false;">
+          <div>
+            <label>Type:</label>
+            <label>
+              <input name="operation" type="radio" value="copy" checked />
+              Copy
+            </label>
+            <label>
+              <input name="operation" type="radio" value="timer" />
+              Timer
+            </label>
+          </div>
+          <div>
+            <label for="name">Name:</label>
+            <input id="new-item-name" class="new-item-name" id="name" type="text" />
+          </div>
+          <div>
+            <label for="form-field-in">Value:</label>
+            <pre id="new-item-value" class="new-item-value" contenteditable="true"> </pre>
+          </div>
+          <button class="quick-clipboard-submit-btn quick-clipboard-add-btn" onClick="addNewItem()">Submit</button>
+        </form>
+      </div>
     </div>
     <div class="center">
       <h1> Home </h1>
@@ -37,9 +62,6 @@
             target="_blank">cjamiev/playground</a>
           <div class="clipboard-cell">
             <span>Mouse over me</span>
-            <div class="dropdown-content">
-              <p>Hello World!</p>
-            </div>
           </div>
         </div>
         <div class="clipboard-row">
@@ -54,47 +76,6 @@
           <a class="clipboard-cell" href="https://github.com/cjamiev/playground" target="_blank">cjamiev/playground</a>
           <div class="clipboard-cell">35th Bday: <span data-date="2025,3,18,0,0,0">Example Date:...loading</span></div>
         </div>
-      </div>
-
-      <div>
-        <form class="formbox" onsubmit="return false;">
-          <div id="formheader" class="form-header">
-            <p class="form-title"> Add New Item </p>
-            <button id="add-form-btn" class="show-add-form-btn" onClick="showAddNewItemForm()"> + </button>
-          </div>
-          <div id="formcontent" class="formcontent">
-            <div class="form-field">
-              <label class="form-field-label">Type:</label>
-              <div class="form-field-radio-group">
-                <label class="form-field-label">
-                  <input class="form-field-in" name="operation" type="radio" value="copy" checked />
-                  Copy
-                </label>
-                <label class="form-field-label">
-                  <input class="form-field-in" name="operation" type="radio" value="execute" />
-                  Execute
-                </label>
-                <label class="form-field-label">
-                  <input class="form-field-in" name="operation" type="radio" value="link" />
-                  Link
-                </label>
-                <label class="form-field-label">
-                  <input class="form-field-in" name="operation" type="radio" value="timer" />
-                  Timer
-                </label>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-field-label" for="name">Name:</label>
-              <input id="new-item-name" class="form-field-in" id="name" type="text" />
-            </div>
-            <div class="form-field">
-              <label class="form-field-label" for="form-field-in">Value</label>
-              <pre id="new-item-value" class="form-field-in form-field-inarea" contenteditable="true"> </pre>
-            </div>
-            <button class="submit-btn" onClick="addNewItem()">Submit</button>
-          </div>
-        </form>
       </div>
     </div>
 

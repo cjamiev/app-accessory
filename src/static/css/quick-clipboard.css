@@ -1,40 +1,96 @@
 .quick-clipboard {
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  margin: 20px 0px 0px 20px;
+  margin: 20px 0px 0px 30px;
 }
 
 .quick-clipboard-timer {
-  background-color: #AE81FF;
-  font-weight: 600;
-  padding: 0 5px 0 5px;
+  background-color: #001133;
+  border: 1px solid #e6eeff;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 .quick-clipboard-timer span {
+  color: white;
   margin: 3px auto;
 }
 
+.quick-clipboard-add-btn {
+  background-color: #001a66;
+  border: 1px solid #e6eeff;
+  color: white;
+  height: 30px;
+}
+
+.quick-clipboard-add-btn:active {
+  box-shadow: 0 5px#001133;
+  transform: translateY(4px);
+}
+
+.quick-clipboard-add-btn:hover {
+  box-shadow: 2px 2px 0px #001133;
+}
+
 .quick-clipboard-copy-btn {
-  background-color: #66D9EF;
-  border: 1px solid #66D9EF;
-  color: black;
-  width: 100%;
+  background-color: #001133;
+  border: 1px solid #001133;
+  color: white;
   height: 30px;
 }
 
 .quick-clipboard-copy-btn:active {
-  background-color: #61dafb;
-  box-shadow: 0 5px #61dafb;
+  box-shadow: 0 5px #001133;
   transform: translateY(4px);
 }
 
 .quick-clipboard-copy-btn:hover {
-  background-color: #78DCE8;
-  border: 1px solid #78DCE8;
-  color: #000;
-  box-shadow: 2px 2px 0px #78DCE8;
+  background-color: #001133;
+  box-shadow: 2px 2px 0px #001133;
+}
+
+.quick-clipboard-add-new-container {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.quick-clipboard-add-new-container .quick-clipboard-add-form {
+  visibility: hidden;
+  width: 250px;
+  background-color: #001133;
+  color: #fff;
+  border-radius: 6px;
+  padding: 5px 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.quick-clipboard-add-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.quick-clipboard-add-new-container-active .quick-clipboard-add-form {
+  visibility: visible;
+}
+
+.quick-clipboard-submit-btn,
+.new-item-name,
+.new-item-value {
+  border-radius: 6px;
+  margin-top: 5px;
+}
+
+.new-item-value {
+  height: 100px;
+  margin: 1px auto;
+  background-color: white;
+  color: black;
 }

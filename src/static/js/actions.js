@@ -7,6 +7,11 @@ const showAddNewItemForm = () => {
   header.classList.toggle('formheader-active');
 };
 
+const showQuickClipboardForm = () => {
+  const tooltip = document.getElementById('quick-clipboard-add-new-container');
+  tooltip.classList.toggle('quick-clipboard-add-new-container-active');
+};
+
 const addNewItem = () => {
   const operationType = [...document.getElementsByName('operation')].find(el => el.checked).value;
   const name = document.getElementById('new-item-name').value;
@@ -15,6 +20,8 @@ const addNewItem = () => {
   const clipboard = JSON.parse((localStorage.getItem('clipboard') || '[]'));
   clipboard.push({ name, value, operationType });
   localStorage.setItem('clipboard', JSON.stringify(clipboard));
+  showQuickClipboardForm();
+  loadItems();
 };
 
 const copyToClipboard = text => {
@@ -29,10 +36,19 @@ const copyToClipboard = text => {
 const loadItems = () => {
   const clipboardData = JSON.parse((localStorage.getItem('clipboard') || '[]'));
   const quickClipboard = document.getElementById('quick-clipboard');
-  clipboardData.forEach(entry => {
+  const copyBtns = document.querySelectorAll('.quick-clipboard-copy-btn');
+  const timerEls = document.querySelectorAll('.quick-clipboard-timer');
+  Array.prototype.forEach.call(copyBtns, el => {
+    quickClipboard.removeChild(el);
+  });
+  Array.prototype.forEach.call(timerEls, el => {
+    quickClipboard.removeChild(el);
+  });
+  clipboardData.forEach((entry, index) => {
     if (entry.operationType === 'copy') {
       const el = document.createElement('button');
       el.className = 'quick-clipboard-copy-btn';
+      el.setAttribute('data-clip-item', index);
       el.onclick = () => { copyToClipboard(entry.value); };
       el.innerHTML = entry.name;
 
@@ -41,6 +57,7 @@ const loadItems = () => {
     else if (entry.operationType === 'timer') {
       const elParent = document.createElement('div');
       elParent.className = 'quick-clipboard-timer';
+      elParent.setAttribute('data-clip-item', index);
 
       const elName = document.createElement('span');
       elName.innerHTML = entry.name;
