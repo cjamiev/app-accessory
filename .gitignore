@@ -3,6 +3,7 @@
 
 # misc
 /tmp
+/storage
 /coverage
 npm-debug.log
 yarn-error.log
