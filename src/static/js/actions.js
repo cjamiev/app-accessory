@@ -32,6 +32,13 @@ const loadItems = () => {
       elTimer.setAttribute('data-date', entry.value);
       elParent.appendChild(elTimer);
 
+      const date = entry.value.split(',').map(item => Number(item));
+      const futureDate = new Date(...date);
+      const today = new Date();
+      const diff = futureDate.getTime() - today.getTime();
+
+      setTimeout(() => { alert(entry.name + ' is done!'); }, diff);
+
       quickClipboard.appendChild(elParent);
     }
   });
