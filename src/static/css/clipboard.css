@@ -46,3 +46,26 @@
 .clipboard-cell:hover .dropdown-content {
   display: block;
 }
+
+.command-btn {
+  background-color: #24292e;
+  border: 1px solid #24292e;
+  color: white;
+  font-weight: 500;
+  width: 100px;
+  height: 20px;
+  margin: 0px auto;
+}
+
+.command-btn:active {
+  background-color: #24292e;
+  box-shadow: 0 5px #24292e;
+  transform: translateY(4px);
+}
+
+.command-btn:hover {
+  background-color: #24292e;
+  border: 1px solid #24292e;
+  color: white;
+  box-shadow: 2px 2px 0px #24292e;
+}

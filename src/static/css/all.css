@@ -14,7 +14,6 @@ Purple	      #AE81FF
 */
 @import 'reset.css';
 @import 'navigation.css';
-@import 'button.css';
 @import 'quick-clipboard.css';
 @import 'clipboard.css';
 @import 'contentblock.css';
@@ -39,36 +38,6 @@ Purple	      #AE81FF
   flex: 4;
 }
 
-.footer {
-  flex: 1;
-}
-
 .right-side {
   flex: 4;
-}
-
-.add-new-btn-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.add-new-btn-inputs {
-  display: flex;
-  flex-direction: row;
-}
-
-.add-label {
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 0.03em;
-  font-weight: bold;
-  margin: auto 10px;
-  flex: 1;
-}
-
-.add-input {
-  border: 1px solid #ccc;
-  color: #333;
-  margin: auto 10px;
-  flex: 3;
 }

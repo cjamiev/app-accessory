@@ -111,6 +111,7 @@
 .new-item-value {
   height: 100px;
   margin: 1px auto;
+  padding: 5px;
   background-color: white;
   color: black;
 }
