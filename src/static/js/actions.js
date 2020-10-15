@@ -37,24 +37,38 @@ const loadItems = () => {
   });
 };
 
-const showAddNewItemForm = () => {
-  const button = document.getElementById('add-form-btn');
-  const content = document.getElementById('formcontent');
-  const header = document.getElementById('formheader');
-  button.classList.toggle('hide-add-form-btn');
-  content.classList.toggle('formcontent-active');
-  header.classList.toggle('formheader-active');
-};
-
 const showQuickClipboardForm = () => {
   const tooltip = document.getElementById('quick-clipboard-add-new-container');
   tooltip.classList.toggle('quick-clipboard-add-new-container-active');
+  const curTime = getCurrentTime();
+
+  document.getElementById('new-item-year').value = curTime.year;
+  document.getElementById('new-item-month').value = curTime.month;
+  document.getElementById('new-item-day').value = curTime.date;
+  document.getElementById('new-item-hour').value = curTime.hour;
+  document.getElementById('new-item-minute').value = curTime.minute;
+  document.getElementById('new-item-second').value = curTime.second;
+};
+
+const getInputValue = (operationType) => {
+  if (operationType === 'copy') {
+    return document.getElementById('new-item-value').innerHTML;
+  }
+
+  const year = document.getElementById('new-item-year').value;
+  const month = document.getElementById('new-item-month').value - 1;
+  const day = document.getElementById('new-item-day').value;
+  const hour = document.getElementById('new-item-hour').value;
+  const minute = document.getElementById('new-item-minute').value;
+  const second = document.getElementById('new-item-second').value;
+
+  return year + ',' + month + ',' + day + ',' + hour + ',' + minute + ',' + second;
 };
 
 const addNewItem = () => {
   const operationType = [...document.getElementsByName('operation')].find(el => el.checked).value;
   const name = document.getElementById('new-item-name').value;
-  const value = document.getElementById('new-item-value').innerHTML;
+  const value = getInputValue(operationType);
 
   const clipboard = JSON.parse((localStorage.getItem('clipboard') || '[]'));
   clipboard.push({ name, value, operationType });
@@ -74,9 +88,15 @@ const copyToClipboard = text => {
 
 const deleteMode = () => {
   const copyBtns = document.querySelectorAll('.quick-clipboard-copy-btn');
+  const timers = document.querySelectorAll('.quick-clipboard-timer');
   Array.prototype.forEach.call(copyBtns, el => {
     el.classList.toggle('quick-clipboard-copy-btn-delete');
     el.onclick = () => { deleteClipboardItem(el.innerHTML); };
+  });
+  Array.prototype.forEach.call(timers, el => {
+    el.classList.toggle('quick-clipboard-copy-btn-delete');
+    const name = el.children[0].innerHTML;
+    el.onclick = () => { deleteClipboardItem(name); };
   });
 };
 

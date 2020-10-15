@@ -31,11 +31,11 @@
           <div>
             <label>Type:</label>
             <label>
-              <input name="operation" type="radio" value="copy" checked />
+              <input name="operation" type="radio" value="copy" onChange="swapFields()" checked />
               Copy
             </label>
             <label>
-              <input name="operation" type="radio" value="timer" />
+              <input name="operation" type="radio" value="timer" onChange="swapFields()" />
               Timer
             </label>
           </div>
@@ -46,6 +46,22 @@
           <div>
             <label for="form-field-in">Value:</label>
             <pre id="new-item-value" class="new-item-value" contenteditable="true"> </pre>
+          </div>
+          <div>
+            <label for="new-item-year">Y:</label>
+            <input id="new-item-year" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-month">M:</label>
+            <input id="new-item-month" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-day">D:</label>
+            <input id="new-item-day" class="new-item-timer" id="year" type="text" />
+          </div>
+          <div>
+            <label for="new-item-hour">H:</label>
+            <input id="new-item-hour" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-minute">M:</label>
+            <input id="new-item-minute" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-second">S:</label>
+            <input id="new-item-second" class="new-item-timer" id="year" type="text" />
           </div>
           <button class="quick-clipboard-submit-btn quick-clipboard-add-btn" onClick="addNewItem()">Submit</button>
         </form>

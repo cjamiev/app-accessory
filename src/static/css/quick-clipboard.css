@@ -114,3 +114,8 @@
   background-color: white;
   color: black;
 }
+
+.new-item-timer {
+  width: 15%;
+  margin: 5px auto;
+}
