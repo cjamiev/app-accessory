@@ -26,7 +26,6 @@
 
   <div class="main">
     <div id="quick-clipboard" class="quick-clipboard">
-      <button class="quick-clipboard-add-btn" onClick="showQuickClipboardForm()">Add</button>
       <div id="quick-clipboard-add-new-container" class="quick-clipboard-add-new-container">
         <form class="quick-clipboard-add-form" onsubmit="return false;">
           <div>
@@ -51,6 +50,8 @@
           <button class="quick-clipboard-submit-btn quick-clipboard-add-btn" onClick="addNewItem()">Submit</button>
         </form>
       </div>
+      <button class="quick-clipboard-add-btn" onClick="showQuickClipboardForm()">Add</button>
+      <button class="quick-clipboard-remove-btn" onClick="deleteMode()">Remove</button>
     </div>
     <div class="center">
       <h1> Home </h1>
@@ -108,6 +109,7 @@
   </div>
 
   <script src="js/api.js"></script>
+  <script src="js/utility.js"></script>
   <script src="js/actions.js"></script>
   <script src="js/io.js"></script>
   <script src="js/clock.js"></script>

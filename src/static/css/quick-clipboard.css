@@ -34,11 +34,31 @@
   box-shadow: 2px 2px 0px #001133;
 }
 
+.quick-clipboard-remove-btn {
+  background-color: #7d1500;
+  border: 1px solid #e6eeff;
+  color: white;
+  height: 30px;
+}
+
+.quick-clipboard-remove-btn:active {
+  box-shadow: 0 5px #F92011;
+  transform: translateY(4px);
+}
+
+.quick-clipboard-remove-btn:hover {
+  box-shadow: 2px 2px 0px #7d1566;
+}
+
 .quick-clipboard-copy-btn {
   background-color: #001133;
   border: 1px solid #001133;
   color: white;
   height: 30px;
+}
+
+.quick-clipboard-copy-btn-delete {
+  background-color: #7d1500;
 }
 
 .quick-clipboard-copy-btn:active {
