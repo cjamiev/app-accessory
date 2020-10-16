@@ -49,6 +49,8 @@ const showQuickClipboardForm = () => {
   tooltip.classList.toggle('quick-clipboard-add-new-container-active');
   const curTime = getCurrentTime();
 
+  document.getElementById('new-item-name').value = '';
+  document.getElementById('new-item-value').innerHTML = '';
   document.getElementById('new-item-year').value = curTime.year;
   document.getElementById('new-item-month').value = curTime.month;
   document.getElementById('new-item-day').value = curTime.date;

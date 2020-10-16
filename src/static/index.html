@@ -13,10 +13,10 @@
     <nav class="nav-bar">
       <ul class="nav">
         <li class="nav-item">
-          <button class="menu-btn" onClick="toggleSideMenu()">---</button>
+          <a class="nav-link" href="./index.html">Home App</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./index.html">Home App</a>
+          <a class="nav-link" href="./test.html">Test Page</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./example.html">Example Page</a>
@@ -94,33 +94,28 @@
           <div class="clipboard-cell">35th Bday: <span data-date="2025,3,18,0,0,0">Example Date:...loading</span></div>
         </div>
       </div>
-    </div>
-
-    <div class="right-side">
-      <form onsubmit="return false">
-        <fieldset>
-          <legend>IO Operation:</legend>
-          <div>
-            <label for="filesData">Load File:</label>
-            <select id="filesData">
-              <option value="none">Select</option>
-            </select>
-            <label for="filenameData">Create new file:</label>
-            <input id="filenameData" type="text"><br>
-          </div>
-          <label for="contentData">Enter Content:</label>
-          <pre id="contentData" class="form-field-in form-field-inarea" contenteditable="true"> </pre>
-          <input type="button" value="Copy to Clipboard" onclick="copyFileToClipboard()">
-          <input type="button" value="Validate JSON Format" onclick="validateJson()">
-          <input type="submit" value="Save" onclick="writeToFile()">
-        </fieldset>
-      </form><br>
 
       <div id="response">
         <h1>Results:</h5>
           <p id="output"></p>
           <p>Command output will be shown here.</p>
       </div>
+    </div>
+
+    <div class="right-side">
+      <div class="file-form">
+        <h2 class="section-title"> Read and Write to File</h2>
+        <form onsubmit="return false">
+          <fieldset>
+            <input id="filenameData" class="filenameData" type="text" placeholder="Name"><br>
+            <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable="true"></pre>
+            <input type="button" class="operational-btns" value="Copy" onclick="copyFileToClipboard()">
+            <input type="button" class="operational-btns" value="Validate" onclick="validateJson()">
+            <input type="submit" class="operational-btns" value="Save" onclick="writeToFile()">
+          </fieldset>
+        </form><br>
+      </div>
+      <div id="all-files" class="all-files"></div>
     </div>
   </div>
 

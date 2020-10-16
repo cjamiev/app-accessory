@@ -3,17 +3,17 @@ const setOutput = (data) => {
 };
 
 const copyFileToClipboard = () => {
-  copyToClipboard(document.getElementById('contentData').value);
+  copyToClipboard(document.getElementById('contentData').innerHTML);
 };
 
 const validateJson = () => {
-  const contentData = parseObject(document.getElementById('contentData').value);
+  const contentData = parseObject(document.getElementById('contentData').innerHTML);
   document.getElementById('output').value = contentData;
 };
 
 const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
-  const content = document.getElementById('contentData').value;
+  const content = document.getElementById('contentData').innerHTML;
 
   api.post('/', { filename, content }).then(data => {
     setOutput(data);
@@ -27,33 +27,27 @@ const getAllFiles = () => {
   api.get('/').then(result => {
     const filenames = result.data;
 
-    const fileDropdown = document.getElementById('filesData');
-    fileDropdown.querySelectorAll('*').forEach(node => node.remove());
+    const fileDiv = document.getElementById('all-files');
 
-    const initialOption = document.createElement('option');
-    initialOption.value = 'select';
-    initialOption.innerHTML = 'select';
-    fileDropdown.appendChild(initialOption);
+    filenames.forEach((name, index) => {
+      const button = document.createElement('button');
+      button.className = 'file-btn';
+      button.setAttribute('data-clip-item', index);
+      button.onclick = () => { loadFile(name); };
+      button.innerHTML = name;
 
-    filenames.forEach(name => {
-      const option = document.createElement('option');
-      option.value = name;
-      option.innerHTML = name;
-
-      fileDropdown.appendChild(option);
+      fileDiv.appendChild(button);
     });
   });
 };
 
-const getFile = () => {
-  const filesData = document.getElementById('filesData');
-  const filename = filesData.options[filesData.selectedIndex].value;
+const loadFile = (filename) => {
   const nameAndExt = filename.split('.');
 
   const url = '/?read=true&name=' + nameAndExt[0] + '&ext=' + nameAndExt[1];
 
   api.get(url).then(result => {
-    document.getElementById('contentData').value = result.data;
+    document.getElementById('contentData').innerHTML = result.data;
     document.getElementById('filenameData').value = filename;
   });
 };

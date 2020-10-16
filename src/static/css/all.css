@@ -15,6 +15,7 @@ Purple	      #AE81FF
 @import 'reset.css';
 @import 'navigation.css';
 @import 'quick-clipboard.css';
+@import 'io.css';
 @import 'clipboard.css';
 @import 'contentblock.css';
 
@@ -27,7 +28,7 @@ Purple	      #AE81FF
 }
 
 .center {
-  flex: 4;
+  flex: 5;
   display: flex;
   flex-direction: column;
   margin-right: 50px;
@@ -39,5 +40,7 @@ Purple	      #AE81FF
 }
 
 .right-side {
-  flex: 4;
+  flex: 5;
+  display: flex;
+  flex-direction: row;
 }
