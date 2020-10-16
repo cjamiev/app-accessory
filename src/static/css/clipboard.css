@@ -33,16 +33,6 @@
   padding: 10px;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 16px;
-  z-index: 1;
-}
-
 .clipboard-cell:hover .dropdown-content {
   display: block;
 }
@@ -50,10 +40,10 @@
 .command-btn {
   background-color: #24292e;
   border: 1px solid #24292e;
+  border-radius: 10px;
   color: white;
   font-weight: 500;
-  width: 100px;
-  height: 20px;
+  height: 30px;
   margin: 0px auto;
 }
 
