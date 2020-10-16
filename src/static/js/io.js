@@ -2,10 +2,6 @@ const setOutput = (data) => {
   document.getElementById('output').innerHTML = JSON.stringify(data, undefined, 4);
 };
 
-const copyFileToClipboard = () => {
-  copyToClipboard(document.getElementById('contentData').innerHTML);
-};
-
 const validateJson = () => {
   const contentData = parseObject(document.getElementById('contentData').innerHTML);
   document.getElementById('output').value = contentData;

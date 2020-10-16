@@ -1,0 +1,49 @@
+.copyblock-parent {
+  background-color: rgb(40, 44, 52);
+  border-radius: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 400px;
+  height: 250px;
+  color: #ffffff;
+}
+
+.copyblock-header {
+  background-color: rgb(25, 30, 32);
+  border-radius: 15px 15px 0px 0px;
+  display: flex;
+  padding: 10px 0px 5px 10px;
+}
+
+.copyblock-title {
+  color: rgb(255, 170, 0);
+  font-size: 18px;
+  flex-grow: 4;
+}
+
+.copyblock-btn {
+  background-color: #ffffff;
+  border-radius: 5px;
+  border-color: white;
+  color: blue;
+  flex-grow: 1;
+  font-weight: 600;
+  margin-right: 10px;
+  visibility: hidden;
+}
+
+.copyblock-btn:hover {
+  background-color: blue;
+  border-color: blue;
+  color: white;
+  cursor: pointer;
+}
+
+.copyblock-parent:hover .copyblock-btn {
+  visibility: visible;
+}
+
+.copyblock-content {
+  margin-top: 10px;
+  color: lightblue;
+}

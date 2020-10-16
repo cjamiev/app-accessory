@@ -86,15 +86,6 @@ const addNewItem = () => {
   loadItems();
 };
 
-const copyToClipboard = text => {
-  const copyText = document.createElement('textarea');
-  copyText.value = text;
-  document.body.appendChild(copyText);
-  copyText.select();
-  document.execCommand('copy');
-  document.body.removeChild(copyText);
-};
-
 const deleteMode = () => {
   const copyBtns = document.querySelectorAll('.quick-clipboard-copy-btn');
   const timers = document.querySelectorAll('.quick-clipboard-timer');
