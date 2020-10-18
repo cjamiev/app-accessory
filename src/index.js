@@ -29,12 +29,16 @@ const cors = res => {
   res.setHeader('Access-Control-Allow-Headers', '*');
 };
 
-const getCommand = (command) => `cd ./src/scripts && ${command}`;
+const COMMAND_STR = 'cd ./src/scripts && start cmd.exe';
+const getCommand = (command, detach) => {
+  return detach ? `${COMMAND_STR} /c ${command}` : `${COMMAND_STR} /k ${command}`;
+};
 
-const handleAsyncCommandResponse = (request, response) => {
-  const filePath = request.url.replace('/command-async', '');
+const handleCommandResponse = (request, response) => {
+  const shouldDetach = request.url.includes('command-async');
+  const filePath = shouldDetach ? request.url.replace('/command-async', '') : request.url.replace('/command', '');
 
-  exec(getCommand(filePath), { encoding: UTF8 }, (error, stdout, stderr) => {
+  exec(getCommand(filePath, shouldDetach), { encoding: UTF8 }, (error, stdout, stderr) => {
     if (error) {
       response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
       response.end(JSON.stringify({
@@ -47,23 +51,6 @@ const handleAsyncCommandResponse = (request, response) => {
       response.end(JSON.stringify({ message: stderr.concat(stdout) }), UTF8);
     }
   });
-};
-
-const handleSyncCommandResponse = (request, response) => {
-  const filePath = request.url.replace('/command', '');
-  try {
-    const result = execSync(getCommand(filePath), { encoding: UTF8 });
-
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({ message: result }), UTF8);
-  } catch (ex) {
-    response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({
-      error: true,
-      status: ex.status,
-      message: ex.message
-    }));
-  }
 };
 
 const writeToFile = (filepath, content) => {
@@ -153,11 +140,8 @@ http.createServer((request, response) => {
   if (request.method === METHOD_POST) {
     handlePostResponse(request, response);
   }
-  else if (request.url.includes('command-async')) {
-    handleAsyncCommandResponse(request, response);
-  }
   else if (request.url.includes('command')) {
-    handleSyncCommandResponse(request, response);
+    handleCommandResponse(request, response);
   }
   else if (path.extname(request.url)) {
     handleStaticResponse(request, response);
