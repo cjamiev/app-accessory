@@ -29,17 +29,24 @@ const cors = res => {
 };
 
 const COMMAND_STR = 'cd ./src/scripts && start cmd.exe';
-const getCommand = (command, args, detach) => {
-  return detach ? `${COMMAND_STR} /c ${command} ${args}` : `${COMMAND_STR} /k ${command} ${args}`;
+const getCommand = requestUrl => {
+  const queryParameters = requestUrl.split('?')[1].split('&');
+  const mode = queryParameters[0].split('=')[1];
+  const command = queryParameters[1].split('=')[1];
+  const args = queryParameters[2].split('=')[1].replace('+', ' ');
+
+  if (mode === 'detach') {
+    return `${COMMAND_STR} /c ${command} ${args}`;
+  }
+  else if (mode === 'block') {
+    return `${COMMAND_STR} /k ${command} ${args}`;
+  }
+  return `cd ./src/scripts && ${command} ${args}`;
 };
 
 const handleCommandResponse = (request, response) => {
-  const queryParameters = request.url.split('?')[1].split('&');
-  const shouldDetach = queryParameters[0].split('=')[1] === 'true';
-  const fileName = queryParameters[1].split('=')[1];
-  const args = queryParameters[2].split('=')[1].replace('+', ' ');
 
-  exec(getCommand(fileName, args, shouldDetach), { encoding: UTF8 }, (error, stdout, stderr) => {
+  exec(getCommand(request.url), { encoding: UTF8 }, (error, stdout, stderr) => {
     if (error) {
       response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
       response.end(JSON.stringify({

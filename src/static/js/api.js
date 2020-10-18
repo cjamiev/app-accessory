@@ -23,8 +23,8 @@ const api = {
   }
 };
 
-const executeCommand = (filename, args = '', shouldDetach = true) => {
-  const url = `/command?detach=${shouldDetach}&file=${filename}&args=${args}`;
+const executeCommand = (mode = 'simple', filename, args = '') => {
+  const url = `/command?mode=${mode}&file=${filename}&args=${args}`;
 
   return fetch(url, {
     method: 'GET',
@@ -32,20 +32,22 @@ const executeCommand = (filename, args = '', shouldDetach = true) => {
   })
     .then(response => response.json())
     .then(result => {
-      const lines = result.message.replace('\r', '').split('\n').filter(line => line);
-      const responseDiv = document.getElementById('response');
-      const responseElements = [...document.getElementsByClassName('card-text')];
-      responseElements.forEach(el => {
-        responseDiv.removeChild(el);
-      });
+      if (mode === 'simple') {
+        const lines = result.message.replace('\r', '').split('\n').filter(line => line);
+        const responseDiv = document.getElementById('response');
+        const responseElements = [...document.getElementsByClassName('card-text')];
+        responseElements.forEach(el => {
+          responseDiv.removeChild(el);
+        });
 
-      lines.forEach(line => {
-        const p = document.createElement('p');
-        p.innerHTML = line;
-        p.classList.add('card-text');
+        lines.forEach(line => {
+          const p = document.createElement('p');
+          p.innerHTML = line;
+          p.classList.add('card-text');
 
-        responseDiv.appendChild(p);
-      });
+          responseDiv.appendChild(p);
+        });
+      }
     })
     .catch(error => console.log('error:', error));
 };
