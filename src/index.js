@@ -3,7 +3,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const execSync = child_process.execSync;
 const exec = child_process.exec;
 
 const port = process.argv[2] || 999;
@@ -30,15 +29,17 @@ const cors = res => {
 };
 
 const COMMAND_STR = 'cd ./src/scripts && start cmd.exe';
-const getCommand = (command, detach) => {
-  return detach ? `${COMMAND_STR} /c ${command}` : `${COMMAND_STR} /k ${command}`;
+const getCommand = (command, args, detach) => {
+  return detach ? `${COMMAND_STR} /c ${command} ${args}` : `${COMMAND_STR} /k ${command} ${args}`;
 };
 
 const handleCommandResponse = (request, response) => {
-  const shouldDetach = request.url.includes('command-async');
-  const filePath = shouldDetach ? request.url.replace('/command-async', '') : request.url.replace('/command', '');
+  const queryParameters = request.url.split('?')[1].split('&');
+  const shouldDetach = queryParameters[0].split('=')[1] === 'true';
+  const fileName = queryParameters[1].split('=')[1];
+  const args = queryParameters[2].split('=')[1].replace('+', ' ');
 
-  exec(getCommand(filePath, shouldDetach), { encoding: UTF8 }, (error, stdout, stderr) => {
+  exec(getCommand(fileName, args, shouldDetach), { encoding: UTF8 }, (error, stdout, stderr) => {
     if (error) {
       response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
       response.end(JSON.stringify({

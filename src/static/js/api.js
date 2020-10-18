@@ -23,10 +23,10 @@ const api = {
   }
 };
 
-const executeCommand = (command, async = false) => {
-  const url = async ? '/command-async' : '/command';
+const executeCommand = (filename, args = '', shouldDetach = true) => {
+  const url = `/command?detach=${shouldDetach}&file=${filename}&args=${args}`;
 
-  return fetch(url + command, {
+  return fetch(url, {
     method: 'GET',
     headers: HEADERS
   })
