@@ -23,7 +23,8 @@ const api = {
   }
 };
 
-const executeCommand = (mode = 'simple', filename, args = '') => {
+const executeCommand = (mode = 'simple', filename, inputEl) => {
+  const args = inputEl && document.getElementById(inputEl).value;
   const url = `/command?mode=${mode}&file=${filename}&args=${args}`;
 
   return fetch(url, {

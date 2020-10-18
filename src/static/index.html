@@ -83,7 +83,10 @@
         </div>
         <div class="clipboard-row">
           <span class="clipboard-cell">
-            <button class="command-btn" onClick="executeCommand('ls.bat', false)">dir command</button>
+            <button class="command-btn" onClick="executeCommand('simple', 'ls.bat','dir-arguments')">dir
+              command</button>
+            <button class="command-btn" onClick="executeCommand('block', 'ls.bat','dir-arguments')">dir command</button>
+            <input id="dir-arguments" type="text" placeholder="Enter arguments...">
           </span>
           <a class="clipboard-cell" href="https://github.com/cjamiev/playground" target="_blank">cjamiev/playground</a>
           <span class="clipboard-cell"> Item 3</span>
