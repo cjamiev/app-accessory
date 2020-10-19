@@ -8,7 +8,6 @@ const copyToClipboard = text => {
 };
 
 const copyContentToClipboard = (elementId) => {
-  console.log(elementId);
   copyToClipboard(document.getElementById(elementId).innerHTML);
 };
 

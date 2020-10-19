@@ -4,7 +4,7 @@ const setOutput = (data) => {
 
 const validateJson = () => {
   const contentData = parseObject(document.getElementById('contentData').innerHTML);
-  document.getElementById('output').value = contentData;
+  document.getElementById('output').innerHTML = contentData;
 };
 
 const writeToFile = () => {
@@ -24,6 +24,11 @@ const getAllFiles = () => {
     const filenames = result.data;
 
     const fileDiv = document.getElementById('all-files');
+    const fileEls = document.querySelectorAll('.file-btn');
+
+    Array.prototype.forEach.call(fileEls, el => {
+      fileDiv.removeChild(el);
+    });
 
     filenames.forEach((name, index) => {
       const button = document.createElement('button');

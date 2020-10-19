@@ -1,10 +1,10 @@
 {
   "name": "q",
-  "version": "3.0.0",
-  "description": "Project is to help make me more efficient",
+  "version": "1.0.0",
+  "description": "App to help me be more efficient",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js 999"
   },
   "author": "CJV",
   "license": "ISC",

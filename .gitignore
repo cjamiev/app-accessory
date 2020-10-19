@@ -2,8 +2,6 @@
 /node_modules
 
 # misc
-/tmp
+/scripts
 /storage
-/coverage
 npm-debug.log
-yarn-error.log
