@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="./css/all.css">
+  <title>HTML Snippets</title>
+</head>
+
+<body>
+  <header>
+    <nav class="nav-bar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./html-snippets.html">HTML Snippets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./test.html">Test Page</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./example.html">Example Page</a>
+        </li>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div class="center">
+      <div class="copyblock-parent">
+        <div class="copyblock-header">
+          <p class="copyblock-title"> Title </p>
+          <button class="copyblock-btn" onClick="copyContentToClipboard('copy-test')"> Copy </button>
+        </div>
+        <pre id="copy-test" class="copyblock-content">
+        &ltform&gt
+          &ltfieldset&gt
+            &ltlegend&gtPersonalia:&lt/legend&gt
+            &ltlabel for=&quotname&quot&gtName:&lt/label&gt
+            &ltinput id=&quotname&quot type=&quottext&quot&gt&ltbr&gt
+            &ltlabel for=&quotemail&quot&gtEmail:&lt/label&gt
+            &ltinput id=&quotemail&quot type=&quottext&quot&gt&ltbr&gt
+            &ltlabel for=&quotdob&quot&gtDate of birth:&lt/label&gt
+            &ltinput id=&quotdob&quot type=&quottext&quot&gt&ltbr&gt
+            &ltinput type=&quotsubmit&quot value=&quotSubmit&quot&gt
+          &lt/fieldset&gt
+        &lt/form&gt
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utility.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/io.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/onload.js"></script>
+
+</body>
+
+</html>

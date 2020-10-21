@@ -1,10 +1,10 @@
 const setOutput = (data) => {
-  document.getElementById('output').innerHTML = JSON.stringify(data, undefined, 4);
+  document.getElementById('response').innerHTML = JSON.stringify(data, undefined, 4);
 };
 
 const validateJson = () => {
   const contentData = parseObject(document.getElementById('contentData').innerHTML);
-  document.getElementById('output').innerHTML = contentData;
+  document.getElementById('response').innerHTML = contentData;
 };
 
 const writeToFile = () => {

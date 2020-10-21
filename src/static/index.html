@@ -16,6 +16,9 @@
           <a class="nav-link" href="./index.html">Home App</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="./html-snippets.html">HTML Snippets</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="./test.html">Test Page</a>
         </li>
         <li class="nav-item">
@@ -98,32 +101,8 @@
         </div>
       </div>
 
-      <div class="copyblock-parent">
-        <div class="copyblock-header">
-          <p class="copyblock-title"> Title </p>
-          <button class="copyblock-btn" onClick="copyContentToClipboard('copy-test')"> Copy </button>
-        </div>
-        <pre id="copy-test" class="copyblock-content">
-        &ltform&gt
-          &ltfieldset&gt
-            &ltlegend&gtPersonalia:&lt/legend&gt
-            &ltlabel for=&quotname&quot&gtName:&lt/label&gt
-            &ltinput id=&quotname&quot type=&quottext&quot&gt&ltbr&gt
-            &ltlabel for=&quotemail&quot&gtEmail:&lt/label&gt
-            &ltinput id=&quotemail&quot type=&quottext&quot&gt&ltbr&gt
-            &ltlabel for=&quotdob&quot&gtDate of birth:&lt/label&gt
-            &ltinput id=&quotdob&quot type=&quottext&quot&gt&ltbr&gt
-            &ltinput type=&quotsubmit&quot value=&quotSubmit&quot&gt
-          &lt/fieldset&gt
-        &lt/form&gt
-        </pre>
-      </div>
-
-      <div id="response">
-        <h1>Results:</h5>
-          <p id="output"></p>
-          <p>Command output will be shown here.</p>
-      </div>
+      <h2 class="responseTitle">Results</h2>
+      <div id="response" class="responseBlock" contenteditable></div>
     </div>
 
     <div class="right-side">

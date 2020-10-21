@@ -1,0 +1,13 @@
+.responseTitle {
+  margin: 20px auto;
+  text-decoration: underline;
+}
+
+.responseBlock {
+  height: 200px;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  overflow: auto;
+  width: 100%;
+}

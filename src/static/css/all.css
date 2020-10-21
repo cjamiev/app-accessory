@@ -18,6 +18,7 @@ Purple	      #AE81FF
 @import 'io.css';
 @import 'clipboard.css';
 @import 'copyblock.css';
+@import 'response-block.css';
 
 .main {
   background-color: #f6f8fa;
