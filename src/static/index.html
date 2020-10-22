@@ -21,9 +21,6 @@
         <li class="nav-item">
           <a class="nav-link" href="./test.html">Test Page</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./example.html">Example Page</a>
-        </li>
     </nav>
   </header>
 
@@ -74,30 +71,40 @@
     </div>
     <div class="center">
       <h1> Home </h1>
-      <div class="clipboard-content">
-        <div class="clipboard-header"> Test 1</div>
-        <div class="clipboard-row">
-          <span class="clipboard-cell"> Item 1</span>
-          <a class="clipboard-cell links" href="https://github.com/cjamiev/playground"
-            target="_blank">cjamiev/playground</a>
+      <div>
+        <div class="clipboard-header"> Clipboard Block </div>
+        <div class="clipboard-content">
           <div class="clipboard-cell">
-            <span>Mouse over me</span>
+            <a class="links" href="https://github.com/cjamiev/playground" target="_blank">
+              cjamiev/playground
+            </a>
           </div>
-        </div>
-        <div class="clipboard-row">
-          <span class="clipboard-cell">
-            <button class="command-btn" onClick="executeCommand('simple', 'ls.bat','dir-arguments')">dir
-              command</button>
-            <button class="command-btn" onClick="executeCommand('block', 'ls.bat','dir-arguments')">dir command</button>
+          <div class="clipboard-cell">
+            <button class="copy-btn" onClick="copyToClipboard('User Name')">
+              User Name
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <button class="copy-btn" onClick="copyToClipboard('Password')">
+              Password
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <button class="command-btn" onClick="executeCommand('simple', 'ls.bat','dir-arguments')">
+              dir command non-block
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <button class="command-btn" onClick="executeCommand('block', 'ls.bat','dir-arguments')">
+              dir command block
+            </button>
+          </div>
+          <div class="clipboard-cell">
             <input id="dir-arguments" type="text" placeholder="Enter arguments...">
-          </span>
-          <a class="clipboard-cell" href="https://github.com/cjamiev/playground" target="_blank">cjamiev/playground</a>
-          <span class="clipboard-cell"> Item 3</span>
-        </div>
-        <div class="clipboard-row">
-          <span class="clipboard-cell"> Item 1</span>
-          <a class="clipboard-cell" href="https://github.com/cjamiev/playground" target="_blank">cjamiev/playground</a>
-          <div class="clipboard-cell">35th Bday: <span data-date="2025,3,18,0,0,0">Example Date:...loading</span></div>
+          </div>
+          <div class="clipboard-cell">35th Bday</div>
+          <div class="clipboard-cell">-- -- --</div>
+          <div class="clipboard-cell" data-date="2025,3,18,0,0,0">Example Date:...loading</div>
         </div>
       </div>
 

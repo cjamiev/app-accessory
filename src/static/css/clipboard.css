@@ -1,15 +1,16 @@
 .clipboard-content {
   height: 200px;
   background-color: #fff;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 0px 0px 15px 15px;
   border: 1px solid #e1e4d8;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
+  border-top: none;
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 
 .clipboard-header {
   font-weight: 600;
+  margin-top: 30px;
   padding: 10px;
   border-radius: 15px 15px 0px 0px;
   background-color: rgb(40, 44, 52);
@@ -17,24 +18,10 @@
   color: white;
 }
 
-.clipboard-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.clipboard-row:hover {
-  background-color: #f6f8fa;
-}
-
 .clipboard-cell {
-  flex: 1;
   border-top: 1px solid #e1e4d8;
-  border-bottom: 1px solid #e1e4d8;
   padding: 10px;
-}
-
-.clipboard-cell:hover .dropdown-content {
-  display: block;
+  text-align:center;
 }
 
 .command-btn {
@@ -58,4 +45,22 @@
   border: 1px solid #24292e;
   color: white;
   box-shadow: 2px 2px 0px #24292e;
+}
+
+.copy-btn {
+  background-color: #34a1eb;
+  border: 1px solid #34a1eb;
+  border-radius: 5px 5px 5px 5px;
+  color: white;
+  height: 30px;
+}
+
+.copy-btn:active {
+  box-shadow: 0 5px #002741;
+  transform: translateY(4px);
+}
+
+.copy-btn:hover {
+  background-color: #006cb4;
+  box-shadow: 2px 2px 0px #006cb4;;
 }
