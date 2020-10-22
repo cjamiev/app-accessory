@@ -44,7 +44,7 @@ table {
 }
 
 /* My additions */
-input, button, pre {
+input, button, [contentEditable] {
 	outline:none;
 }
 

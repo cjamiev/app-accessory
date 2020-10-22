@@ -5,6 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" type="text/css" href="./css/all.css">
+  <script src="js/api.js"></script>
+  <script src="js/utility.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/io.js"></script>
+  <script src="js/clock.js"></script>
+  <!-- <script src="js/onload.js"></script> -->
   <title>Home</title>
   <style></style>
 </head>
@@ -17,6 +23,9 @@
           <a class="nav-link" href="./index.html">Home App</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="./html-snippets.html">HTML Snippets</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="./test.html">Test Page</a>
         </li>
         <li class="nav-item">
@@ -25,19 +34,48 @@
     </nav>
   </header>
 
-  <div class="main">
-    <div class="quick-clipboard"></div>
-    <div class="center">
-    </div>
-    <div class="right-side"></div>
-  </div>
+  <div id="main"></div>
 
-  <script src="js/api.js"></script>
-  <script src="js/utility.js"></script>
-  <script src="js/actions.js"></script>
-  <script src="js/io.js"></script>
-  <script src="js/clock.js"></script>
-  <!-- <script src="js/onload.js"></script> -->
+  <script>
+
+    const createElement = (elementType, attributes, parent) => {
+      const el = document.createElement(elementType);
+
+      if (attributes) {
+        const attributesKeys = Object.keys(attributes).filter(item => item !== 'children');
+        attributesKeys.forEach(key => {
+          if (typeof attributes[key] === 'function') {
+            el.addEventListener(key, attributes[key]);
+          } else {
+            el.setAttribute(key, attributes[key]);
+          }
+        });
+      }
+
+      if (Array.isArray(attributes['children'])) {
+        attributes['children'].forEach(node => {
+          el.appendChild(node);
+        })
+      }
+      else if (attributes['children'] === 'object') {
+        el.appendChild(attributes['children']);
+      }
+      else {
+        el.innerHTML = attributes['children'];
+      }
+      if (parent && typeof parent === 'object') {
+        parent.appendChild(el);
+      }
+
+      return el;
+    }
+
+    const p = createElement('p', { type: 'text', children: 'Hello World', click: () => { console.log('clicked'); } });
+    const p2 = createElement('p', { type: 'text', children: 'Hello World2', click: () => { console.log('clicked2'); } });
+    const p3 = createElement('p', { type: 'text', children: 'Hello World3', click: () => { console.log('clicked3'); } });
+    const component = createElement('div', { children: [p, p2, p3] }, document.getElementById('main'));
+
+  </script>
 
 </body>
 
