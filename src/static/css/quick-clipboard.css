@@ -114,6 +114,7 @@
   padding: 5px;
   background-color: white;
   color: black;
+  overflow: auto;
 }
 
 .new-item-timer {
