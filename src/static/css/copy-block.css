@@ -1,11 +1,11 @@
 .copyblock-parent {
   background-color: rgb(40, 44, 52);
   border-radius: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 10px 20px 10px;
   width: 400px;
   height: 250px;
   color: #ffffff;
+  overflow: auto;
 }
 
 .copyblock-header {
