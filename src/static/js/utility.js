@@ -1,3 +1,7 @@
+const DELIMITERS = [',', '\n', ' '];
+const sortByDelimiter = (content, delimiter = ' ') => content.split(delimiter).sort().join(delimiter);
+const sortDecendingByDelimiter = (content, delimiter = ' ') => content.split(delimiter).sort().reverse().join(delimiter);
+
 const copyToClipboard = text => {
   const copyText = document.createElement('textarea');
   copyText.value = text.replace(/&lt;/gm, '<').replace(/&gt;/gm, '>');

@@ -52,3 +52,34 @@ const loadFile = (filename) => {
     document.getElementById('filenameData').value = filename;
   });
 };
+
+const sortFile = (descending = false) => {
+  const contentDataElement = document.getElementById('contentData');
+  const delimiterSelection = document.getElementById('delimiterData');
+  const delimiterValue = delimiterSelection.options[delimiterSelection.selectedIndex].value;
+  const delimiter = DELIMITERS[delimiterValue];
+  const content = contentDataElement.innerHTML;
+
+  contentDataElement.innerHTML = descending ? sortDecendingByDelimiter(content, delimiter) : sortByDelimiter(content, delimiter);
+};
+
+const splitFileLines = () => {
+  const contentDataElement = document.getElementById('contentData');
+  const delimiterSelection = document.getElementById('delimiterData');
+  const delimiterValue = delimiterSelection.options[delimiterSelection.selectedIndex].value;
+  const delimiter = DELIMITERS[delimiterValue];
+  const content = contentDataElement.innerHTML;
+
+  contentDataElement.innerHTML = content.split(delimiter).join('\n');
+};
+
+const replaceAll = () => {
+  const contentDataElement = document.getElementById('contentData');
+
+  const content = contentDataElement.innerHTML;
+  const find = document.getElementById('findData').value;
+  const replaceText = document.getElementById('replaceData').value;
+
+  const regex = new RegExp(find, 'gm');
+  contentDataElement.innerHTML = content.replace(regex, replaceText);
+};

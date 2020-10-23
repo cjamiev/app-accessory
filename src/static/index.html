@@ -116,13 +116,35 @@
       <div class="file-form">
         <h2 class="section-title"> Read and Write to File</h2>
         <form onsubmit="return false">
-          <fieldset>
-            <input id="filenameData" class="filenameData" type="text" placeholder="Name"><br>
-            <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable="true"></pre>
-            <input type="button" class="operational-btns" value="Copy" onclick="copyContentToClipboard('contentData')">
-            <input type="button" class="operational-btns" value="Validate" onclick="validateJson()">
-            <input type="submit" class="operational-btns" value="Save" onclick="writeToFile()">
+          <fieldset class="io-fieldset-container">
+            <div class="io-fieldset-column">
+              <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Copy"
+                onclick="copyContentToClipboard('contentData')">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
+              <input type="submit" class="io-fieldset-cell operational-btns" value="Save" onclick="writeToFile()">
+            </div>
+            <div class="io-fieldset-column">
+              <div class="io-fieldset-cell">
+                <label for="delimiterData">Delimiter:</label>
+                <select id="delimiterData">
+                  <option value="0">comma</option>
+                  <option value="1">new line</option>
+                  <option value="2">space</option>
+                </select>
+              </div>
+              <input type="button" class="io-fieldset-cell operational-btns" value="Sort" onclick="sortFile(false)">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Sort Desc" onclick="sortFile(true)">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Split Lines"
+                onclick="splitFileLines()">
+            </div>
+            <div class="io-fieldset-column">
+              <input id="findData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Find...">
+              <input id="replaceData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Replace...">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Replace All" onclick="replaceAll()">
+            </div>
           </fieldset>
+          <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable="true"></pre>
         </form><br>
       </div>
       <div id="all-files" class="all-files"></div>
