@@ -6,7 +6,7 @@
   color: black;
   box-shadow: 0px 0px 5px 1px #000;
   overflow: auto;
-  max-width: 820px;
+  width: 820px;
 }
 
 .operational-btns {

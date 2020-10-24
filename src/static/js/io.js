@@ -1,18 +1,31 @@
 const setOutput = (data) => {
-  document.getElementById('response').innerHTML = JSON.stringify(data, undefined, 4);
+  const alertField = document.getElementById('alert-field');
+  alertField.innerHTML = data.message;
+
+  const alertClass = data.error ? 'error' : 'success';
+  alertField.classList.remove('success');
+  alertField.classList.remove('error');
+  alertField.classList.add(alertClass);
 };
 
 const validateJson = () => {
-  const contentData = parseObject(document.getElementById('contentData').innerHTML);
-  document.getElementById('response').innerHTML = contentData;
+  const response = parseObject(document.getElementById('contentData').innerHTML);
+  const alertField = document.getElementById('alert-field');
+  const alertContainer = document.getElementById('alert-container');
+  alertField.innerHTML = response.message;
+
+  const alertClass = response.error ? 'error' : 'success';
+  alertContainer.classList.remove('success');
+  alertContainer.classList.remove('error');
+  alertContainer.classList.add(alertClass);
 };
 
 const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
   const content = document.getElementById('contentData').innerHTML;
 
-  api.post('/', { filename, content }).then(data => {
-    setOutput(data);
+  api.post('/', { filename, content }).then(result => {
+    setOutput(result.data);
     getAllFiles();
   });
 

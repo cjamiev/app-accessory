@@ -19,6 +19,9 @@
           <a class="nav-link" href="./snippets.html">Snippets</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="./clipboard.html">Clipboard</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="./test.html">Test Page</a>
         </li>
     </nav>
@@ -70,47 +73,16 @@
       <button class="quick-clipboard-remove-btn" onClick="deleteMode()">Remove</button>
     </div>
     <div class="center">
-      <h1 id="current-clock"></h1>
-      <h2 id="current-date"></h2>
-      <div>
-        <div class="clipboard-header"> Clipboard Block </div>
-        <div class="clipboard-content">
-          <div class="clipboard-cell">
-            <a class="links" href="https://github.com/cjamiev/playground" target="_blank">
-              cjamiev/playground
-            </a>
-          </div>
-          <div class="clipboard-cell">
-            <button class="copy-btn" onClick="copyToClipboard('User Name')">
-              User Name
-            </button>
-          </div>
-          <div class="clipboard-cell">
-            <button class="copy-btn" onClick="copyToClipboard('Password')">
-              Password
-            </button>
-          </div>
-          <div class="clipboard-cell">
-            <button class="command-btn" onClick="executeCommand('simple', 'ls.bat','dir-arguments')">
-              dir command non-block
-            </button>
-          </div>
-          <div class="clipboard-cell">
-            <button class="command-btn" onClick="executeCommand('block', 'ls.bat','dir-arguments')">
-              dir command block
-            </button>
-          </div>
-          <div class="clipboard-cell">
-            <input id="dir-arguments" type="text" placeholder="Enter arguments...">
-          </div>
-          <div class="clipboard-cell">35th Bday</div>
-          <div class="clipboard-cell">-- -- --</div>
-          <div class="clipboard-cell" data-date="2025,3,18,0,0,0">Example Date:...loading</div>
+      <div class="title-container">
+        <div class="title-cell">
+          <h1 id="current-clock"></h1>
+          <h2 id="current-date"></h2>
+        </div>
+        <div id="alert-container" class="alert-container">
+          <span id="alert-field" class="alert-field"></span>
         </div>
       </div>
-
-      <h2 class="responseTitle">Results</h2>
-      <div id="response" class="responseBlock" contenteditable></div>
+      <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable="true"></pre>
     </div>
 
     <div class="right-side">
@@ -148,7 +120,6 @@
               <input type="button" class="io-fieldset-cell operational-btns" value="Replace All" onclick="replaceAll()">
             </div>
           </fieldset>
-          <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable="true"></pre>
         </form><br>
       </div>
       <div id="all-files" class="all-files"></div>

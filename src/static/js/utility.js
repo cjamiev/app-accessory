@@ -26,9 +26,10 @@ const parseObject = obj => {
   try {
     JSON.parse(obj);
   } catch (e) {
-    return 'invalid';
+    console.log(e);
+    return { error: true, message: 'Invalid JSON Format' };
   }
-  return 'valid';
+  return { error: false, message: 'Valid JSON Format' };
 };
 
 const getCurrentTime = () => {

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="./css/all.css">
+  <script src="js/api.js"></script>
+  <script src="js/utility.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/io.js"></script>
+  <script src="js/clock.js"></script>
+  <!-- <script src="js/onload.js"></script> -->
+  <title>Test</title>
+  <style></style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav-bar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./snippets.html">Snippets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./clipboard.html">Clipboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./test.html">Test Page</a>
+        </li>
+    </nav>
+  </header>
+
+  <div id="main">
+    <div class="center">
+      <div>
+        <div class="clipboard-header"> Clipboard Block </div>
+        <div class="clipboard-content">
+          <div class="clipboard-cell">
+            <a class="links" href="https://github.com/cjamiev/playground" target="_blank">
+              cjamiev/playground
+            </a>
+          </div>
+          <div class="clipboard-cell">
+            <button class="copy-btn" onClick="copyToClipboard('User Name')">
+              User Name
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <button class="copy-btn" onClick="copyToClipboard('Password')">
+              Password
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <button class="command-btn" onClick="executeCommand('simple', 'ls.bat','dir-arguments')">
+              dir command non-block
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <button class="command-btn" onClick="executeCommand('block', 'ls.bat','dir-arguments')">
+              dir command block
+            </button>
+          </div>
+          <div class="clipboard-cell">
+            <input id="dir-arguments" type="text" placeholder="Enter arguments...">
+          </div>
+          <div class="clipboard-cell">35th Bday</div>
+          <div class="clipboard-cell">-- -- --</div>
+          <div class="clipboard-cell" data-date="2025,3,18,0,0,0">Example Date:...loading</div>
+        </div>
+      </div>
+
+      <h2 class="responseTitle">Results</h2>
+      <div id="response" class="responseBlock" contenteditable></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
