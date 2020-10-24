@@ -2,10 +2,10 @@
   background-color: rgb(40, 44, 52);
   border-radius: 15px;
   margin: 20px 10px 20px 10px;
-  width: 400px;
-  height: 250px;
   color: #ffffff;
   overflow: auto;
+  width: 600px;
+  height: 300px;
 }
 
 .copyblock-header {
@@ -44,6 +44,44 @@
 }
 
 .copyblock-content {
-  margin-top: 10px;
   color: lightblue;
+  padding: 15px;
+}
+
+.snippet-rows {
+  display: flex;
+  flex-direction: row;
+}
+
+.snippet-column {
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+  padding: 0 10px;
+}
+
+.comments {
+  background-color: orange;
+  color: black;
+  margin: 0 auto;
+  padding: 0 20px;
+  border-radius: 15px;
+  font-weight: 600;
+  width: 80%;
+}
+
+.snippet-btn {
+  background-color: #02a5c9;
+  border: 1px solid #000;
+  border-radius: 10px;
+  color: white;
+}
+
+.snippet-btn:hover {
+  box-shadow: 2px 2px 0px #003f4d;
+}
+
+.snippet-btn:active {
+  box-shadow: 0 5px #003f4d;
+  transform: translateY(4px);
 }

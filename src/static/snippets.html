@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="./css/all.css">
+  <title>Snippets</title>
+</head>
+
+<body>
+  <header>
+    <nav class="nav-bar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./snippets.html">Snippets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./test.html">Test Page</a>
+        </li>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div class="copyblock-parent">
+      <div class="copyblock-header">
+        <p class="copyblock-title"> Snippets </p>
+        <button class="copyblock-btn" onClick="copyHTMLContentToClipboard('copy-snippet')"> Copy </button>
+      </div>
+      <pre id="copy-snippet" class="copyblock-content" contenteditable></pre>
+      <p id="comments" class="comments"></p>
+    </div>
+
+    <div class="snippet-rows">
+      <div class="snippet-column">
+        <span>Date Functions:</span>
+        <button class="snippet-btn" onClick="loadDateMethod('year')"> YYYY </button>
+        <button class="snippet-btn" onClick="loadDateMethod('month')"> MM </button>
+        <button class="snippet-btn" onClick="loadDateMethod('date')"> DD </button>
+        <button class="snippet-btn" onClick="loadDateMethod('hour')"> HH </button>
+        <button class="snippet-btn" onClick="loadDateMethod('minute')"> MM </button>
+        <button class="snippet-btn" onClick="loadDateMethod('second')"> SS </button>
+        <button class="snippet-btn" onClick="loadDateMethod('millisecond')"> MS </button>
+        <button class="snippet-btn" onClick="loadDateMethod('day')"> Day </button>
+        <button class="snippet-btn" onClick="loadDateMethod('time')"> Time </button>
+      </div>
+      <div class="snippet-column">
+        <span>HTML Tags:</span>
+        <button class="snippet-btn" onClick="loadHTMLTags('html-page')"> HTML Page </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('textual-tags')"> Textual Tags </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('semantical-tags')"> Semantical Tags </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('input-tags')"> Input Tags </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('form')"> Form </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('table-tags')"> Table Tags </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('list-tags')"> List Tags </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('link-tags')"> Link Tags </button>
+        <button class="snippet-btn" onClick="loadHTMLTags('seperation-tags')"> Seperation Tags </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utility.js"></script>
+  <script src="js/snippets.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/io.js"></script>
+  <script src="js/clock.js"></script>
+
+</body>
+
+</html>

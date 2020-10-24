@@ -17,11 +17,14 @@ Purple	      #AE81FF
 @import 'quick-clipboard.css';
 @import 'io.css';
 @import 'clipboard.css';
-@import 'copy-block.css';
+@import 'snippets.css';
 @import 'response-block.css';
 
-.main {
+body {
   background-color: #f6f8fa;
+}
+
+.main {
   display: flex;
   flex-direction: row;
   height: 870px;
