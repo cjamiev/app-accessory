@@ -93,3 +93,14 @@ const replaceAll = () => {
   const regex = new RegExp(find, 'gm');
   contentDataElement.innerHTML = content.replace(regex, replaceText);
 };
+
+const minifyContent = () => {
+  const contentDataElement = document.getElementById('contentData');
+
+  const content = contentDataElement.innerHTML;
+  const newLineRegex = new RegExp(/\n|\t|\r|\s\s/, 'gm');
+  const result = content.replace(newLineRegex, '');
+  console.log(content);
+
+  contentDataElement.innerHTML = result;
+}
