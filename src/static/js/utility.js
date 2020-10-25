@@ -31,16 +31,3 @@ const parseObject = obj => {
   }
   return { error: false, message: 'Valid JSON Format' };
 };
-
-const getCurrentTime = () => {
-  const today = new Date();
-
-  return {
-    year: today.getFullYear(),
-    month: today.getMonth() + 1,
-    date: today.getDate(),
-    hour: today.getHours(),
-    minute: today.getMinutes(),
-    second: today.getSeconds()
-  };
-};

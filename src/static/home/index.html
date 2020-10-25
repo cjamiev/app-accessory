@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="../css/all.css">
+  <link rel="stylesheet" type="text/css" href="./home.css">
+  <link rel="stylesheet" type="text/css" href="./quick-clipboard.css">
+  <link rel="stylesheet" type="text/css" href="./io.css">
+  <title>Home</title>
+</head>
+
+<body>
+  <header>
+    <nav class="nav-bar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../snippets/index.html">Snippets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../clipboard/index.html">Clipboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../new/index.html">New Page</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div id="quick-clipboard" class="quick-clipboard">
+      <div id="quick-clipboard-add-new-container" class="quick-clipboard-add-new-container">
+        <form class="quick-clipboard-add-form" onsubmit="return false;">
+          <div>
+            <label>Type:</label>
+            <label>
+              <input name="operation" type="radio" value="copy" onChange="swapFields()" checked />
+              Copy
+            </label>
+            <label>
+              <input name="operation" type="radio" value="timer" onChange="swapFields()" />
+              Timer
+            </label>
+          </div>
+          <div>
+            <label for="name">Name:</label>
+            <input id="new-item-name" class="new-item-name" id="name" type="text" />
+          </div>
+          <div>
+            <label for="form-field-in">Value:</label>
+            <pre id="new-item-value" class="new-item-value" contenteditable="true"> </pre>
+          </div>
+          <div>
+            <label for="new-item-year">Y:</label>
+            <input id="new-item-year" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-month">M:</label>
+            <input id="new-item-month" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-day">D:</label>
+            <input id="new-item-day" class="new-item-timer" id="year" type="text" />
+          </div>
+          <div>
+            <label for="new-item-hour">H:</label>
+            <input id="new-item-hour" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-minute">M:</label>
+            <input id="new-item-minute" class="new-item-timer" id="year" type="text" />
+            <label for="new-item-second">S:</label>
+            <input id="new-item-second" class="new-item-timer" id="year" type="text" />
+          </div>
+          <button class="quick-clipboard-submit-btn quick-clipboard-add-btn" onClick="addNewItem()">Submit</button>
+        </form>
+      </div>
+      <button class="quick-clipboard-add-btn" onClick="showQuickClipboardForm()">Add</button>
+      <button class="quick-clipboard-remove-btn" onClick="deleteMode()">Remove</button>
+    </div>
+    <div class="center">
+      <div class="title-container">
+        <div class="title-cell">
+          <h1 id="current-clock">Loading...</h1>
+          <h2 id="current-date"></h2>
+        </div>
+        <div id="alert-container" class="alert-container">
+          <span id="alert-field" class="alert-field"></span>
+        </div>
+      </div>
+      <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable="true"></pre>
+    </div>
+
+    <div class="right-side">
+      <div class="file-form">
+        <h2 class="section-title"> Read and Write to File</h2>
+        <form onsubmit="return false">
+          <fieldset class="io-fieldset-container">
+            <div class="io-fieldset-column">
+              <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Copy"
+                onclick="copyContentToClipboard('contentData')">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
+              <input type="submit" class="io-fieldset-cell operational-btns" value="Save" onclick="writeToFile()">
+            </div>
+            <div class="io-fieldset-column">
+              <div class="io-fieldset-cell">
+                <label for="delimiterData">Delimiter:</label>
+                <select id="delimiterData">
+                  <option value="0">comma</option>
+                  <option value="1">new line</option>
+                  <option value="2">space</option>
+                </select>
+              </div>
+              <input type="button" class="io-fieldset-cell operational-btns" value="Sort" onclick="sortFile(false)">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Sort Desc" onclick="sortFile(true)">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Split Lines"
+                onclick="splitFileLines()">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Join Lines"
+                onclick="joinFileLines()">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Minify" onclick="minifyContent()">
+            </div>
+            <div class="io-fieldset-column">
+              <input id="findData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Find...">
+              <input id="replaceData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Replace...">
+              <input type="button" class="io-fieldset-cell operational-btns" value="Replace All" onclick="replaceAll()">
+            </div>
+          </fieldset>
+        </form><br>
+      </div>
+      <div id="all-files" class="all-files"></div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/utility.js"></script>
+  <script src="./actions.js"></script>
+  <script src="./io.js"></script>
+  <script src="../js/clock.js"></script>
+  <script src="./onload.js"></script>
+
+</body>
+
+</html>

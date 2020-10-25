@@ -1,3 +1,5 @@
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const WEEK_IN_MILLISECONDS = 604800000;
 const DAY_IN_MILLISECONDS = 86400000;
 const HOUR_IN_MILLISECONDS = 3600000;
@@ -8,7 +10,19 @@ const SIXTY = 60;
 const HOURS_IN_DAY = 24;
 const DOUBLE_DIGIT = 10;
 const DECIMAL_FORMAT = 2;
+const ONE = 1;
 const ZERO = 0;
+
+const getCurrentClock = () => {
+  const now = new Date();
+  const amOrpm = now.getHours() > 11 ? 'PM' : 'AM';
+  const minutes = now.getMinutes() > 9 ? now.getMinutes() : '0' + now.getMinutes();
+  const seconds = now.getSeconds() > 9 ? now.getSeconds() : '0' + now.getSeconds();
+  const format12Hour = now.getHours() > 9 ? now.getHours() % 12 : '0' + now.getHours();
+  const hours = format12Hour === 0 ? 12 : format12Hour;
+
+  return hours + ':' + minutes + ':' + seconds + ' ' + amOrpm;
+};
 
 const secondsToClock = s => {
   const hours = Math.floor(s / SIXTY_TIMES_SIXTY);
@@ -88,4 +102,17 @@ const countdown = () => {
       el.innerHTML = 'DONE!!!';
     }
   });
+};
+
+const getCurrentTime = () => {
+  const today = new Date();
+
+  return {
+    year: today.getFullYear(),
+    month: today.getMonth() + ONE,
+    date: today.getDate(),
+    hour: today.getHours(),
+    minute: today.getMinutes(),
+    second: today.getSeconds()
+  };
 };

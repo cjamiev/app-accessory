@@ -1,0 +1,31 @@
+.title-container {
+  display: flex;
+}
+
+.title-cell {
+  flex: 3;
+}
+
+.alert-container {
+  flex: 5;
+  padding: 20px;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+}
+
+.alert-field {
+  margin: 0px auto;
+}
+
+.success {
+  background-color: #4CAF50;
+}
+
+.info {
+  background-color: #2196F3;
+}
+
+.error {
+  background-color: #f44336;
+}

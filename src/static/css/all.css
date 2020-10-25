@@ -1,27 +1,17 @@
-/*
-Palette	      Hex Code
-----------------------
-Background	  #272822
-Foreground	  #F8F8F2
-Comment	      #75715E
-Red	          #F92672
-Orange	      #FD971F
-Light Orange	#E69F66
-Yellow	      #E6DB74
-Green	        #A6E22E
-Blue	        #66D9EF
-Purple	      #AE81FF
-*/
 @import 'reset.css';
 @import 'navigation.css';
-@import 'quick-clipboard.css';
-@import 'io.css';
-@import 'clipboard.css';
-@import 'snippets.css';
-@import 'response-block.css';
 
 body {
   background-color: #f6f8fa;
+}
+
+[placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #555; 
+}
+
+[placeholder]:empty:focus::before {
+  content: "";
 }
 
 .main {
@@ -47,45 +37,4 @@ body {
   flex: 5;
   display: flex;
   flex-direction: row;
-}
-
-.title-container {
-  display: flex;
-}
-
-.title-cell {
-  flex: 3;
-}
-
-.alert-container {
-  flex: 5;
-  padding: 20px;
-  color: white;
-  opacity: 1;
-  transition: opacity 0.6s;
-}
-
-.alert-field {
-  margin: 0px auto;
-}
-
-.success {
-  background-color: #4CAF50;
-}
-
-.info {
-  background-color: #2196F3;
-}
-
-.error {
-  background-color: #f44336;
-}
-
-[placeholder]:empty:before {
-  content: attr(placeholder);
-  color: #555; 
-}
-
-[placeholder]:empty:focus::before {
-  content: "";
 }

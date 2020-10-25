@@ -10,6 +10,13 @@ const dateMethods = [
   { key: 'time', label: 'getTime()', comments: 'Get the time (milliseconds since January 1, 1970)' }
 ];
 
+const loadDateMethod = key => {
+  const dateMethod = dateMethods.find(item => item.key === key);
+  document.getElementById('copy-snippet').innerHTML = dateMethod.label;
+  document.getElementById('comments').innerHTML = dateMethod.comments;
+  copyHTMLContentToClipboard('copy-snippet');
+};
+
 const htmlTags = [
   { key: 'html-page', label: '<!DOCTYPE html>\n<html lang="en">\n<head>\n\t<meta charset="utf-8">\n\t<link rel="stylesheet" href="css/styles.css">\n\t<title>Your Website</title>\n</head>\n<body>\n\t<script src="js/scripts.js"></script>\n</body>\n</html>' },
   { key: 'textual-tags', label: '<h1>This is a h1</h1>\n<p> This is a p</p>\n<label> This is a label </label>' },
@@ -21,13 +28,6 @@ const htmlTags = [
   { key: 'link-tags', label: '<a href="http://www.google.com" target="_blank">This is a hyperlink</a>\n<img src="smiley.gif" alt="Smiley face" height="42" width="42">' },
   { key: 'seperation-tags', label: '<br/>\n<hr>' }
 ];
-
-const loadDateMethod = key => {
-  const dateMethod = dateMethods.find(item => item.key === key);
-  document.getElementById('copy-snippet').innerHTML = dateMethod.label;
-  document.getElementById('comments').innerHTML = dateMethod.comments;
-  copyHTMLContentToClipboard('copy-snippet');
-};
 
 const loadHTMLTags = key => {
   const htmlTag = htmlTags.find(item => item.key === key);

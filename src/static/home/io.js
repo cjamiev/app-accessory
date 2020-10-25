@@ -113,7 +113,6 @@ const minifyContent = () => {
   const content = contentDataElement.innerHTML;
   const newLineRegex = new RegExp(/\n|\t|\r|\s\s/, 'gm');
   const result = content.replace(newLineRegex, '');
-  console.log(content);
 
   contentDataElement.innerHTML = result;
-}
+};
