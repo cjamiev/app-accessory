@@ -1,5 +1,4 @@
 .clipboard-content {
-  height: 200px;
   background-color: #fff;
   border-radius: 0px 0px 15px 15px;
   border: 1px solid #e1e4d8;
@@ -63,4 +62,27 @@
 .copy-btn:hover {
   background-color: #006cb4;
   box-shadow: 2px 2px 0px #006cb4;;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.cell {
+  margin: 0 10px;
+}
+
+.title {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.list {
+  background-color: #fff;
+  border-radius: 0px 0px 15px 15px;
+  border: 1px solid #e1e4d8;
 }

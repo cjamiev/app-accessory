@@ -40,35 +40,64 @@
     </div>
 
     <div class="snippet-rows">
-      <div class="snippet-column">
-        <span>Date Functions:</span>
-        <button class="snippet-btn" onClick="loadDateMethod('year')"> YYYY </button>
-        <button class="snippet-btn" onClick="loadDateMethod('month')"> MM </button>
-        <button class="snippet-btn" onClick="loadDateMethod('date')"> DD </button>
-        <button class="snippet-btn" onClick="loadDateMethod('hour')"> HH </button>
-        <button class="snippet-btn" onClick="loadDateMethod('minute')"> MM </button>
-        <button class="snippet-btn" onClick="loadDateMethod('second')"> SS </button>
-        <button class="snippet-btn" onClick="loadDateMethod('millisecond')"> MS </button>
-        <button class="snippet-btn" onClick="loadDateMethod('day')"> Day </button>
-        <button class="snippet-btn" onClick="loadDateMethod('time')"> Time </button>
+      <div id="html-tags" class="snippet-column">
+        <span>HTML Tags</span>
       </div>
-      <div class="snippet-column">
-        <span>HTML Tags:</span>
-        <button class="snippet-btn" onClick="loadHTMLTags('html-page')"> HTML Page </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('textual-tags')"> Textual Tags </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('semantical-tags')"> Semantical Tags </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('input-tags')"> Input Tags </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('form')"> Form </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('table-tags')"> Table Tags </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('list-tags')"> List Tags </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('link-tags')"> Link Tags </button>
-        <button class="snippet-btn" onClick="loadHTMLTags('seperation-tags')"> Seperation Tags </button>
+      <div id="date-methods" class="snippet-column">
+        <span>Date Methods</span>
+      </div>
+      <div id="event-methods" class="snippet-column">
+        <span>Events</span>
+      </div>
+      <div id="storage-methods" class="snippet-column">
+        <span>Storage</span>
       </div>
     </div>
   </div>
 
   <script src="../js/utility.js"></script>
   <script src="./snippets.js"></script>
+  <script>
+    const htmlTagsParent = document.getElementById('html-tags');
+    htmlTags.map(entry => {
+      const childBtn = document.createElement('button');
+      childBtn.className = 'snippet-btn';
+      childBtn.onclick = () => { loadHTMLTags(entry.label); };
+      childBtn.innerHTML = entry.label;
+
+      htmlTagsParent.appendChild(childBtn);
+    });
+
+    const dateMethodsParent = document.getElementById('date-methods');
+    dateMethods.map(entry => {
+      const childBtn = document.createElement('button');
+      childBtn.className = 'snippet-btn';
+      childBtn.onclick = () => { loadDateMethod(entry.label); };
+      childBtn.innerHTML = entry.label;
+
+      dateMethodsParent.appendChild(childBtn);
+    });
+
+    const eventMethodsParent = document.getElementById('event-methods');
+    eventMethods.map(entry => {
+      const childBtn = document.createElement('button');
+      childBtn.className = 'snippet-btn';
+      childBtn.onclick = () => { loadEventMethod(entry.label); };
+      childBtn.innerHTML = entry.label;
+
+      eventMethodsParent.appendChild(childBtn);
+    });
+
+    const storageMethodsParent = document.getElementById('storage-methods');
+    storageMethods.map(entry => {
+      const childBtn = document.createElement('button');
+      childBtn.className = 'snippet-btn';
+      childBtn.onclick = () => { loadStorageMethod(entry.label); };
+      childBtn.innerHTML = entry.label;
+
+      storageMethodsParent.appendChild(childBtn);
+    });
+  </script>
 
 </body>
 
