@@ -34,20 +34,29 @@ const executeCommand = (mode = 'simple', filename, inputEl) => {
     .then(response => response.json())
     .then(result => {
       if (mode === 'simple') {
-        const lines = result.message.replace('\r', '').split('\n').filter(line => line);
         const responseDiv = document.getElementById('response');
         const responseElements = [...document.getElementsByClassName('card-text')];
         responseElements.forEach(el => {
           responseDiv.removeChild(el);
         });
 
-        lines.forEach(line => {
+        if (typeof result.message === 'string') {
+          const lines = result.message.replace('\r', '').split('\n').filter(line => line);
+          lines.forEach(line => {
+            const p = document.createElement('p');
+            p.innerHTML = line;
+            p.classList.add('card-text');
+
+            responseDiv.appendChild(p);
+          });
+        }
+        else {
           const p = document.createElement('p');
-          p.innerHTML = line;
+          p.innerHTML = JSON.stringify(result.message);
           p.classList.add('card-text');
 
           responseDiv.appendChild(p);
-        });
+        }
       }
     })
     .catch(error => console.log('error:', error));
