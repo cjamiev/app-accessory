@@ -8,14 +8,16 @@ This project is designed to improve work efficiency. It features a UI with the f
 
 ## Testing
 - For quick javascript coding/testing use 'q.js' at the base of the app and run 'node q.js' to execute. Not meant for saving. 
-- For quick testing of html,css,javascript use index.html at the root of the static directory. 
+- For quick testing of html,css,javascript use index.html with liveserver in testing folder.
+- For TDD with new functions or performance testing use main.js 
 - For custom server end points with mock responses including conditional responses for post calls use mockResponses.js 
 
 ## Home
 ### Quick Clipboard
 Quickly add copy buttons or timers.  Can be quickly deleted as well.
 
-![Quick Clipboard Feature](./documentation/quick-clipboard-feature.png)
+![Copy Feature](./documentation/quick-clipboard-copy-feature.png)
+![Timer Feature](./documentation/quick-clipboard-timer-feature.png)
 
 ### Read/Write files
 Form for reading and writing to files.  Files must be deleted manually at the moment.  
