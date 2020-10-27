@@ -37,3 +37,29 @@ Page to store executable commands, lists, favorite links, etc.
 ![Clipboard Feature](./documentation/clipboard.png)
 ## New
 Template page for adding in new pages. 
+
+## Notes
+You can add the following to another project while this project is running to record api calls:
+
+```
+post: (filename, payload) => {
+    return fetch('http://localhost:999/write', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ filename, content:payload}),
+      method: 'POST',
+      crossDomain: true
+    })
+      .then(resp => resp.json())
+      .catch(error => console.log('error:', error));
+  }
+```
+
+Future Features
+- API Testing
+- UI for mock server and updating without restarting
+- Configuration based operations and more javascript generated HTML
+- SVGs icons
+- Format button for Read/Write files

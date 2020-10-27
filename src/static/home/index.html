@@ -25,7 +25,7 @@
           <a class="nav-link" href="../clipboard/index.html">Clipboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../new/index.html">New Page</a>
+          <a class="nav-link" href="../api-tester/index.html">API Tester</a>
         </li>
       </ul>
     </nav>
@@ -38,11 +38,11 @@
           <div>
             <label>Type:</label>
             <label>
-              <input name="operation" type="radio" value="copy" onChange="swapFields()" checked />
+              <input name="operation" type="radio" value="copy" onChange="quickClipboardOperation('copy')" checked />
               Copy
             </label>
             <label>
-              <input name="operation" type="radio" value="timer" onChange="swapFields()" />
+              <input name="operation" type="radio" value="timer" onChange="quickClipboardOperation('timer')" />
               Timer
             </label>
           </div>
@@ -50,25 +50,26 @@
             <label for="name">Name:</label>
             <input id="new-item-name" class="new-item-name" id="name" type="text" />
           </div>
-          <div>
+          <div id="copy-fields">
             <label for="form-field-in">Value:</label>
             <pre id="new-item-value" class="new-item-value" contenteditable="true"> </pre>
           </div>
-          <div>
-            <label for="new-item-year">Y:</label>
-            <input id="new-item-year" class="new-item-timer" id="year" type="text" />
+          <div id="timer-fields-date" class="timer-fields-hide">
             <label for="new-item-month">M:</label>
-            <input id="new-item-month" class="new-item-timer" id="year" type="text" />
+            <input id="new-item-month" class="new-item-timer" type="text" />
             <label for="new-item-day">D:</label>
-            <input id="new-item-day" class="new-item-timer" id="year" type="text" />
+            <input id="new-item-day" class="new-item-timer" type="text" />
+            <label for="new-item-year">Y:</label>
+            <input id="new-item-year" class="new-item-timer" type="text" />
           </div>
-          <div>
+          <div id="timer-fields-clock" class="timer-fields-hide">
             <label for="new-item-hour">H:</label>
-            <input id="new-item-hour" class="new-item-timer" id="year" type="text" />
+            <input id="new-item-hour" class="new-item-timer" type="text" />
             <label for="new-item-minute">M:</label>
-            <input id="new-item-minute" class="new-item-timer" id="year" type="text" />
+            <input id="new-item-minute" class="new-item-timer" type="text" />
             <label for="new-item-second">S:</label>
-            <input id="new-item-second" class="new-item-timer" id="year" type="text" />
+            <input id="new-item-second" class="new-item-timer" type="text" />
+            <input id="amorpm" class="am-pm-btn" type="button" value="am" onClick="switchAMorPM()">
           </div>
           <button class="quick-clipboard-submit-btn quick-clipboard-add-btn" onClick="addNewItem()">Submit</button>
         </form>

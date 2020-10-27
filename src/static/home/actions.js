@@ -49,14 +49,18 @@ const showQuickClipboardForm = () => {
   tooltip.classList.toggle('quick-clipboard-add-new-container-active');
   const curTime = getCurrentTime();
 
+  const amOrpm = curTime.hour > 12 ? 'pm' : 'am';
+  const hour = curTime.hour % 12 === 0 ? 12 : curTime.hour % 12;
+
   document.getElementById('new-item-name').value = '';
   document.getElementById('new-item-value').innerHTML = '';
   document.getElementById('new-item-year').value = curTime.year;
   document.getElementById('new-item-month').value = curTime.month;
   document.getElementById('new-item-day').value = curTime.date;
-  document.getElementById('new-item-hour').value = curTime.hour;
-  document.getElementById('new-item-minute').value = curTime.minute;
-  document.getElementById('new-item-second').value = curTime.second;
+  document.getElementById('new-item-hour').value = hour;
+  document.getElementById('new-item-minute').value = 0;
+  document.getElementById('new-item-second').value = 0;
+  document.getElementById('amorpm').value = amOrpm;
 };
 
 const getInputValue = (operationType) => {
@@ -64,10 +68,12 @@ const getInputValue = (operationType) => {
     return document.getElementById('new-item-value').innerHTML;
   }
 
+  const amOrpm = document.getElementById('amorpm').value === 'am' ? 0 : 12;
+
   const year = document.getElementById('new-item-year').value;
   const month = document.getElementById('new-item-month').value - 1;
   const day = document.getElementById('new-item-day').value;
-  const hour = document.getElementById('new-item-hour').value;
+  const hour = document.getElementById('new-item-hour').value % 12 + amOrpm;
   const minute = document.getElementById('new-item-minute').value;
   const second = document.getElementById('new-item-second').value;
 
@@ -105,4 +111,29 @@ const deleteClipboardItem = text => {
   const updatedClipboardData = clipboardData.filter(item => item.name !== text);
   localStorage.setItem('clipboard', JSON.stringify(updatedClipboardData));
   loadItems();
+};
+
+const quickClipboardOperation = (op) => {
+  const timerFieldsDateEl = document.getElementById('timer-fields-date');
+  const timerFieldsClockEl = document.getElementById('timer-fields-clock');
+  const copyFieldsEl = document.getElementById('copy-fields');
+
+  if (op === 'copy') {
+    timerFieldsClockEl.classList = ['timer-fields-hide'];
+    timerFieldsDateEl.classList = ['timer-fields-hide'];
+    copyFieldsEl.classList = [''];
+  }
+  else {
+    copyFieldsEl.classList = ['copy-fields-hide'];
+    timerFieldsClockEl.classList = [''];
+    timerFieldsDateEl.classList = [''];
+  }
+};
+
+const switchAMorPM = () => {
+  const amOrpmEl = document.getElementById('amorpm');
+  const currentValue = amOrpmEl.value;
+  const updatedValue = currentValue === 'am' ? 'pm' : 'am';
+
+  amOrpmEl.value = updatedValue;
 };
