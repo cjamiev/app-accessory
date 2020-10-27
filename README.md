@@ -7,9 +7,9 @@ This project is designed to improve work efficiency. It features a UI with the f
 - Links to saved pages
 
 ## Testing
-q.js at the base of the app is used for quick javascript coding/testing.  Run 'node q.js' to execute. Not meant for saving. 
-The root index.html is used for quick testing of html,css,javascript
-mockResponses.js is used for custom server end points with mock responses including conditional responses for post calls. 
+- For quick javascript coding/testing use 'q.js' at the base of the app and run 'node q.js' to execute. Not meant for saving. 
+- For quick testing of html,css,javascript use index.html at the root of the static directory. 
+- For custom server end points with mock responses including conditional responses for post calls use mockResponses.js 
 
 ## Home
 ### Quick Clipboard
@@ -24,7 +24,7 @@ Form for reading and writing to files.  Files must be deleted manually at the mo
 - Copy content of file to clipboard
 - Validate JSON format
 
-**Note there is a wierd bug where sometimes formatting code gets into content depending how content was added in. Double check in notepadd++ when copy/pasting**
+**Note there is a wierd bug where sometimes formatting code gets into content depending on how content was added in. Double check in notepadd++ when copy/pasting**
 
 ![Read and Write Feature](./documentation/read-write-feature.png)
 
@@ -34,5 +34,6 @@ This page is used to store commonly used html tags, javascript functions, css an
 ## Clipboard
 Page to store executable commands, lists, favorite links, etc. 
 
+![Clipboard Feature](./documentation/clipboard.png)
 ## New
 Template page for adding in new pages. 
