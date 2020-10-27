@@ -36,7 +36,7 @@ This page is used to store commonly used html tags, javascript functions, css an
 ## Clipboard
 Page to store executable commands, lists, favorite links, etc. 
 
-![Clipboard Feature](./documentation/clipboard.png)
+![Clipboard Feature](./documentation/clipboard-feature.png)
 ## New
 Template page for adding in new pages. 
 
