@@ -24,7 +24,7 @@ const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
   const content = document.getElementById('contentData').innerHTML;
 
-  api.post('/', { filename, content }).then(result => {
+  api.post('/write', { filename, content }).then(result => {
     setOutput(result.data);
     getAllFiles();
   });
@@ -33,7 +33,7 @@ const writeToFile = () => {
 };
 
 const getAllFiles = () => {
-  api.get('/').then(result => {
+  api.get('/read').then(result => {
     const filenames = result.data;
 
     const fileDiv = document.getElementById('all-files');

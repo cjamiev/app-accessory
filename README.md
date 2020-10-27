@@ -1,6 +1,7 @@
 # q
 This project is designed to improve work efficiency. It features a UI with the following capabilities
-- Executing batch scripts at the click of a button (including passing in arguments)
+- Executing batch scripts at the click of a button (including passing in arguments) 
+  Note scripts can either 'detach' (will not block UI but will autoclose terminal when finished), 'block' (will block UI but will not autoclose terminal), or will not open up terminal.
 - Copy content on to clipboard
 - Timer for events (pop up alert when done)
 - Links to saved pages
@@ -8,6 +9,7 @@ This project is designed to improve work efficiency. It features a UI with the f
 ## Testing
 q.js at the base of the app is used for quick javascript coding/testing.  Run 'node q.js' to execute. Not meant for saving. 
 The root index.html is used for quick testing of html,css,javascript
+mockResponses.js is used for custom server end points with mock responses including conditional responses for post calls. 
 
 ## Home
 ### Quick Clipboard
@@ -34,4 +36,3 @@ Page to store executable commands, lists, favorite links, etc.
 
 ## New
 Template page for adding in new pages. 
-

@@ -4,6 +4,13 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const exec = child_process.exec;
+const {
+  isEqual,
+  writeToFile,
+  loadFile,
+  readDirectory
+} = require('./util');
+const mockResponses = require('./mockResponses').mockResponses;
 
 const port = process.argv[2] || 999;
 const ROOT_DIR = './src/static/';
@@ -44,8 +51,74 @@ const getCommand = requestUrl => {
   return `cd ./scripts && ${command} ${args}`;
 };
 
-const handleCommandResponse = (request, response) => {
+const resolvePostBody = async (request) => {
+  const promise = new Promise((resolve, reject) => {
+    const queryData = [];
+    request.on('data', (data) => {
+      queryData.push(data);
+    });
 
+    request.on('end', () => {
+      const result = queryData.length && JSON.parse(queryData.join().toString('utf8'));
+      resolve(result);
+    });
+  });
+
+  const result = await promise;
+
+  return result;
+};
+
+const handleMockResponse = async (request, response) => {
+  const matchedResponse = mockResponses.find(entry => entry.url === request.url && entry.method === request.method);
+
+  if (matchedResponse && matchedResponse.conditionalResponse) {
+    const payload = await resolvePostBody(request);
+    const matchedConditionalResponse = matchedResponse.conditionalResponse.find(item => isEqual(item.payload, payload));
+    const responsePayload = matchedConditionalResponse && matchedConditionalResponse.body || matchedResponse.body;
+
+    response.writeHead(matchedResponse.status, matchedResponse.headers);
+    response.end(JSON.stringify(responsePayload), UTF8);
+  }
+  else if (matchedResponse) {
+    response.writeHead(matchedResponse.status, matchedResponse.headers);
+    response.end(JSON.stringify(matchedResponse.body), UTF8);
+  }
+  else {
+    response.writeHead(STATUS_OK, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ message: 'Not Found' }), UTF8);
+  }
+};
+
+const handleWriteResponse = async (request, response) => {
+  const payload = await resolvePostBody(request);
+  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+
+  const content = payload.content || '';
+  const filename = payload.filename || 'no-name-' + new Date().toString().slice(4, 24).replace(/ /g, '.').replace(/:/g, '.');
+  const filepath = payload.filepath || './storage/';
+
+  const data = writeToFile(filepath + filename, content);
+
+  response.end(JSON.stringify({ data }), UTF8);
+};
+
+const handleReadResponse = (request, response) => {
+  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+
+  const queryParams = url.parse(request.url, true).query;
+
+  if (queryParams.read === 'true') {
+    const data = loadFile('./storage/' + queryParams.name + '.' + queryParams.ext);
+    response.end(JSON.stringify({ data }), UTF8);
+  }
+  else {
+    const data = readDirectory('./storage');
+    response.end(JSON.stringify({ data }), UTF8);
+  }
+};
+
+const handleCommandResponse = (request, response) => {
   exec(getCommand(request.url), { encoding: UTF8 }, (error, stdout, stderr) => {
     if (error) {
       response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
@@ -59,57 +132,6 @@ const handleCommandResponse = (request, response) => {
       response.end(JSON.stringify({ message: stderr.concat(stdout) }), UTF8);
     }
   });
-};
-
-const writeToFile = (filepath, content) => {
-  try {
-    fs.writeFileSync(filepath, content);
-    return {
-      error: false,
-      message: 'Wrote to file:' + filepath
-    };
-  } catch (e) {
-    return {
-      error: true,
-      message: e
-    };
-  }
-};
-
-const loadFile = (filepath) => {
-  return fs.existsSync(filepath) ? fs.readFileSync(filepath, UTF8) : null;
-};
-
-const readDirectory = dir => fs.readdirSync(dir);
-
-const resolvePostBody = async (request) => {
-  const promise = new Promise((resolve, reject) => {
-    const queryData = [];
-    request.on('data', (data) => {
-      queryData.push(data);
-    });
-
-    request.on('end', () => {
-      resolve(JSON.parse(queryData.join().toString('utf8')));
-    });
-  });
-
-  const result = await promise;
-
-  return result;
-};
-
-const handlePostResponse = async (request, response) => {
-  const payload = await resolvePostBody(request);
-  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-
-  const content = payload.content || '';
-  const filename = payload.filename || 'no-name-' + new Date().toString().slice(4, 24).replace(/ /g, '.').replace(/:/g, '.');
-  const filepath = payload.filepath || './storage/';
-
-  const data = writeToFile(filepath + filename, content);
-
-  response.end(JSON.stringify({ data }), UTF8);
 };
 
 const handleStaticResponse = (request, response) => {
@@ -128,25 +150,13 @@ const handleStaticResponse = (request, response) => {
   });
 };
 
-const handleResponse = (request, response) => {
-  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-
-  const queryParams = url.parse(request.url, true).query;
-
-  if (queryParams.read === 'true') {
-    const data = loadFile('./storage/' + queryParams.name + '.' + queryParams.ext);
-    response.end(JSON.stringify({ data }), UTF8);
-  }
-  else {
-    const data = readDirectory('./storage');
-    response.end(JSON.stringify({ data }), UTF8);
-  }
-};
-
 http.createServer((request, response) => {
   cors(response);
-  if (request.method === METHOD_POST) {
-    handlePostResponse(request, response);
+  if (request.url.includes('write')) {
+    handleWriteResponse(request, response);
+  }
+  else if (request.url.includes('read')) {
+    handleReadResponse(request, response);
   }
   else if (request.url.includes('command')) {
     handleCommandResponse(request, response);
@@ -155,7 +165,7 @@ http.createServer((request, response) => {
     handleStaticResponse(request, response);
   }
   else {
-    handleResponse(request, response);
+    handleMockResponse(request, response);
   }
 }).listen(parseInt(port));
 
