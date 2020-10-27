@@ -10,7 +10,10 @@ const {
   loadFile,
   readDirectory
 } = require('./util');
-const mockResponses = require('./mockResponses').mockResponses;
+const {
+  mockResponses,
+  mockConfig
+} = require('./mockResponses');
 
 const port = process.argv[2] || 999;
 const ROOT_DIR = './src/static/';
@@ -23,10 +26,11 @@ const mimeTypes = {
   '.js': 'text/javascript',
   '.css': 'text/css'
 };
+const STANDARD_HEADER = { 'Content-Type': 'application/json' };
 const NOT_FOUND = 'file not found';
 const STATUS_OK = 200;
 const STATUS_ERROR = 500;
-const METHOD_POST = 'POST';
+const mockServerError = { message: 'mock server error has occurred' };
 
 const cors = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -67,27 +71,6 @@ const resolvePostBody = async (request) => {
   const result = await promise;
 
   return result;
-};
-
-const handleMockResponse = async (request, response) => {
-  const matchedResponse = mockResponses.find(entry => entry.url === request.url && entry.method === request.method);
-
-  if (matchedResponse && matchedResponse.conditionalResponse) {
-    const payload = await resolvePostBody(request);
-    const matchedConditionalResponse = matchedResponse.conditionalResponse.find(item => isEqual(item.payload, payload));
-    const responsePayload = matchedConditionalResponse && matchedConditionalResponse.body || matchedResponse.body;
-
-    response.writeHead(matchedResponse.status, matchedResponse.headers);
-    response.end(JSON.stringify(responsePayload), UTF8);
-  }
-  else if (matchedResponse) {
-    response.writeHead(matchedResponse.status, matchedResponse.headers);
-    response.end(JSON.stringify(matchedResponse.body), UTF8);
-  }
-  else {
-    response.writeHead(STATUS_OK, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify({ message: 'Not Found' }), UTF8);
-  }
 };
 
 const handleWriteResponse = async (request, response) => {
@@ -150,6 +133,27 @@ const handleStaticResponse = (request, response) => {
   });
 };
 
+const handleMockResponse = async (request, response) => {
+  const matchedResponse = mockResponses.find(entry => entry.url === request.url && entry.method === request.method);
+
+  if (matchedResponse && matchedResponse.conditionalResponse) {
+    const payload = await resolvePostBody(request);
+    const matchedConditionalResponse = matchedResponse.conditionalResponse.find(item => isEqual(item.payload, payload));
+    const responsePayload = matchedConditionalResponse && matchedConditionalResponse.body || matchedResponse.body;
+
+    response.writeHead(matchedResponse.status, matchedResponse.headers);
+    response.end(JSON.stringify(responsePayload), UTF8);
+  }
+  else if (matchedResponse) {
+    response.writeHead(matchedResponse.status, matchedResponse.headers);
+    response.end(JSON.stringify(matchedResponse.body), UTF8);
+  }
+  else {
+    response.writeHead(STATUS_OK, STANDARD_HEADER);
+    response.end(JSON.stringify({ message: 'Not Found' }), UTF8);
+  }
+};
+
 http.createServer((request, response) => {
   cors(response);
   if (request.url.includes('write')) {
@@ -165,7 +169,16 @@ http.createServer((request, response) => {
     handleStaticResponse(request, response);
   }
   else {
-    handleMockResponse(request, response);
+    const { delay, delayUrls } = mockConfig;
+    const shouldDelayAllUrls = !delayUrls.length;
+    const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
+
+    if (shouldDelayAllUrls || shouldDelayThisUrl) {
+      setTimeout(() => { handleMockResponse(request, response); }, delay);
+    }
+    else {
+      handleMockResponse(request, response);
+    }
   }
 }).listen(parseInt(port));
 

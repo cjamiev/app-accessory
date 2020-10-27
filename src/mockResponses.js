@@ -1,4 +1,8 @@
 module.exports = {
+  mockConfig: {
+    'delay': 1000,
+    'delayUrls': []
+  },
   mockResponses: [
     {
       'headers': { 'Content-Type': 'application/json' },
