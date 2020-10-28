@@ -6,16 +6,25 @@
   flex: 3;
 }
 
-.alert-container {
+.main-field-container {
   flex: 5;
-  padding: 20px;
   color: white;
   opacity: 1;
   transition: opacity 0.6s;
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-field-container {
+  margin: 0px auto;
+  flex: 1;
+  width: 100%;
+  display: grid;
+  place-items: center;
 }
 
 .alert-field {
-  margin: 0px auto;
+  margin: auto auto;
 }
 
 .success {

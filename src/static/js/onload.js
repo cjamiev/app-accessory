@@ -5,5 +5,5 @@ setInterval(() => {
 }, 1000);
 
 const today = new Date();
-const displayDate = dayOfWeek[today.getDay()] + ', ' + months[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear();
+const displayDate = dayOfWeek[today.getDay()] + ', ' + months[today.getMonth()] + ' ' + today.getDate();
 document.getElementById('current-date').innerHTML = displayDate;

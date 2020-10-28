@@ -63,10 +63,12 @@
   display: flex;
 }
 
-.io-fieldset-column {
+.io-fieldset-main {
   display: flex;
-  flex-direction: column;
-  margin: 10px auto;
+  flex-direction: row;
+  margin: auto auto;
+  padding-top: 35px
+  flex: 1;
 }
 
 .io-fieldset-cell {

@@ -1,23 +1,24 @@
 const setOutput = (data) => {
   const alertField = document.getElementById('alert-field');
+  const alertFieldContainer = document.getElementById('alert-field-container');
   alertField.innerHTML = data.message;
 
   const alertClass = data.error ? 'error' : 'success';
-  alertField.classList.remove('success');
-  alertField.classList.remove('error');
-  alertField.classList.add(alertClass);
+  alertFieldContainer.classList.remove('success');
+  alertFieldContainer.classList.remove('error');
+  alertFieldContainer.classList.add(alertClass);
 };
 
 const validateJson = () => {
   const response = parseObject(document.getElementById('contentData').innerHTML);
   const alertField = document.getElementById('alert-field');
-  const alertContainer = document.getElementById('alert-container');
+  const alertFieldContainer = document.getElementById('alert-field-container');
   alertField.innerHTML = response.message;
 
   const alertClass = response.error ? 'error' : 'success';
-  alertContainer.classList.remove('success');
-  alertContainer.classList.remove('error');
-  alertContainer.classList.add(alertClass);
+  alertFieldContainer.classList.remove('success');
+  alertFieldContainer.classList.remove('error');
+  alertFieldContainer.classList.add(alertClass);
 };
 
 const writeToFile = () => {
@@ -111,8 +112,7 @@ const minifyContent = () => {
   const contentDataElement = document.getElementById('contentData');
 
   const content = contentDataElement.innerHTML;
-  const newLineRegex = new RegExp(/\n|\t|\r|\s\s/, 'gm');
-  const result = content.replace(newLineRegex, '');
+  const result = content.replace(/\n|\t|\r/gm, '').replace(/[ ]{2,}/gm, ' ');
 
   contentDataElement.innerHTML = result;
 };

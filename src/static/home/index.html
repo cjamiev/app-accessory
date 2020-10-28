@@ -15,6 +15,10 @@
   <header>
     <nav class="nav-bar">
       <ul class="nav">
+        <li class="time-item">
+          <span id="current-clock">Loading.....</span><br />
+          <span id="current-date"></span>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="./index.html">Home App</a>
         </li>
@@ -79,29 +83,29 @@
     </div>
     <div class="center">
       <div class="title-container">
-        <div class="title-cell">
-          <h1 id="current-clock">Loading...</h1>
-          <h2 id="current-date"></h2>
-        </div>
-        <div id="alert-container" class="alert-container">
-          <span id="alert-field" class="alert-field"></span>
+        <div id="main-field-container" class="main-field-container">
+          <div id="alert-field-container" class="alert-field-container">
+            <span id="alert-field" class="alert-field"></span>
+          </div>
+          <div class="io-fieldset-main">
+            <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
+            <input type="button" class="io-fieldset-cell operational-btns" value="Copy"
+              onclick="copyContentToClipboard('contentData')">
+            <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
+            <input type="submit" class="io-fieldset-cell operational-btns" value="Save" onclick="writeToFile()">
+          </div>
         </div>
       </div>
       <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable></pre>
     </div>
 
     <div class="right-side">
+      <div id="all-files" class="all-files"></div>
       <div class="file-form">
         <h2 class="section-title"> Read and Write to File</h2>
         <form onsubmit="return false">
           <fieldset class="io-fieldset-container">
-            <div class="io-fieldset-column">
-              <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Copy"
-                onclick="copyContentToClipboard('contentData')">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
-              <input type="submit" class="io-fieldset-cell operational-btns" value="Save" onclick="writeToFile()">
-            </div>
+
             <div class="io-fieldset-column">
               <div class="io-fieldset-cell">
                 <label for="delimiterData">Delimiter:</label>
@@ -127,7 +131,6 @@
           </fieldset>
         </form><br>
       </div>
-      <div id="all-files" class="all-files"></div>
     </div>
   </div>
 
@@ -136,7 +139,7 @@
   <script src="./quick-clipboard.js"></script>
   <script src="./io.js"></script>
   <script src="../js/clock.js"></script>
-  <script src="./onload.js"></script>
+  <script src="../js/onload.js"></script>
   <script src="../js/sanitize-contenteditable.js"></script>
 
 </body>
