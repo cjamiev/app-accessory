@@ -1,0 +1,76 @@
+
+    .api-parent {
+      margin: 20px;
+    }
+
+    .api-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-fields {
+      flex: 1;
+      display: flex;
+    }
+
+    .api-url {
+      flex: 6;
+      border-radius: 3px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .api-method {
+      flex: 1;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .api-submit-btn {
+      flex: 1;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .api-request {
+      flex: 1;
+    }
+
+    .api-request {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .api-request {
+      flex: 5;
+    }
+
+    .api-headers-parent {
+      flex: 1;
+      margin: 10px;
+    }
+
+    .api-headers {
+      width: 100%;
+      border: 1px solid black;
+      height: 250px;
+    }
+
+    .api-body-parent {
+      flex: 1;
+      margin: 10px;
+    }
+
+    .api-body {
+      width: 100%;
+      border: 1px solid black;
+      height: 250px;
+    }
+
+    .api-result {
+      display: flex;
+      flex-direction: row;
+    }

@@ -5,84 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" type="text/css" href="../css/all.css">
+  <link rel="stylesheet" type="text/css" href="./api-tester.css">
   <title>API Tester</title>
-  <style>
-    .api-parent {
-      margin: 20px;
-    }
-
-    .api-form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .main-fields {
-      flex: 1;
-      display: flex;
-    }
-
-    .api-url {
-      flex: 6;
-      border-radius: 3px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      margin-right: 10px;
-    }
-
-    .api-method {
-      flex: 1;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      margin-right: 10px;
-    }
-
-    .api-submit-btn {
-      flex: 1;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      margin-right: 10px;
-    }
-
-    .api-request {
-      flex: 1;
-    }
-
-    .api-request {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .api-request {
-      flex: 5;
-    }
-
-    .api-headers-parent {
-      flex: 1;
-      margin: 10px;
-    }
-
-    .api-headers {
-      width: 100%;
-      border: 1px solid black;
-      height: 250px;
-    }
-
-    .api-body-parent {
-      flex: 1;
-      margin: 10px;
-    }
-
-    .api-body {
-      width: 100%;
-      border: 1px solid black;
-      height: 250px;
-    }
-
-    .api-result {
-      display: flex;
-      flex-direction: row;
-    }
-  </style>
 </head>
 
 <body>
@@ -140,39 +64,7 @@
 
   <script src="../js/api.js"></script>
   <script src="../js/sanitize-contenteditable.js"></script>
-  <script>
-    const switchAPIMethod = () => {
-      const apiMethod = document.getElementById('api-method');
-      const currentValue = apiMethod.value;
-      const updatedValue = currentValue === 'GET' ? 'POST' : 'GET';
-
-      apiMethod.value = updatedValue;
-    };
-
-    const testApi = () => {
-      const url = document.getElementById('api-url').value;
-      const method = document.getElementById('api-method').value;
-      const payload = document.getElementById('api-body').innerHTML || '{}';
-
-      if (method === 'GET') {
-        api.get(url, { sendFullResponse: true }).then(({ promise, response }) => {
-          promise.then(res => {
-            document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
-          });
-          document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;
-        });
-      }
-      else {
-        api.post(url, JSON.parse(payload), { sendFullResponse: true }).then(({ promise, response }) => {
-          promise.then(res => {
-            console.log(res);
-            document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
-          });
-          document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;
-        });
-      }
-    }
-  </script>
+  <script src="./api-tester.js"></script>
 
 </body>
 
