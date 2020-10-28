@@ -10,3 +10,8 @@ setInterval(() => {
 const today = new Date();
 const displayDate = dayOfWeek[today.getDay()] + ', ' + months[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear();
 document.getElementById('current-date').innerHTML = displayDate;
+
+const contentDataEl = document.getElementById('contentData');
+contentDataEl.addEventListener('blur', () => {
+  contentDataEl.innerHTML = contentDataEl.innerHTML.replace(/(<([^>]+)>)/ig, '') || '{}';
+});
