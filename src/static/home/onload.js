@@ -1,6 +1,3 @@
-getAllFiles();
-loadItems();
-
 setInterval(() => {
   countdown();
   const displayTime = getCurrentClock();

@@ -116,3 +116,6 @@ const minifyContent = () => {
 
   contentDataElement.innerHTML = result;
 };
+
+getAllFiles();
+loadItems();
