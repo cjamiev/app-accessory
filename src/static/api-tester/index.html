@@ -139,12 +139,8 @@
   </div>
 
   <script src="../js/api.js"></script>
+  <script src="../js/sanitize-contenteditable.js"></script>
   <script>
-    const payloadBodyEl = document.getElementById('api-body');
-    payloadBodyEl.addEventListener('blur', () => {
-      payloadBodyEl.innerHTML = payloadBodyEl.innerHTML.replace(/(<([^>]+)>)/ig, '');
-    });
-
     const switchAPIMethod = () => {
       const apiMethod = document.getElementById('api-method');
       const currentValue = apiMethod.value;
@@ -156,7 +152,7 @@
     const testApi = () => {
       const url = document.getElementById('api-url').value;
       const method = document.getElementById('api-method').value;
-      const payload = payloadBodyEl.innerHTML || '{}';
+      const payload = document.getElementById('api-body').innerHTML || '{}';
 
       if (method === 'GET') {
         api.get(url, { sendFullResponse: true }).then(({ promise, response }) => {
