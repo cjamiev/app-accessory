@@ -4,21 +4,27 @@ const HEADERS = {
 };
 
 const api = {
-  post: (url, payload) => {
+  post: (url, payload, options = {}) => {
     return fetch(url, {
-      headers: HEADERS,
+      headers: options.headers || HEADERS,
       body: JSON.stringify(payload),
-      method: 'POST'
+      method: 'POST',
+      crossDomain: options.crossDomain || false
     })
-      .then(resp => resp.json())
+      .then(resp => {
+        return options.sendFullResponse ? { response: resp, promise: resp.json() } : resp.json();
+      })
       .catch(error => console.log('error:', error));
   },
-  get: (url) => {
+  get: (url, options = {}) => {
     return fetch(url, {
-      headers: HEADERS,
-      method: 'GET'
+      headers: options.headers || HEADERS,
+      method: 'GET',
+      crossDomain: options.crossDomain || false
     })
-      .then(resp => resp.json())
+      .then(resp => {
+        return options.sendFullResponse ? { response: resp, promise: resp.json() } : resp.json();
+      })
       .catch(error => console.log('error:', error));
   }
 };

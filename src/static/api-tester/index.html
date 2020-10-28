@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="../css/all.css">
+  <title>API Tester</title>
+  <style>
+    .api-parent {
+      margin: 20px;
+    }
+
+    .api-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-fields {
+      flex: 1;
+      display: flex;
+    }
+
+    .api-url {
+      flex: 6;
+      border-radius: 3px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .api-method {
+      flex: 1;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .api-submit-btn {
+      flex: 1;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .api-request {
+      flex: 1;
+    }
+
+    .api-request {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .api-request {
+      flex: 5;
+    }
+
+    .api-headers-parent {
+      flex: 1;
+      margin: 10px;
+    }
+
+    .api-headers {
+      width: 100%;
+      border: 1px solid black;
+      height: 250px;
+    }
+
+    .api-body-parent {
+      flex: 1;
+      margin: 10px;
+    }
+
+    .api-body {
+      width: 100%;
+      border: 1px solid black;
+      height: 250px;
+    }
+
+    .api-result {
+      display: flex;
+      flex-direction: row;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav-bar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../home/index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../snippets/index.html">Snippets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../clipboard/index.html">Clipboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">API Tester</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <h1> API Tester </h1>
+
+  <div id="main" class="api-parent">
+    <form class="api-form" onsubmit="return false;">
+      <div class="main-fields">
+        <input id="api-method" class="api-method" type="button" value="GET" onClick="switchAPIMethod()">
+        <input id="api-url" class="api-url" type="text" placeholder="Type in a URI" />
+        <button class="api-submit-btn" onClick="testApi()">Submit</button>
+      </div>
+      <div class="api-request">
+        <div class="api-headers-parent">
+          <label for="api-headers">Headers</label>
+          <pre id="api-headers" class="api-headers" contenteditable="true"></pre>
+        </div>
+        <div class="api-body-parent">
+          <label for="api-body">Body</label>
+          <pre id="api-body" class="api-body" contenteditable="true"></pre>
+        </div>
+      </div>
+    </form>
+
+    <div class="api-result">
+      <div class="api-headers-parent">
+        <label for="api-headers">Headers</label>
+        <pre id="api-response-headers" class="api-headers"></pre>
+      </div>
+      <div class="api-body-parent">
+        <label for="api-body">Body</label>
+        <pre id="api-response-body" class="api-body"></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script>
+    const payloadBodyEl = document.getElementById('api-body');
+    payloadBodyEl.addEventListener('blur', () => {
+      payloadBodyEl.innerHTML = payloadBodyEl.innerHTML.replace(/(<([^>]+)>)/ig, '') || '{}';
+    });
+
+    const switchAPIMethod = () => {
+      const apiMethod = document.getElementById('api-method');
+      const currentValue = apiMethod.value;
+      const updatedValue = currentValue === 'GET' ? 'POST' : 'GET';
+
+      apiMethod.value = updatedValue;
+    };
+
+    const testApi = () => {
+      const url = document.getElementById('api-url').value;
+      const method = document.getElementById('api-method').value;
+      const payload = payloadBodyEl.innerHTML || '{}';
+
+      if (method === 'GET') {
+        api.get(url, { sendFullResponse: true }).then(({ promise, response }) => {
+          promise.then(res => {
+            document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
+          });
+          document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;
+        });
+      }
+      else {
+        api.post(url, JSON.parse(payload), { sendFullResponse: true }).then(({ promise, response }) => {
+          promise.then(res => {
+            console.log(res);
+            document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
+          });
+          document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;
+        });
+      }
+    }
+  </script>
+
+</body>
+
+</html>
