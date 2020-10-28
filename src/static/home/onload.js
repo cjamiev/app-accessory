@@ -13,5 +13,5 @@ document.getElementById('current-date').innerHTML = displayDate;
 
 const contentDataEl = document.getElementById('contentData');
 contentDataEl.addEventListener('blur', () => {
-  contentDataEl.innerHTML = contentDataEl.innerHTML.replace(/(<([^>]+)>)/ig, '') || '{}';
+  contentDataEl.innerHTML = contentDataEl.innerHTML.replace(/(<([^>]+)>)/ig, '');
 });

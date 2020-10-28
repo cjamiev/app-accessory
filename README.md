@@ -26,8 +26,6 @@ Form for reading and writing to files.  Files must be deleted manually at the mo
 - Copy content of file to clipboard
 - Validate JSON format
 
-**Note there is a wierd bug where sometimes formatting code gets into content depending on how content was added in. Double check in notepadd++ when copy/pasting**
-
 ![Read and Write Feature](./documentation/read-write-feature.png)
 
 ## Snippets

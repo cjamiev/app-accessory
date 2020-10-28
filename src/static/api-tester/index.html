@@ -142,7 +142,7 @@
   <script>
     const payloadBodyEl = document.getElementById('api-body');
     payloadBodyEl.addEventListener('blur', () => {
-      payloadBodyEl.innerHTML = payloadBodyEl.innerHTML.replace(/(<([^>]+)>)/ig, '') || '{}';
+      payloadBodyEl.innerHTML = payloadBodyEl.innerHTML.replace(/(<([^>]+)>)/ig, '');
     });
 
     const switchAPIMethod = () => {
