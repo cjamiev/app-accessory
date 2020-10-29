@@ -27,11 +27,7 @@
 
 .quick-clipboard-add-btn:active {
   box-shadow: 0 5px#001133;
-  transform: translateY(4px);
-}
-
-.quick-clipboard-add-btn:hover {
-  box-shadow: 2px 2px 0px #001133;
+  transform: translateY(2px);
 }
 
 .quick-clipboard-remove-btn {
@@ -42,12 +38,7 @@
 }
 
 .quick-clipboard-remove-btn:active {
-  box-shadow: 0 5px #F92011;
-  transform: translateY(4px);
-}
-
-.quick-clipboard-remove-btn:hover {
-  box-shadow: 2px 2px 0px #7d1566;
+  transform: translateY(2px);
 }
 
 .quick-clipboard-copy-btn {
@@ -62,13 +53,11 @@
 }
 
 .quick-clipboard-copy-btn:active {
-  box-shadow: 0 5px #001133;
-  transform: translateY(4px);
+  transform: translateY(2px);
 }
 
 .quick-clipboard-copy-btn:hover {
-  background-color: #001133;
-  box-shadow: 2px 2px 0px #001133;
+  background-color: #000;
 }
 
 .quick-clipboard-add-new-container {

@@ -78,7 +78,7 @@ const handleWriteResponse = async (request, response) => {
   response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
 
   const content = payload.content || '';
-  const filename = payload.filename || 'no-name-' + new Date().toString().slice(4, 24).replace(/ /g, '.').replace(/:/g, '.');
+  const filename = payload.filename || new Date().toString().slice(4, 24).replace(/ /g, '.').replace(/:/g, '.');
   const filepath = payload.filepath || './storage/';
 
   const data = writeToFile(filepath + filename, content);

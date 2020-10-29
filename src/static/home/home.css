@@ -7,12 +7,9 @@
 }
 
 .main-field-container {
-  flex: 5;
   color: white;
-  opacity: 1;
-  transition: opacity 0.6s;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .alert-field-container {

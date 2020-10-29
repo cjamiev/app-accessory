@@ -9,6 +9,14 @@
   <link rel="stylesheet" type="text/css" href="./quick-clipboard.css">
   <link rel="stylesheet" type="text/css" href="./io.css">
   <title>Home</title>
+  <style>
+    .io-fieldset-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      place-items: center;
+    }
+  </style>
 </head>
 
 <body>
@@ -81,57 +89,57 @@
       <button class="quick-clipboard-add-btn" onClick="showQuickClipboardForm()">Add</button>
       <button class="quick-clipboard-remove-btn" onClick="deleteMode()">Remove</button>
     </div>
+
     <div class="center">
-      <div class="title-container">
-        <div id="main-field-container" class="main-field-container">
-          <div id="alert-field-container" class="alert-field-container">
-            <span id="alert-field" class="alert-field"></span>
-          </div>
-          <div class="io-fieldset-main">
-            <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
-            <input type="button" class="io-fieldset-cell operational-btns" value="Copy"
+      <!-- <div id="alert-field-container" class="alert-field-container">
+        <span id="alert-field" class="alert-field"></span>
+      </div> -->
+      <!-- main-field-container -->
+      <div class="main-field-container">
+        <div class="io-fieldset-column">
+          <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
+          <div class="btn-group">
+            <input type="button" class="io-fieldset-cell operational-btns btn-left" value="Copy"
               onclick="copyContentToClipboard('contentData')">
-            <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
-            <input type="submit" class="io-fieldset-cell operational-btns" value="Save" onclick="writeToFile()">
+            <input type="button" class="io-fieldset-cell operational-btns btn-middle" value="Validate"
+              onclick="validateJson()">
+            <input type="submit" class="io-fieldset-cell operational-btns btn-right" value="Save"
+              onclick="writeToFile()">
           </div>
+        </div>
+        <div class="io-fieldset-column">
+          <div class="io-fieldset-cell">
+            <label for="delimiterData">Delimiter:</label>
+            <select id="delimiterData">
+              <option value="0">comma</option>
+              <option value="1">new line</option>
+              <option value="2">space</option>
+            </select>
+          </div>
+          <input type="button" class="io-fieldset-cell operational-btns" value="Trim" onclick="minifyContent()">
+          <div class="btn-group">
+            <input type="button" class="io-fieldset-cell operational-btns btn-left" value="Sort Asc"
+              onclick="sortFile(false)">
+            <input type="button" class="io-fieldset-cell operational-btns btn-right" value="Sort Desc"
+              onclick="sortFile(true)">
+          </div>
+          <div class="btn-group">
+            <input type="button" class="io-fieldset-cell operational-btns btn-left" value="Split"
+              onclick="splitFileLines()">
+            <input type="button" class="io-fieldset-cell operational-btns btn-right" value="Join"
+              onclick="joinFileLines()">
+          </div>
+        </div>
+        <div class="io-fieldset-column">
+          <input id="findData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Find...">
+          <input id="replaceData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Replace...">
+          <input type="button" class="io-fieldset-cell operational-btns" value="Replace All" onclick="replaceAll()">
         </div>
       </div>
       <pre id="contentData" class="fileContent" placeholder="Enter File Content..." contenteditable></pre>
     </div>
 
-    <div class="right-side">
-      <div id="all-files" class="all-files"></div>
-      <div class="file-form">
-        <h2 class="section-title"> Read and Write to File</h2>
-        <form onsubmit="return false">
-          <fieldset class="io-fieldset-container">
-
-            <div class="io-fieldset-column">
-              <div class="io-fieldset-cell">
-                <label for="delimiterData">Delimiter:</label>
-                <select id="delimiterData">
-                  <option value="0">comma</option>
-                  <option value="1">new line</option>
-                  <option value="2">space</option>
-                </select>
-              </div>
-              <input type="button" class="io-fieldset-cell operational-btns" value="Sort" onclick="sortFile(false)">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Sort Desc" onclick="sortFile(true)">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Split Lines"
-                onclick="splitFileLines()">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Join Lines"
-                onclick="joinFileLines()">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Trim" onclick="minifyContent()">
-            </div>
-            <div class="io-fieldset-column">
-              <input id="findData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Find...">
-              <input id="replaceData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Replace...">
-              <input type="button" class="io-fieldset-cell operational-btns" value="Replace All" onclick="replaceAll()">
-            </div>
-          </fieldset>
-        </form><br>
-      </div>
-    </div>
+    <div id="all-files" class="right-side all-files"></div>
   </div>
 
   <script src="../js/api.js"></script>
