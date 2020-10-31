@@ -25,6 +25,7 @@ Form for reading and writing to files.  Files must be deleted manually at the mo
 - Splitting into seperate Lines by delimiter
 - Copy content of file to clipboard
 - Validate JSON format
+**Copy and paste content into notepad++ first in order to get rid of formatting**
 
 ![Read and Write Feature](./documentation/read-write-feature.png)
 
@@ -58,7 +59,6 @@ post: (filename, payload) => {
 ```
 
 Future Features
-- API Testing
 - UI for mock server and updating without restarting
 - Configuration based operations and more javascript generated HTML
 - SVGs icons
