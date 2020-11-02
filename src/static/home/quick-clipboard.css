@@ -7,10 +7,10 @@
 
 .quick-clipboard-timer {
   background-color: #001133;
-  border: 1px solid #e6eeff;
+  margin-left: 1px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100px;
 }
 
 .quick-clipboard-timer span {
@@ -19,10 +19,11 @@
 }
 
 .quick-clipboard-add-btn {
-  background-color: #001a66;
+  background-color: #020713;
   border: 1px solid #e6eeff;
+  border-radius: 10px 0px 0px 10px;
   color: white;
-  height: 30px;
+  width: 100px;
 }
 
 .quick-clipboard-add-btn:active {
@@ -30,22 +31,33 @@
   transform: translateY(2px);
 }
 
-.quick-clipboard-remove-btn {
-  background-color: #7d1500;
+.quick-clipboard-add-btn:hover {
+  background-color: #001133;
+}
+
+.quick-clipboard-remove-btn {  
+  background-color: #020713;
   border: 1px solid #e6eeff;
+  border-left: 1px solid #000;
+  border-radius: 0px 10px 10px 0px;
   color: white;
-  height: 30px;
+  width: 100px;
+  margin-left: -5px;
 }
 
 .quick-clipboard-remove-btn:active {
   transform: translateY(2px);
 }
 
+.quick-clipboard-remove-btn:hover {
+  background-color: #001133;
+}
+
 .quick-clipboard-copy-btn {
   background-color: #001133;
   border: 1px solid #001133;
   color: white;
-  height: 30px;
+  width: 100px;
 }
 
 .quick-clipboard-copy-btn-delete {
@@ -77,8 +89,9 @@
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
-  top: -5px;
-  left: 105%;
+  bottom: 100%;
+  left: 50%;
+  margin: 0 0 25px 5px;
 }
 
 .quick-clipboard-add-form {

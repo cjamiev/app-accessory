@@ -1,15 +1,12 @@
-.title-container {
+.footer {
+  border-top: 1px solid #c4c4c4;
+  padding-top: 2px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
   display: flex;
-}
-
-.title-cell {
-  flex: 3;
-}
-
-.main-field-container {
-  color: white;
-  display: flex;
-  flex-direction: row;
 }
 
 .alert-field-container {

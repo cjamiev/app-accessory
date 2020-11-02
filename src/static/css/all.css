@@ -32,9 +32,3 @@ body {
 .center-content {
   flex: 4;
 }
-
-.right-side {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-}
