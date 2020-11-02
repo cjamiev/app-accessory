@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="common.js"></script>
+  <script src="createEndpointPage.js"></script>
+  <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <section>
+    <div class="topnav">
+      <a href="configPage.html">Configuration</a>
+      <a href="viewEndpointsPage.html">View Endpoints</a>
+      <a class="active" href="createEndpointPage.html">Create Endpoint</a>
+      <a href="logPage.html">Logger</a>
+    </div>
+  </section>
+
+  <section class="parent-container">
+    <h1> Create New Mock Endpoint</h1>
+    <div>
+      <label>Mock File Name:
+        <input id="payload-create-endpoint-file-name" type="text">
+      </label>
+      <br>
+      <label>Group Mock Folder Name:
+        <input id="payload-create-endpoint-folder-name" type="text">
+      </label>
+      <br>
+      <label>Request Url:<input id="payload-create-endpoint-url" type="text"></label><br>
+      <label>Request Method:
+        <select id="payload-create-endpoint-method">
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+        </select>
+      </label><br>
+      <label>Response Headers:</label><br>
+      <textarea id="payload-create-endpoint-response-headers" rows="3"
+        cols="50">{"Content-Type": "application/json"}</textarea>
+      <br>
+      <label>Response Status Code:
+        <select id="payload-create-endpoint-response-status-code">
+          <option value="200">200</option>
+          <option value="404">404</option>
+          <option value="500">500</option>
+        </select>
+      </label>
+      <br>
+      <label>Response Body:</label><br>
+      <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"></textarea>
+      <br>
+      <input type="button" value="Submit" onClick="createMockEndpoint()">
+      <input type="button" value="Validate JSON format" onClick="validateResponseBody()">
+      <p id="payload-create-endpoint-message"></p>
+    </div>
+  </section>
+</body>
+
+</html>

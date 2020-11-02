@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="common.js"></script>
+  <script src="logPage.js"></script>
+  <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <section>
+    <div class="topnav">
+      <a href="configPage.html">Configuration</a>
+      <a href="viewEndpointsPage.html">View Endpoints</a>
+      <a href="createEndpointPage.html">Create Endpoint</a>
+      <a class="active" href="logPage.html">Logger</a>
+    </div>
+  </section>
+
+  <section class="parent-container">
+    <h2>Logs</h2>
+    <p>Run Log must be set to yes in configuration</p>
+    <div>
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Url</th>
+            <th>Payload</th>
+          </tr>
+        </thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </div>
+
+    <button onClick="clearLog()">Clear log</button>
+    <h2>View Payload Details</h2>
+    <textarea id="log-payload-details" rows="20" cols="100" readonly></textarea><br>
+    <button onClick="copyToClipboard('log-payload-details')">Copy Details to Clipboard</button>
+  </section>
+</body>
+
+</html>

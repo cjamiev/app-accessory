@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="common.js"></script>
+  <script src="configPage.js"></script>
+  <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <section>
+    <div class="topnav">
+      <a class="active" href="configPage.html">Configuration</a>
+      <a href="viewEndpointsPage.html">View Endpoints</a>
+      <a href="createEndpointPage.html">Create Endpoint</a>
+      <a href="logPage.html">Logger</a>
+    </div>
+  </section>
+
+  <section class="parent-container">
+    <h1> Configuration Page for Mock Services</h1>
+    <div class="config-container">
+      <div class="config-item">
+        <h2> Update Configuration</h2>
+        <label>Port:<input id="payload-config-port" type="text"></label><br>
+        <label>Delay(ms):<input id="payload-config-delay" type="text"></label><br>
+        <label>Urls to Delay:<input id="payload-config-delayUrls" type="text">(enter comma separated values, leave empty
+          if all endpoints are to delayed)</label><br>
+        <label>Run Log:</label>
+        <label><input id="payload-config-log-true" type="radio" name="payload-config-log" value="true">Yes</label>
+        <label><input id="payload-config-log-false" type="radio" name="payload-config-log" value="false">No</label>
+        <br>
+        <label>Error all endpoints:</label>
+        <label><input id="payload-config-error-true" type="radio" name="payload-config-error" value="true">Yes</label>
+        <label><input id="payload-config-error-false" type="radio" name="payload-config-error" value="false">No</label>
+        <br>
+        <label>Urls to Override:</label><input id="payload-config-overrideUrls" type="text">(enter comma separated
+        values)<br>
+        <label>Status Code for Override(s):</label><input id="payload-config-overrideStatusCode" type="text"><br>
+        <label>JSON Response for Override(s):</label><br>
+        <textarea id="payload-config-overrideResponse" rows="20" cols="100"></textarea>
+        <br>
+
+        <input type="button" value="Submit" onClick="updateConfiguration()">
+        <input type="button" value="Validate JSON format" onClick="validateOverrideResponse()">
+        <p>Changes to all fields except port will take effect without restart </p>
+        <p id="payload-config-message"></p>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>

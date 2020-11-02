@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="common.js"></script>
+  <script src="viewEndpointsPage.js"></script>
+  <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <section>
+    <div class="topnav">
+      <a href="configPage.html">Configuration</a>
+      <a class="active" href="viewEndpointsPage.html">View Endpoints</a>
+      <a href="createEndpointPage.html">Create Endpoint</a>
+      <a href="logPage.html">Logger</a>
+    </div>
+  </section>
+
+  <section class="parent-container">
+    <h2>View Mock Endpoints</h2>
+    <label>Filter URL(press enter key):
+      <input id="view-endpoints-filter" type="text" onChange="filterTableBySearch()">
+    </label>
+    <br>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Url</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="view-endpoints-body"></tbody>
+      </table>
+    </div>
+
+    <h2>View Response Details</h2>
+    <textarea id="view-response-details" rows="20" cols="100" readonly></textarea><br>
+    <button onClick="copyToClipboard('view-response-details')">Copy Details to Clipboard</button>
+    <p id="view-endpoints-message"></p>
+  </section>
+</body>
+
+</html>
