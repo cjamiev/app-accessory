@@ -31,6 +31,7 @@ const NOT_FOUND = 'file not found';
 const STATUS_OK = 200;
 const STATUS_ERROR = 500;
 const mockServerError = { message: 'mock server error has occurred' };
+const IO_DIRECTORY = './storage/io';
 
 const cors = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -79,7 +80,7 @@ const handleWriteResponse = async (request, response) => {
 
   const content = payload.content || '';
   const filename = payload.filename || new Date().toString().slice(4, 24).replace(/ /g, '.').replace(/:/g, '.');
-  const filepath = payload.filepath || './storage/';
+  const filepath = payload.filepath || IO_DIRECTORY + '/';
 
   const data = writeToFile(filepath + filename, content);
 
@@ -92,11 +93,11 @@ const handleReadResponse = (request, response) => {
   const queryParams = url.parse(request.url, true).query;
 
   if (queryParams.read === 'true') {
-    const data = loadFile('./storage/' + queryParams.name + '.' + queryParams.ext);
+    const data = loadFile(IO_DIRECTORY + '/' + queryParams.name + '.' + queryParams.ext);
     response.end(JSON.stringify({ data }), UTF8);
   }
   else {
-    const data = readDirectory('./storage');
+    const data = readDirectory(IO_DIRECTORY);
     response.end(JSON.stringify({ data }), UTF8);
   }
 };
