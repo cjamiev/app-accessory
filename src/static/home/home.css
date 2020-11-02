@@ -8,28 +8,3 @@
   width: 100%;
   display: flex;
 }
-
-.alert-field-container {
-  margin: 0px auto;
-  flex: 1;
-  width: 100%;
-  display: grid;
-  place-items: center;
-  position: absolute;
-}
-
-.alert-field {
-  margin: auto auto;
-}
-
-.success {
-  background-color: #4CAF50;
-}
-
-.info {
-  background-color: #2196F3;
-}
-
-.error {
-  background-color: #f44336;
-}

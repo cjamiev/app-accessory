@@ -11,10 +11,13 @@ const copyToClipboard = text => {
   copyText.select();
   document.execCommand('copy');
   document.body.removeChild(copyText);
+  setOutput({ error: false, message: 'Successfully copied' });
+  setTimeout(removeOutput, 5000);
 };
 
 const copyContentToClipboard = (elementId) => {
   copyToClipboard(document.getElementById(elementId).innerHTML);
+
 };
 
 const copyHTMLContentToClipboard = (elementId) => {
@@ -30,4 +33,38 @@ const parseObject = obj => {
     return { error: true, message: 'Invalid JSON Format' };
   }
   return { error: false, message: 'Valid JSON Format' };
+};
+
+const setOutput = (data) => {
+  const alertField = document.getElementById('alert-field');
+  const alertFieldContainer = document.getElementById('alert-field-container');
+  alertField.innerHTML = data.message;
+
+  const alertClass = data.error ? 'error' : 'success';
+  alertField.classList.remove('success');
+  alertField.classList.remove('error');
+  alertField.classList.add(alertClass);
+  alertFieldContainer.classList.add('alert-field-active');
+};
+
+const removeOutput = () => {
+  const alertField = document.getElementById('alert-field');
+  const alertFieldContainer = document.getElementById('alert-field-container');
+
+  alertField.classList.remove('success');
+  alertField.classList.remove('error');
+  alertFieldContainer.classList.remove('alert-field-active');
+}
+
+const validateJson = () => {
+  const response = parseObject(document.getElementById('contentData').innerHTML);
+  const alertField = document.getElementById('alert-field');
+  const alertFieldContainer = document.getElementById('alert-field-container');
+  alertField.innerHTML = response.message;
+
+  const alertClass = response.error ? 'error' : 'success';
+  alertField.classList.remove('success');
+  alertField.classList.remove('error');
+  alertField.classList.add(alertClass);
+  alertFieldContainer.classList.add('alert-field-active');
 };

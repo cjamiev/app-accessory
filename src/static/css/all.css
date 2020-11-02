@@ -32,3 +32,47 @@ body {
 .center-content {
   flex: 4;
 }
+
+
+.alert-field-container {
+  margin: 0px auto;
+  flex: 1;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.alert-field-container .alert-field {
+  visibility: hidden;
+  color: #fff;
+  border-radius: 6px;
+  padding: 5px 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  left: 75%;
+  margin-top: 5px;
+}
+
+
+.alert-field {
+  margin: auto auto;
+}
+
+.alert-field-active .alert-field {
+  visibility: visible;
+}
+
+.success {
+  background-color: #4CAF50;
+}
+
+.info {
+  background-color: #2196F3;
+}
+
+.error {
+  background-color: #f44336;
+}

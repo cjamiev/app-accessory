@@ -1,26 +1,3 @@
-const setOutput = (data) => {
-  const alertField = document.getElementById('alert-field');
-  const alertFieldContainer = document.getElementById('alert-field-container');
-  alertField.innerHTML = data.message;
-
-  const alertClass = data.error ? 'error' : 'success';
-  alertFieldContainer.classList.remove('success');
-  alertFieldContainer.classList.remove('error');
-  alertFieldContainer.classList.add(alertClass);
-};
-
-const validateJson = () => {
-  const response = parseObject(document.getElementById('contentData').innerHTML);
-  const alertField = document.getElementById('alert-field');
-  const alertFieldContainer = document.getElementById('alert-field-container');
-  alertField.innerHTML = response.message;
-
-  const alertClass = response.error ? 'error' : 'success';
-  alertFieldContainer.classList.remove('success');
-  alertFieldContainer.classList.remove('error');
-  alertFieldContainer.classList.add(alertClass);
-};
-
 const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
   const content = document.getElementById('contentData').innerHTML;
