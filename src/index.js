@@ -29,6 +29,7 @@ const mimeTypes = {
   '.css': 'text/css'
 };
 const STANDARD_HEADER = { 'Content-Type': 'application/json' };
+const mockServerError = { message: 'mock server error has occurred' };
 const NOT_FOUND = 'file not found';
 const STATUS_OK = 200;
 const STATUS_ERROR = 500;
@@ -212,11 +213,15 @@ http.createServer((request, response) => {
     handleStaticResponse(request, response);
   }
   else {
-    const { delay, delayUrls } = loadConfiguration();
+    const { delay, delayUrls, error, log, overrideUrls, overrideStatusCode, overrideResponse } = loadConfiguration();
     const shouldDelayAllUrls = !delayUrls.length;
     const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
 
-    if (shouldDelayAllUrls || shouldDelayThisUrl) {
+    if (error) {
+      response.writeHead(STATUS_ERROR, STANDARD_HEADER);
+      response.end(JSON.stringify(mockServerError), UTF8);
+    }
+    else if (shouldDelayAllUrls || shouldDelayThisUrl) {
       setTimeout(() => { handleMockResponse(request, response); }, delay);
     }
     else {
