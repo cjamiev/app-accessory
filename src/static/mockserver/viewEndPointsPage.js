@@ -6,7 +6,7 @@ const viewDetails = item => {
 
 const loadResponse = responsePath => {
   return () => {
-    fetch('/loadMockResponse', {
+    fetch('/api/mockserver/loadMockResponse', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -16,7 +16,7 @@ const loadResponse = responsePath => {
     })
       .then(resp => resp.json())
       .then(mockResponse => {
-        document.getElementById('view-response-details').innerHTML = JSON.stringify(mockResponse, undefined, 2);
+        document.getElementById('view-response-details').innerHTML = JSON.stringify(mockResponse.data, undefined, 2);
       });
   };
 };
@@ -87,17 +87,17 @@ const filterTableBySearch = () => {
 };
 
 const loadEndpoints = () => {
-  fetch('/mockRequests')
+  fetch('/api/mockserver/mockRequests')
     .then(resp => resp.json())
     .then(mockContent => {
-      sessionStorage.setItem('mockContent', JSON.stringify(mockContent));
-      setTableHTML(mockContent);
+      sessionStorage.setItem('mockContent', JSON.stringify(mockContent.data));
+      setTableHTML(mockContent.data);
     });
 };
 
 const deleteEndpoint = (endpoint) => {
   return () => {
-    fetch('/deleteMockEndpoint', {
+    fetch('/api/mockserver/deleteMockEndpoint', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

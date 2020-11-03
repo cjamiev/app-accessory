@@ -27,7 +27,7 @@ const loadMockResponse = (filepath) => {
   return loadJSONFromFile(filepath, []);
 };
 
-const getMockResponse = (url, method) => {
+const getMatchedMockResponse = (url, method) => {
   const mockRequests = loadMockRequests();
   const matchedMockRequest = mockRequests.find(entry => entry.url === url && entry.method === method);
   if (matchedMockRequest) {
@@ -125,7 +125,9 @@ const clearLog = () => {
 
 module.exports = {
   createMockFile,
-  getMockResponse,
+  loadMockRequests,
+  loadMockResponse,
+  getMatchedMockResponse,
   loadConfiguration,
   updateConfiguration,
   loadLog,

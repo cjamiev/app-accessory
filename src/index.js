@@ -12,7 +12,9 @@ const {
 } = require('./util');
 const {
   createMockFile,
-  getMockResponse,
+  loadMockRequests,
+  loadMockResponse,
+  getMatchedMockResponse,
   loadConfiguration,
   updateConfiguration,
   loadLog,
@@ -149,6 +151,16 @@ const handleMockServerResponse = async (request, response) => {
     response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
     response.end(JSON.stringify({ data }), UTF8);
   }
+  else if (request.url.includes('mockRequests')) {
+    const data = loadMockRequests();
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify({ data }), UTF8);
+  }
+  else if (request.url.includes('loadMockResponse')) {
+    const data = loadMockResponse();
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify({ data }), UTF8);
+  }
   else if (request.url.includes('createMockEndpoint')) {
     const payload = await resolvePostBody(request);
     const message = createMockFile(payload);
@@ -187,7 +199,7 @@ const handleStaticResponse = (request, response) => {
 };
 
 const handleMockResponse = async (request, response) => {
-  const matchedResponse = getMockResponse(request.url, request.method);
+  const matchedResponse = getMatchedMockResponse(request.url, request.method);
 
   if (matchedResponse && matchedResponse.conditionalResponse) {
     const payload = await resolvePostBody(request);
