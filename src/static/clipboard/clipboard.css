@@ -21,7 +21,12 @@
   border-top: 1px solid #e1e4d8;
   padding: 10px;
   text-align:center;
+  display: flex;
+  text-align: center;
+  place-items: center;
+  justify-content: center;
 }
+
 
 .command-btn {
   background-color: #24292e;
@@ -30,7 +35,7 @@
   color: white;
   font-weight: 500;
   height: 30px;
-  margin: 0px auto;
+  margin: 0px 5px;
 }
 
 .command-btn:active {
@@ -52,6 +57,7 @@
   border-radius: 5px 5px 5px 5px;
   color: white;
   height: 30px;
+  margin: 0px 5px;
 }
 
 .copy-btn:active {
@@ -64,7 +70,7 @@
   box-shadow: 2px 2px 0px #006cb4;;
 }
 
-.row {
+.section-content {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -72,17 +78,23 @@
   margin-left: 50px;
 }
 
-.cell {
+.list-group {
   margin: 0 10px;
 }
 
-.title {
+.section-title {
   margin-top: 20px;
   text-align: center;
 }
 
-.list {
+.list-content {
   background-color: #fff;
   border-radius: 0px 0px 15px 15px;
   border: 1px solid #e1e4d8;
+}
+
+.timer-cell {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 5px;
 }
