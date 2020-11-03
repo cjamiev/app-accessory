@@ -29,7 +29,7 @@ const createElement = (item) => {
       commandInput.type = 'text';
       commandInput.placeholder = item.value.name + ' arguments...';
 
-      return [commandBtn, commandInput];
+      return [commandInput, commandBtn];
     }
 
     return [commandBtn];
@@ -61,13 +61,13 @@ const createListEntry = (listEntry) => {
   listContent.id = listEntry.listId;
   listContent.className = 'list-content';
 
-  listEntry.listData.map(item => {
+  listEntry.listData.forEach(item => {
     const childElements = createElement(item);
     const listDiv = document.createElement('div');
     listDiv.classList.add('clipboard-cell');
 
     childElements.forEach(element => {
-      listDiv.appendChild(element);
+      listDiv.prepend(element);
     });
 
     listContent.appendChild(listDiv);
@@ -104,3 +104,9 @@ const createListEntries = (entries) => {
   section.appendChild(sectionContent);
   main.appendChild(section);
 };
+
+api.get('/clipboard-config').then(result => {
+  result.data.forEach(sectionData => {
+    createListEntries(JSON.parse(sectionData));
+  });
+});

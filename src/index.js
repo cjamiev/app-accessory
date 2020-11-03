@@ -32,6 +32,7 @@ const STATUS_OK = 200;
 const STATUS_ERROR = 500;
 const mockServerError = { message: 'mock server error has occurred' };
 const IO_DIRECTORY = './storage/io';
+const CLIPBOARD_DIRECTORY = './storage/clipboard';
 
 const cors = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -118,6 +119,18 @@ const handleCommandResponse = (request, response) => {
   });
 };
 
+const handleClipboardResponse = (request, response) => {
+  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+
+  const directories = readDirectory(CLIPBOARD_DIRECTORY);
+  const data = [];
+  directories.forEach(filename => {
+    data.push(loadFile(CLIPBOARD_DIRECTORY + '/' + filename));
+  });
+
+  response.end(JSON.stringify({ data }), UTF8);
+};
+
 const handleStaticResponse = (request, response) => {
   const filePath = (request.url === '/' || request.url === '/index.html') ? ROOT_DIR + 'index.html' : ROOT_DIR + request.url;
   const extname = String(path.extname(filePath)).toLowerCase();
@@ -165,6 +178,9 @@ http.createServer((request, response) => {
   }
   else if (request.url.includes('command')) {
     handleCommandResponse(request, response);
+  }
+  else if (request.url.includes('clipboard-config')) {
+    handleClipboardResponse(request, response);
   }
   else if (path.extname(request.url)) {
     handleStaticResponse(request, response);
