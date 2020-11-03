@@ -77,17 +77,21 @@ const createListEntry = (listEntry) => {
 };
 
 const createListEntries = (entries) => {
-  const main = document.getElementById('main');
+  const main = document.getElementById('main-content');
 
   const section = document.createElement('section');
-  const title = document.createElement('h2');
   const sectionContent = document.createElement('div');
 
-  title.className = 'section-title';
-  title.innerHTML = entries.sectionTitle;
   sectionContent.className = 'section-content';
 
-  section.appendChild(title);
+  if (entries.sectionTitle) {
+    const title = document.createElement('h2');
+    title.className = 'section-title';
+    title.innerHTML = entries.sectionTitle;
+
+    section.appendChild(title);
+  }
+
 
   entries.sectionData.forEach(entry => {
     const listContainer = document.createElement('div');
