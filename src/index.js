@@ -11,6 +11,10 @@ const {
   readDirectory
 } = require('./util');
 const {
+  loadConfiguration,
+  updateConfiguration
+} = require('./config');
+const {
   mockResponses,
   mockConfig
 } = require('./mockResponses');
@@ -30,9 +34,9 @@ const STANDARD_HEADER = { 'Content-Type': 'application/json' };
 const NOT_FOUND = 'file not found';
 const STATUS_OK = 200;
 const STATUS_ERROR = 500;
-const mockServerError = { message: 'mock server error has occurred' };
 const IO_DIRECTORY = './storage/io';
 const CLIPBOARD_DIRECTORY = './storage/clipboard';
+const METHOD_POST = 'POST';
 
 const cors = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -131,6 +135,20 @@ const handleClipboardResponse = (request, response) => {
   response.end(JSON.stringify({ data }), UTF8);
 };
 
+const handleMockServerResponse = async (request, response) => {
+  if (request.url.includes('config') && request.method === METHOD_POST) {
+    const payload = await resolvePostBody(request);
+    const message = updateConfiguration(payload);
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify(message), UTF8);
+  }
+  else if (request.url.includes('config')) {
+    const data = loadConfiguration();
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify({ data }), UTF8);
+  }
+};
+
 const handleStaticResponse = (request, response) => {
   const filePath = (request.url === '/' || request.url === '/index.html') ? ROOT_DIR + 'index.html' : ROOT_DIR + request.url;
   const extname = String(path.extname(filePath)).toLowerCase();
@@ -181,6 +199,9 @@ http.createServer((request, response) => {
   }
   else if (request.url.includes('clipboard-config')) {
     handleClipboardResponse(request, response);
+  }
+  else if (request.url.includes('api/mockserver')) {
+    handleMockServerResponse(request, response);
   }
   else if (path.extname(request.url)) {
     handleStaticResponse(request, response);

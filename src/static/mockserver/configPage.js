@@ -1,4 +1,3 @@
-const PORT_ERROR = 'Port must be a valid number';
 const DELAY_ERROR = 'Delay must be a valid number (milliseconds)';
 const OVERRIDE_RESPONSE_ERROR = 'Override Response Body must be valid JSON';
 
@@ -10,7 +9,6 @@ const validateOverrideResponse = () => {
 };
 
 const setConfigHTML = (data) => {
-  document.getElementById('payload-config-port').value = data.port;
   document.getElementById('payload-config-delay').value = data.delay;
   document.getElementById('payload-config-delayUrls').value = data.delayUrls;
   if (data.log) {
@@ -29,17 +27,16 @@ const setConfigHTML = (data) => {
 };
 
 const loadConfiguration = () => {
-  fetch('/config')
+  fetch('/api/mockserver/config')
     .then(resp => resp.json())
-    .then(data => {
-      setConfigHTML(data);
+    .then(result => {
+      setConfigHTML(result.data);
     })
     .catch(() => {
     });
 };
 
 const updateConfiguration = () => {
-  const port = getNumberValue('payload-config-port');
   const delay = getNumberValue('payload-config-delay');
   const delayUrls = getArrayFromCommaSeparatedValue('payload-config-delayUrls');
   const log = getRadioButtonValue('payload-config-log');
@@ -49,7 +46,6 @@ const updateConfiguration = () => {
   const overrideResponse = parseJSONObject(document.getElementById('payload-config-overrideResponse').value);
 
   const payload = {
-    port,
     delay,
     delayUrls,
     log,
@@ -59,14 +55,13 @@ const updateConfiguration = () => {
     overrideResponse
   };
 
-  const portError = isNumber(port) ? '' : PORT_ERROR;
   const delayError = isNumber(delay) ? '' : DELAY_ERROR;
   const overrideResponseError = isValidJSONObject(JSON.stringify(overrideResponse)) ? '' : OVERRIDE_RESPONSE_ERROR;
 
-  if (portError || delayError || overrideResponseError) {
-    document.getElementById('payload-config-message').innerHTML = 'ERRORS:' + portError + ' ' + delayError + ' ' + overrideResponseError;
+  if (delayError || overrideResponseError) {
+    document.getElementById('payload-config-message').innerHTML = 'ERRORS:' + ' ' + delayError + ' ' + overrideResponseError;
   } else {
-    fetch('/config', {
+    fetch('/api/mockserver/config', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -75,9 +70,9 @@ const updateConfiguration = () => {
       method: 'POST'
     })
       .then(resp => resp.json())
-      .then(data => {
+      .then(result => {
         setTimeout(loadConfiguration(), DELAY_ONE_SECOND);
-        document.getElementById('payload-config-message').innerHTML = data.message;
+        document.getElementById('payload-config-message').innerHTML = result.message;
       })
       .catch(err => {
         document.getElementById('payload-config-message').innerHTML = err.message;

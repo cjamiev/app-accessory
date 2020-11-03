@@ -2,6 +2,10 @@ const fs = require('fs');
 
 const UTF8 = 'utf-8';
 
+const isNumber = value => typeof value === 'number';
+const isBoolean = value => typeof value === 'boolean';
+const isString = value => typeof value === 'string';
+const isObject = value => typeof value === 'object';
 const isObjectLike = value => value !== null && typeof value === 'object';
 const xOr = (a, b) => (!a && b) || (a && !b);
 const isNotEmpty = targetObject => {
@@ -58,15 +62,34 @@ const writeToFile = (filepath, content) => {
   }
 };
 
+const updateFile = (path, content) => {
+  try {
+    fs.writeFileSync(path, JSON.stringify(content));
+    return '';
+  } catch (e) {
+    return e;
+  }
+};
+
 const loadFile = (filepath) => {
   return fs.existsSync(filepath) ? fs.readFileSync(filepath, UTF8) : null;
+};
+
+const loadJSONFromFile = (path, defaultValue) => {
+  return fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, UTF8)) : defaultValue;
 };
 
 const readDirectory = dir => fs.readdirSync(dir);
 
 module.exports = {
+  isNumber,
+  isBoolean,
+  isString,
+  isObject,
   isEqual,
   writeToFile,
+  updateFile,
   loadFile,
+  loadJSONFromFile,
   readDirectory
 };

@@ -23,7 +23,6 @@
     <div class="config-container">
       <div class="config-item">
         <h2> Update Configuration</h2>
-        <label>Port:<input id="payload-config-port" type="text"></label><br>
         <label>Delay(ms):<input id="payload-config-delay" type="text"></label><br>
         <label>Urls to Delay:<input id="payload-config-delayUrls" type="text">(enter comma separated values, leave empty
           if all endpoints are to delayed)</label><br>
@@ -44,7 +43,7 @@
 
         <input type="button" value="Submit" onClick="updateConfiguration()">
         <input type="button" value="Validate JSON format" onClick="validateOverrideResponse()">
-        <p>Changes to all fields except port will take effect without restart </p>
+        <p>Changes to all fields will take effect without restart </p>
         <p id="payload-config-message"></p>
       </div>
     </div>
