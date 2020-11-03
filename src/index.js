@@ -14,7 +14,10 @@ const {
   createMockFile,
   getMockResponse,
   loadConfiguration,
-  updateConfiguration
+  updateConfiguration,
+  loadLog,
+  logEntry,
+  clearLog
 } = require('./mockserver-util');
 
 const port = process.argv[2] || 999;
@@ -153,6 +156,18 @@ const handleMockServerResponse = async (request, response) => {
     response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
     response.end(JSON.stringify(message), UTF8);
   }
+  else if (request.url.includes('clearLog')) {
+    const message = clearLog();
+
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify(message), UTF8);
+  }
+  else if (request.url.includes('loadLog')) {
+    const data = loadLog();
+
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify({ data }), UTF8);
+  }
 };
 
 const handleStaticResponse = (request, response) => {
@@ -192,6 +207,32 @@ const handleMockResponse = async (request, response) => {
   }
 };
 
+const handleDefaultResponse = async (request, response) => {
+  const { delay, delayUrls, error, log, overrideUrls, overrideStatusCode, overrideResponse } = loadConfiguration();
+  const shouldDelayAllUrls = !delayUrls.length;
+  const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
+  const matchedUrl = overrideUrls.some(endpoint => endpoint === request.url);
+
+  if (log) {
+    const payload = request.method === METHOD_POST ? await resolvePostBody(request) : {};
+    logEntry(request.url, payload);
+  }
+  if (error) {
+    response.writeHead(STATUS_ERROR, STANDARD_HEADER);
+    response.end(JSON.stringify(mockServerError), UTF8);
+  }
+  else if (matchedUrl) {
+    response.writeHead(overrideStatusCode, STANDARD_HEADER);
+    response.end(JSON.stringify(overrideResponse), UTF8);
+  }
+  else if (shouldDelayAllUrls || shouldDelayThisUrl) {
+    setTimeout(() => { handleMockResponse(request, response); }, delay);
+  }
+  else {
+    handleMockResponse(request, response);
+  }
+};
+
 http.createServer((request, response) => {
   cors(response);
   if (request.url.includes('write')) {
@@ -213,20 +254,7 @@ http.createServer((request, response) => {
     handleStaticResponse(request, response);
   }
   else {
-    const { delay, delayUrls, error, log, overrideUrls, overrideStatusCode, overrideResponse } = loadConfiguration();
-    const shouldDelayAllUrls = !delayUrls.length;
-    const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
-
-    if (error) {
-      response.writeHead(STATUS_ERROR, STANDARD_HEADER);
-      response.end(JSON.stringify(mockServerError), UTF8);
-    }
-    else if (shouldDelayAllUrls || shouldDelayThisUrl) {
-      setTimeout(() => { handleMockResponse(request, response); }, delay);
-    }
-    else {
-      handleMockResponse(request, response);
-    }
+    handleDefaultResponse(request, response);
   }
 }).listen(parseInt(port));
 

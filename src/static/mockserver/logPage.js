@@ -37,17 +37,17 @@ const setTableHTML = (data) => {
 };
 
 const loadLog = () => {
-  fetch('/log')
+  fetch('/api/mockserver/loadLog')
     .then(resp => resp.json())
-    .then(data => {
-      setTableHTML(data);
+    .then(result => {
+      setTableHTML(result.data);
     })
     .catch(() => {
     });
 };
 
 const clearLog = () => {
-  fetch('/clearLog')
+  fetch('/api/mockserver/clearLog')
     .then(resp => resp.json())
     .then(data => {
       loadLog();

@@ -9,6 +9,7 @@ const {
 const CONFIG_OVERRIDE_PATH = './storage/config/config.json';
 const MOCK_FILE_PATH = './storage/mock';
 const MOCK_REQUESTS_PATH = './storage/config/mockPaths.json';
+const LOGFILE_PATH = './storage/log.json';
 const DEFAULT_CONFIG = {
   delay: 0,
   delayUrls: [],
@@ -57,7 +58,7 @@ const updateMockRequests = (request, filename) => {
 };
 
 const createMockFile = ({ content, filename }) => {
-  const messageOne = updateMockRequests(content.request, filename)
+  const messageOne = updateMockRequests(content.request, filename);
   const message = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
 
   return message;
@@ -104,9 +105,30 @@ const updateConfiguration = (payloadConfig) => {
   return errorMessage ? { message: errorMessage } : { message: 'updated configuration' };
 };
 
+const loadLog = () => {
+  return loadJSONFromFile(LOGFILE_PATH, []);
+};
+
+const logEntry = (url, payload) => {
+  const date = new Date();
+  const timestamp = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+  const currentLog = loadLog();
+  const updatedLog = currentLog.concat([{ timestamp, url, payload }]);
+
+  updateFile(LOGFILE_PATH, updatedLog);
+};
+
+const clearLog = () => {
+  return updateFile(LOGFILE_PATH, []);
+};
+
 module.exports = {
   createMockFile,
   getMockResponse,
   loadConfiguration,
-  updateConfiguration
+  updateConfiguration,
+  loadLog,
+  logEntry,
+  clearLog
 };
