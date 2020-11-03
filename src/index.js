@@ -12,13 +12,10 @@ const {
 } = require('./util');
 const {
   createMockFile,
+  getMockResponse,
   loadConfiguration,
   updateConfiguration
 } = require('./mockserver-util');
-const {
-  mockResponses,
-  mockConfig
-} = require('./mockResponses');
 
 const port = process.argv[2] || 999;
 const ROOT_DIR = './src/static/';
@@ -174,7 +171,7 @@ const handleStaticResponse = (request, response) => {
 };
 
 const handleMockResponse = async (request, response) => {
-  const matchedResponse = mockResponses.find(entry => entry.url === request.url && entry.method === request.method);
+  const matchedResponse = getMockResponse(request.url, request.method);
 
   if (matchedResponse && matchedResponse.conditionalResponse) {
     const payload = await resolvePostBody(request);
@@ -215,7 +212,7 @@ http.createServer((request, response) => {
     handleStaticResponse(request, response);
   }
   else {
-    const { delay, delayUrls } = mockConfig;
+    const { delay, delayUrls } = loadConfiguration();
     const shouldDelayAllUrls = !delayUrls.length;
     const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
 

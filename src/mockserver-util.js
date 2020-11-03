@@ -22,6 +22,21 @@ const loadMockRequests = () => {
   return loadJSONFromFile(MOCK_REQUESTS_PATH, []);
 };
 
+const loadMockResponse = (filepath) => {
+  return loadJSONFromFile(filepath, []);
+};
+
+const getMockResponse = (url, method) => {
+  const mockRequests = loadMockRequests();
+  const matchedMockRequest = mockRequests.find(entry => entry.url === url && entry.method === method);
+  if (matchedMockRequest) {
+
+    return loadMockResponse(matchedMockRequest.responsePath);
+  }
+
+  return null;
+};
+
 const updateMockRequests = (request, filename) => {
   const mockRequests = loadMockRequests();
 
@@ -91,6 +106,7 @@ const updateConfiguration = (payloadConfig) => {
 
 module.exports = {
   createMockFile,
+  getMockResponse,
   loadConfiguration,
   updateConfiguration
 };
