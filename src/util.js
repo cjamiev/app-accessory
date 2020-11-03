@@ -71,6 +71,15 @@ const updateFile = (path, content) => {
   }
 };
 
+const deleteFile = (path) => {
+  try {
+    fs.unlinkSync(path);
+    return 'successfully deleted file';
+  } catch (err) {
+    return err;
+  }
+};
+
 const loadFile = (filepath) => {
   return fs.existsSync(filepath) ? fs.readFileSync(filepath, UTF8) : null;
 };
@@ -89,6 +98,7 @@ module.exports = {
   isEqual,
   writeToFile,
   updateFile,
+  deleteFile,
   loadFile,
   loadJSONFromFile,
   readDirectory

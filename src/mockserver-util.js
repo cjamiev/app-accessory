@@ -3,7 +3,8 @@ const {
   isNumber,
   isObject,
   loadJSONFromFile,
-  updateFile
+  updateFile,
+  deleteFile
 } = require('./util');
 
 const CONFIG_OVERRIDE_PATH = './storage/config/config.json';
@@ -62,6 +63,19 @@ const createMockFile = ({ content, filename }) => {
   const message = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
 
   return message;
+};
+
+const removeMockRequestsEntry = ({ url, method, responsePath }) => {
+  const mockRequests = loadMockRequests();
+
+  const updatedMockRequests = (!mockRequests.length) ?
+    [] :
+    mockRequests
+      .filter(entry => !(entry.url === url && entry.method === method));
+
+  deleteFile(responsePath);
+
+  return updateFile(MOCK_REQUESTS_PATH, updatedMockRequests);
 };
 
 const constructValidConfig = (payloadConfig) => {
@@ -125,6 +139,7 @@ const clearLog = () => {
 
 module.exports = {
   createMockFile,
+  removeMockRequestsEntry,
   loadMockRequests,
   loadMockResponse,
   getMatchedMockResponse,

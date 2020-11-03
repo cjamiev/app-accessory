@@ -12,6 +12,7 @@ const {
 } = require('./util');
 const {
   createMockFile,
+  removeMockRequestsEntry,
   loadMockRequests,
   loadMockResponse,
   getMatchedMockResponse,
@@ -160,6 +161,13 @@ const handleMockServerResponse = async (request, response) => {
     const data = loadMockResponse();
     response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
     response.end(JSON.stringify({ data }), UTF8);
+  }
+  else if (request.url.includes('deleteMockEndpoint')) {
+    const payload = await resolvePostBody(request);
+    const message = removeMockRequestsEntry(payload);
+
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify(message), UTF8);
   }
   else if (request.url.includes('createMockEndpoint')) {
     const payload = await resolvePostBody(request);
