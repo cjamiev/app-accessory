@@ -7,6 +7,8 @@ const {
 } = require('./util');
 
 const CONFIG_OVERRIDE_PATH = './storage/config/config.json';
+const MOCK_FILE_PATH = './storage/mock';
+const MOCK_REQUESTS_PATH = './storage/config/mockPaths.json';
 const DEFAULT_CONFIG = {
   delay: 0,
   delayUrls: [],
@@ -15,6 +17,35 @@ const DEFAULT_CONFIG = {
   overrideUrls: [],
   overrideStatusCode: 200,
   overrideResponse: {}
+};
+const loadMockRequests = () => {
+  return loadJSONFromFile(MOCK_REQUESTS_PATH, []);
+};
+
+const updateMockRequests = (request, filename) => {
+  const mockRequests = loadMockRequests();
+
+  const matched = mockRequests.find(entry => entry.url === request.url && entry.method === request.method);
+
+  if (matched) {
+    return ENTRY_ALREADY_EXISTS_MESSAGE;
+  }
+
+  const newEntry = {
+    ...request,
+    responsePath: MOCK_FILE_PATH + '/' + filename
+  };
+
+  const updatedMockRequests = mockRequests.concat([newEntry]);
+
+  return updateFile(MOCK_REQUESTS_PATH, updatedMockRequests);
+};
+
+const createMockFile = ({ content, filename }) => {
+  const messageOne = updateMockRequests(content.request, filename)
+  const message = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
+
+  return message;
 };
 
 const constructValidConfig = (payloadConfig) => {
@@ -59,6 +90,7 @@ const updateConfiguration = (payloadConfig) => {
 };
 
 module.exports = {
+  createMockFile,
   loadConfiguration,
   updateConfiguration
 };

@@ -42,7 +42,7 @@ const createMockEndpoint = () => {
   if (filenameError || urlError || headersError || bodyError) {
     document.getElementById('payload-create-endpoint-message').innerHTML = 'ERRORS:' + filenameError + ' ' + urlError + ' ' + headersError + ' ' + bodyError;
   } else {
-    fetch('/createMockEndpoint', {
+    fetch('/api/mockserver/createMockEndpoint', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

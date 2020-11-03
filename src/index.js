@@ -11,9 +11,10 @@ const {
   readDirectory
 } = require('./util');
 const {
+  createMockFile,
   loadConfiguration,
   updateConfiguration
-} = require('./config');
+} = require('./mockserver-util');
 const {
   mockResponses,
   mockConfig
@@ -146,6 +147,13 @@ const handleMockServerResponse = async (request, response) => {
     const data = loadConfiguration();
     response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
     response.end(JSON.stringify({ data }), UTF8);
+  }
+  else if (request.url.includes('createMockEndpoint')) {
+    const payload = await resolvePostBody(request);
+    const message = createMockFile(payload);
+
+    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+    response.end(JSON.stringify(message), UTF8);
   }
 };
 
