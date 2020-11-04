@@ -47,26 +47,16 @@
     <div class="center">
       <div class="main-field-container">
         <input id="filenameData" class="io-fieldset-cell io-fieldset-input" type="text" placeholder="Name">
-        <div class="btn-group">
-          <input type="button" class="io-fieldset-cell operational-btns btn-left" value="Copy"
-            onclick="copyContentToClipboard('contentData')">
-          <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
-          <input type="submit" class="io-fieldset-cell operational-btns btn-right" value="Save" onclick="writeToFile()">
-        </div>
+        <input type="button" class="io-fieldset-cell operational-btns" value="Copy"
+          onclick="copyContentToClipboard('contentData')">
+        <input type="button" class="io-fieldset-cell operational-btns" value="Validate" onclick="validateJson()">
+        <input type="submit" class="io-fieldset-cell operational-btns" value="Save" onclick="writeToFile()">
 
-        <div class="btn-group">
-          <input type="button" class="io-fieldset-cell operational-btns btn-left" value="Sort Asc"
-            onclick="sortFile(false)">
-          <input type="button" class="io-fieldset-cell operational-btns btn-right" value="Sort Desc"
-            onclick="sortFile(true)">
-        </div>
-        <div class="btn-group">
-          <input type="button" class="io-fieldset-cell operational-btns btn-left" value="Split"
-            onclick="splitFileLines()">
-          <input type="button" class="io-fieldset-cell operational-btns" value="Trim" onclick="minifyContent()">
-          <input type="button" class="io-fieldset-cell operational-btns btn-right" value="Join"
-            onclick="joinFileLines()">
-        </div>
+        <input type="button" class="io-fieldset-cell operational-btns" value="Sort Asc" onclick="sortFile(false)">
+        <input type="button" class="io-fieldset-cell operational-btns" value="Sort Desc" onclick="sortFile(true)">
+        <input type="button" class="io-fieldset-cell operational-btns" value="Split" onclick="splitFileLines()">
+        <input type="button" class="io-fieldset-cell operational-btns" value="Trim" onclick="minifyContent()">
+        <input type="button" class="io-fieldset-cell operational-btns" value="Join" onclick="joinFileLines()">
 
         <div class="io-fieldset-cell dropdown">
           <label for="delimiterData">Delimiter</label>
