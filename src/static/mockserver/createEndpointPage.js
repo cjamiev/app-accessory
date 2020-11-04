@@ -11,16 +11,15 @@ const validateResponseBody = () => {
 
 const createMockEndpoint = () => {
   const filename = document.getElementById('payload-create-endpoint-file-name').value;
-  const foldername = document.getElementById('payload-create-endpoint-folder-name').value;
   const url = document.getElementById('payload-create-endpoint-url').value;
   const method = getSelectDropdownValue('payload-create-endpoint-method');
   const headers = parseJSONObject(document.getElementById('payload-create-endpoint-response-headers').value);
   const status = Number(getSelectDropdownValue('payload-create-endpoint-response-status-code'));
   const body = parseJSONObject(document.getElementById('payload-create-endpoint-response-body').value);
+  const conditionalResponse = parseJSONObject(document.getElementById('payload-create-endpoint-conditional-response-body').value);
 
   const payload = {
     filename,
-    foldername,
     content: {
       request: {
         url,
@@ -29,7 +28,8 @@ const createMockEndpoint = () => {
       response: {
         headers,
         status,
-        body
+        body,
+        conditionalResponse
       }
     }
   };
@@ -52,7 +52,7 @@ const createMockEndpoint = () => {
     })
       .then(resp => resp.json())
       .then(data => {
-        document.getElementById('payload-create-endpoint-message').innerHTML = data.message;
+        document.getElementById('payload-create-endpoint-message').innerHTML = data.message || 'Successfully created endpoint';
       })
       .catch(err => {
         document.getElementById('payload-create-endpoint-message').innerHTML = err.message;

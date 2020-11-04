@@ -80,7 +80,6 @@ const resolvePostBody = async (request) => {
   });
 
   const result = await promise;
-
   return result;
 };
 
@@ -158,7 +157,8 @@ const handleMockServerResponse = async (request, response) => {
     response.end(JSON.stringify({ data }), UTF8);
   }
   else if (request.url.includes('loadMockResponse')) {
-    const data = loadMockResponse();
+    const payload = await resolvePostBody(request);
+    const data = loadMockResponse(payload.responsePath);
     response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
     response.end(JSON.stringify({ data }), UTF8);
   }
@@ -206,11 +206,10 @@ const handleStaticResponse = (request, response) => {
   });
 };
 
-const handleMockResponse = async (request, response) => {
-  const matchedResponse = getMatchedMockResponse(request.url, request.method);
+const handleMockResponse = async ({ payload, reqUrl, method }, response) => {
+  const matchedResponse = getMatchedMockResponse(reqUrl, method);
 
   if (matchedResponse && matchedResponse.conditionalResponse) {
-    const payload = await resolvePostBody(request);
     const matchedConditionalResponse = matchedResponse.conditionalResponse.find(item => isEqual(item.payload, payload));
     const responsePayload = matchedConditionalResponse && matchedConditionalResponse.body || matchedResponse.body;
 
@@ -233,8 +232,9 @@ const handleDefaultResponse = async (request, response) => {
   const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
   const matchedUrl = overrideUrls.some(endpoint => endpoint === request.url);
 
+  const payload = request.method === METHOD_POST ? await resolvePostBody(request) : {};
+
   if (log) {
-    const payload = request.method === METHOD_POST ? await resolvePostBody(request) : {};
     logEntry(request.url, payload);
   }
   if (error) {
@@ -246,10 +246,10 @@ const handleDefaultResponse = async (request, response) => {
     response.end(JSON.stringify(overrideResponse), UTF8);
   }
   else if (shouldDelayAllUrls || shouldDelayThisUrl) {
-    setTimeout(() => { handleMockResponse(request, response); }, delay);
+    setTimeout(() => { handleMockResponse({ payload, reqUrl: request.url, method: request.method }, response); }, delay);
   }
   else {
-    handleMockResponse(request, response);
+    handleMockResponse({ payload, reqUrl: request.url, method: request.method }, response);
   }
 };
 

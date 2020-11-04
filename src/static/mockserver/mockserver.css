@@ -59,3 +59,16 @@ table th {
 .config-item {
   margin: 10px;
 }
+
+.column-nav {
+  display: flex;
+  flex-direction: column;
+  background-color: #24292e;
+  width: 150px;
+  border-top: 1px solid black;
+}
+
+.mock-navigation {
+  color: white;
+  margin: 5px;
+}

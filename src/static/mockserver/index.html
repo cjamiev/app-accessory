@@ -2,20 +2,49 @@
 <html>
 
 <head>
-  <script src="logPage.js"></script>
-  <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" type="text/css" href="../css/all.css">
+  <link rel="stylesheet" type="text/css" href="mockserver.css">
 </head>
 
 <body>
-  <section>
-    <div class="topnav">
-      <a href="configPage.html">Configuration</a>
-      <a href="viewEndpointsPage.html">View Endpoints</a>
-      <a href="createEndpointPage.html">Create Endpoint</a>
-      <a href="logPage.html">Logger</a>
+  <header>
+    <nav class="nav-bar">
+      <ul class="nav">
+        <li class="time-item">
+          <span id="current-clock">Loading.....</span><br />
+          <span id="current-date"></span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../home/index.html">Home App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../clipboard/index.html">Clipboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../snippets/index.html">Snippets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../mockserver/index.html">Mock Server</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../api-tester/index.html">API Tester</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="alert-field-container" class="alert-field-container">
+      <span id="alert-field" class="alert-field"></span>
     </div>
-  </section>
+  </header>
+
+  <div class="column-nav">
+    <a class="mock-navigation" href="configPage.html">Configuration</a>
+    <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
+    <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
+    <a class="mock-navigation" href="logPage.html">Logger</a>
+  </div>
+
+
+
 </body>
 
 </html>
