@@ -50,18 +50,8 @@ table th {
   color: white;
 }
 
-.config-container {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: hidden;
-}
-
-.config-item {
-  margin: 10px;
-}
-
 .column-nav {
-  flex: 1;
+  flex-shrink: 1;
   display: flex;
   flex-direction: column;
   background-color: #24292e;
@@ -74,6 +64,6 @@ table th {
 }
 
 .right-side {
-  flex: 1;
+  flex: 3;
   margin: 10px;
 }
