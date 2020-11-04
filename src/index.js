@@ -50,7 +50,7 @@ const cors = res => {
   res.setHeader('Access-Control-Allow-Headers', '*');
 };
 
-const COMMAND_STR = 'cd ./scripts && start cmd.exe';
+const COMMAND_STR = 'cd ./storage/scripts && start cmd.exe';
 const getCommand = requestUrl => {
   const queryParameters = requestUrl.split('?')[1].split('&');
   const mode = queryParameters[0].split('=')[1];
@@ -63,7 +63,7 @@ const getCommand = requestUrl => {
   else if (mode === 'block') {
     return `${COMMAND_STR} /k ${command} ${args}`;
   }
-  return `cd ./scripts && ${command} ${args}`;
+  return `cd ./storage/scripts && ${command} ${args}`;
 };
 
 const resolvePostBody = async (request) => {
