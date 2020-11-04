@@ -17,13 +17,13 @@ table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
+  background-color: rgb(40, 44, 52);
   color: white;
 }
 
 .parent-container {
-  margin: auto;
-  width: 75%;
+  flex: 8;
+  margin: 10px;
 }
 
 .topnav {
@@ -61,14 +61,19 @@ table th {
 }
 
 .column-nav {
+  flex: 1;
   display: flex;
   flex-direction: column;
   background-color: #24292e;
-  width: 150px;
   border-top: 1px solid black;
 }
 
 .mock-navigation {
   color: white;
   margin: 5px;
+}
+
+.right-side {
+  flex: 1;
+  margin: 10px;
 }

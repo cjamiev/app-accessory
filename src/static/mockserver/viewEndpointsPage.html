@@ -38,37 +38,39 @@
     </div>
   </header>
 
-  <div class="column-nav">
-    <a class="mock-navigation" href="configPage.html">Configuration</a>
-    <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
-    <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
-    <a class="mock-navigation" href="logPage.html">Logger</a>
-  </div>
-
-  <section class="parent-container">
-    <h2>View Mock Endpoints</h2>
-    <label>Filter URL(press enter key):
-      <input id="view-endpoints-filter" type="text" onChange="filterTableBySearch()">
-    </label>
-    <br>
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Url</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody id="view-endpoints-body"></tbody>
-      </table>
+  <div class="main">
+    <div class="column-nav">
+      <a class="mock-navigation" href="configPage.html">Configuration</a>
+      <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
+      <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
+      <a class="mock-navigation" href="logPage.html">Logger</a>
     </div>
 
-    <h2>View Response Details</h2>
-    <textarea id="view-response-details" rows="20" cols="100" readonly></textarea><br>
-    <button onClick="copyToClipboard('view-response-details')">Copy Details to Clipboard</button>
-    <p id="view-endpoints-message"></p>
-  </section>
+    <section class="parent-container">
+      <h2>View Mock Endpoints</h2>
+      <label>Filter URL(press enter key):
+        <input id="view-endpoints-filter" type="text" onChange="filterTableBySearch()">
+      </label>
+      <br>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Url</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="view-endpoints-body"></tbody>
+        </table>
+      </div>
+
+      <h2>View Response Details</h2>
+      <textarea id="view-response-details" rows="20" cols="100" readonly></textarea><br>
+      <button onClick="copyToClipboard('view-response-details')">Copy Details to Clipboard</button>
+      <p id="view-endpoints-message"></p>
+    </section>
+  </div>
 </body>
 
 </html>

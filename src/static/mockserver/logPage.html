@@ -38,34 +38,37 @@
     </div>
   </header>
 
-  <div class="column-nav">
-    <a class="mock-navigation" href="configPage.html">Configuration</a>
-    <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
-    <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
-    <a class="mock-navigation" href="logPage.html">Logger</a>
-  </div>
-
-  <section class="parent-container">
-    <h2>Logs</h2>
-    <p>Run Log must be set to yes in configuration</p>
-    <div>
-      <table class="log-table">
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>Url</th>
-            <th>Payload</th>
-          </tr>
-        </thead>
-        <tbody id="log-body"></tbody>
-      </table>
+  <div class="main">
+    <div class="column-nav">
+      <a class="mock-navigation" href="configPage.html">Configuration</a>
+      <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
+      <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
+      <a class="mock-navigation" href="logPage.html">Logger</a>
     </div>
 
-    <button onClick="clearLog()">Clear log</button>
-    <h2>View Payload Details</h2>
-    <textarea id="log-payload-details" rows="20" cols="100" readonly></textarea><br>
-    <button onClick="copyToClipboard('log-payload-details')">Copy Details to Clipboard</button>
-  </section>
+    <section class="parent-container">
+      <h2>Logs</h2>
+      <p>Run Log must be set to yes in configuration</p>
+      <div>
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Url</th>
+              <th>Payload</th>
+            </tr>
+          </thead>
+          <tbody id="log-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <div class="right-side">
+      <h2>View Payload Details</h2>
+      <textarea id="log-payload-details" rows="20" cols="100" readonly></textarea><br>
+      <button onClick="copyToClipboard('log-payload-details')">Copy Details to Clipboard</button>
+      <button onClick="clearLog()">Clear log</button>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -43,50 +43,52 @@
     </div>
   </header>
 
-  <div class="column-nav">
-    <a class="mock-navigation" href="configPage.html">Configuration</a>
-    <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
-    <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
-    <a class="mock-navigation" href="logPage.html">Logger</a>
-  </div>
-
-  <section class="parent-container">
-    <h2> Create New Mock Endpoint</h2>
-    <div>
-      <label>Mock File Name:
-        <input id="payload-create-endpoint-file-name" type="text">
-      </label>
-      <br>
-      <label>Request Url:<input id="payload-create-endpoint-url" type="text"></label><br>
-      <label>Request Method:
-        <select id="payload-create-endpoint-method">
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-        </select>
-      </label><br>
-      <label>Response Headers:</label><br>
-      <textarea id="payload-create-endpoint-response-headers" rows="3"
-        cols="50">{"Content-Type": "application/json"}</textarea>
-      <br>
-      <label>Response Status Code:
-        <select id="payload-create-endpoint-response-status-code">
-          <option value="200">200</option>
-          <option value="404">404</option>
-          <option value="500">500</option>
-        </select>
-      </label>
-      <br>
-      <div class="payload-group">
-        <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
-          placeholder="Enter body response..."></textarea>
-        <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
-          placeholder="Enter conditional response..."></textarea>
-      </div>
-      <input type="button" value="Submit" onClick="createMockEndpoint()">
-      <input type="button" value="Validate JSON format" onClick="validateResponseBody()">
-      <p id="payload-create-endpoint-message"></p>
+  <div class="main">
+    <div class="column-nav">
+      <a class="mock-navigation" href="configPage.html">Configuration</a>
+      <a class="mock-navigation" href="viewEndpointsPage.html">View Endpoints</a>
+      <a class="mock-navigation" href="createEndpointPage.html">Create Endpoint</a>
+      <a class="mock-navigation" href="logPage.html">Logger</a>
     </div>
-  </section>
+
+    <section class="parent-container">
+      <h2> Create New Mock Endpoint</h2>
+      <div>
+        <label>Mock File Name:
+          <input id="payload-create-endpoint-file-name" type="text">
+        </label>
+        <br>
+        <label>Request Url:<input id="payload-create-endpoint-url" type="text"></label><br>
+        <label>Request Method:
+          <select id="payload-create-endpoint-method">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+          </select>
+        </label><br>
+        <label>Response Headers:</label><br>
+        <textarea id="payload-create-endpoint-response-headers" rows="3"
+          cols="50">{"Content-Type": "application/json"}</textarea>
+        <br>
+        <label>Response Status Code:
+          <select id="payload-create-endpoint-response-status-code">
+            <option value="200">200</option>
+            <option value="404">404</option>
+            <option value="500">500</option>
+          </select>
+        </label>
+        <br>
+        <div class="payload-group">
+          <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
+            placeholder="Enter body response..."></textarea>
+          <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
+            placeholder="Enter conditional response..."></textarea>
+        </div>
+        <input type="button" value="Submit" onClick="createMockEndpoint()">
+        <input type="button" value="Validate JSON format" onClick="validateResponseBody()">
+        <p id="payload-create-endpoint-message"></p>
+      </div>
+    </section>
+  </div>
 </body>
 
 </html>
