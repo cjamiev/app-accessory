@@ -4,14 +4,14 @@ const createElement = (item) => {
     link.innerHTML = item.label;
     link.href = item.value;
     link.target = '_blank';
-    link.className = 'links';
+    link.className = 'links flex-item';
 
     return [link];
   }
   else if (item.type === 'copy') {
     const copyBtn = document.createElement('button');
     copyBtn.innerHTML = item.label;
-    copyBtn.className = 'copy-btn';
+    copyBtn.className = 'copy-btn flex-item';
     copyBtn.onclick = () => { copyToClipboard(item.value); };
 
     return [copyBtn];
@@ -20,14 +20,15 @@ const createElement = (item) => {
     const commandBtn = document.createElement('button');
 
     commandBtn.innerHTML = item.label;
-    commandBtn.className = 'command-btn';
+    commandBtn.className = 'command-btn flex-item';
     commandBtn.onclick = () => { executeCommand(item.value.mode, item.value.name, item.value.argsId); };
 
     if (item.value.argsId) {
       const commandInput = document.createElement('input');
       commandInput.id = item.value.argsId;
       commandInput.type = 'text';
-      commandInput.placeholder = item.value.name + ' arguments...';
+      commandInput.className = 'flex-item';
+      commandInput.placeholder = 'Enter arguments...';
 
       return [commandInput, commandBtn];
     }
@@ -39,7 +40,7 @@ const createElement = (item) => {
     const labelSpan = document.createElement('span');
     const timerSpan = document.createElement('span');
 
-    timerDiv.className = 'timer-cell';
+    timerDiv.className = 'timer-cell  flex-item';
     labelSpan.innerHTML = item.label;
     timerSpan.setAttribute('data-date', item.value);
 
@@ -47,7 +48,13 @@ const createElement = (item) => {
     timerDiv.appendChild(timerSpan);
 
     return [timerDiv];
-  } else if (item.type === 'group') {
+  } else if (item.type === 'text') {
+    const labelSpan = document.createElement('span');
+    labelSpan.innerHTML = item.label;
+
+    return [labelSpan];
+  }
+  else if (item.type === 'group') {
 
     return item.value.map(groupItem => createElement(groupItem)).reduce((current, total) => total.concat(current), []);
   }

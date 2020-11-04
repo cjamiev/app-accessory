@@ -15,6 +15,7 @@
   background-color: rgb(40, 44, 52);
   border: 1px solid rgb(40, 44, 52);
   color: white;
+  text-align: center;
 }
 
 .clipboard-cell {
@@ -97,4 +98,8 @@
   display: flex;
   flex-direction: column;
   margin: 0px 5px;
+}
+
+.flex-item {
+  flex: 1
 }

@@ -89,6 +89,20 @@ This page is used to store commonly used html tags, javascript functions, css an
 ### Mock Server
 These pages can be used to create custom mock endpoints (including conditional post calls) as well as view endpoints and have configuration for timed delays of responses.
 
+Example of conditionalResponse format
+```
+"conditionalResponse": [
+  {
+    "payload": {
+      "user": "CJV"
+    },
+    "body": {
+      "key3": "value3"
+    }
+  }
+]
+```
+
 ### API Testing
 This page is used to test api calls.
 
