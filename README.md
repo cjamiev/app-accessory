@@ -10,7 +10,6 @@ This project is designed to improve work efficiency. It features a UI with the f
 - For quick javascript coding/testing use 'q.js' at the base of the app and run 'node q.js' to execute. Not meant for saving. 
 - For quick testing of html,css,javascript use index.html with liveserver in testing folder.
 - For TDD with new functions or performance testing use main.js 
-- For custom server end points with mock responses including conditional responses for post calls use mockResponses.js 
 
 ## Home
 ### Quick Clipboard
@@ -25,19 +24,73 @@ Form for reading and writing to files.  Files must be deleted manually at the mo
 - Splitting into seperate Lines by delimiter
 - Copy content of file to clipboard
 - Validate JSON format
+- Find/Replace string
 **Copy and paste content into notepad++ first in order to get rid of formatting**
 
 ![Read and Write Feature](./documentation/read-write-feature.png)
 
-## Snippets
-This page is used to store commonly used html tags, javascript functions, css and other code snippets
-
-## Clipboard
-Page to store executable commands, lists, favorite links, etc. 
+### Clipboard
+Page to store executable commands, lists, favorite links, etc. This page is dynamically created using the below format as example.
+The type can be link, timer, copy, command, or group where you can have multiple of the previous. Timer must have value that uses Javascript Date constructor format.
+Command can be 'block' for pop up terminal or any other string for no terminal.
+```
+{
+  "sectionTitle": 'optional title here',
+  "sectionData": [
+    {
+      "listTitle": "list title here",
+      "listId": "list-id-here",
+      "listData": [
+        {
+          "type": "group",
+          "value": [
+            {
+              "type": "link",
+              "label": "cjamiev/playground",
+              "value": "https://github.com/cjamiev/playground"
+            },
+            {
+              "type": "copy",
+              "label": "User Name",
+              "value": "user1"
+            },
+            {
+              "type": "copy",
+              "label": "Password",
+              "value": "password1"
+            }
+          ]
+        },
+        {
+          "type": "timer",
+          "label": "35th Bday",
+          "value": "2023,2,18,0,0,0"
+        },
+        {
+          "type": "command",
+          "label": "find port",
+          "value": {
+            "mode": "simple",
+            "name": "find-port.bat",
+            "argsId": "find-port-args"
+          }
+        
+      ]
+    }
+  ]
+}
+```
 
 ![Clipboard Feature](./documentation/clipboard-feature.png)
-## New
-Template page for adding in new pages. 
+
+### Snippets
+This page is used to store commonly used html tags, javascript functions, css and other code snippets.
+
+### Mock Server
+These pages can be used to create custom mock endpoints (including conditional post calls) as well as view endpoints and have configuration for timed delays of responses.
+
+### API Testing
+This page is used to test api calls.
 
 ## Notes
 You can add the following to another project while this project is running to record api calls:
@@ -59,7 +112,4 @@ post: (filename, payload) => {
 ```
 
 Future Features
-- UI for mock server and updating without restarting
-- Configuration based operations and more javascript generated HTML
-- SVGs icons
 - Format button for Read/Write files
