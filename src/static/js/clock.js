@@ -99,6 +99,7 @@ const countdown = () => {
       el.innerHTML = formattedClock(hours, minutes, seconds);
     }
     else {
+      el.className = 'blinking-alert';
       el.innerHTML = 'DONE!!!';
     }
   });
