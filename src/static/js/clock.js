@@ -9,6 +9,8 @@ const SIXTY_TIMES_SIXTY = 3600;
 const SIXTY = 60;
 const HOURS_IN_DAY = 24;
 const DOUBLE_DIGIT = 10;
+const DAYS_IN_A_WEEK = 7;
+const PRECISION_LEVEL = 3;
 const DECIMAL_FORMAT = 2;
 const ONE = 1;
 const ZERO = 0;
@@ -80,13 +82,37 @@ const clockBetweenDates = (date1, date2) => {
   return { weeks, days, hours, minutes, seconds };
 };
 
+const getDateAtSetTime = (date, { hours = ZERO, minutes = ZERO, seconds = ZERO }) => {
+  const updatedDate = new Date(date.getTime());
+  updatedDate.setHours(hours);
+  updatedDate.setMinutes(minutes);
+  updatedDate.setSeconds(seconds);
+  updatedDate.setMilliseconds(ZERO);
+
+  return updatedDate;
+};
+
+const daysBetween = (date1, date2) => {
+  const tempDate1 = getDateAtSetTime(date1, {});
+  const tempDate2 = getDateAtSetTime(date2, {});
+  const numberOfDays = Math.round(
+    Math.abs(tempDate1.getTime() - tempDate2.getTime()) / DAY_IN_MILLISECONDS
+  );
+
+  return isNaN(numberOfDays) ? null : numberOfDays;
+};
+
+const weeksBetween = (date1, date2) => parseFloat((daysBetween(date1, date2) / DAYS_IN_A_WEEK).toFixed(PRECISION_LEVEL));
+
 const countdown = () => {
   const timerElements = document.querySelectorAll('[data-date]');
   const today = new Date();
 
   timerElements.forEach(el => {
-    const data = el.getAttribute('data-date').split(',').map(item => Number(item));
-    const futureDate = new Date(...data);
+    const data = el.getAttribute('data-date');
+    const isStringFormat = data.split(',').length > 2;
+    const parsedData = isStringFormat ? data.split(',').map(item => Number(item)) : data;
+    const futureDate = isStringFormat ? new Date(...parsedData) : new Date(parsedData);
     const { weeks, days, hours, minutes, seconds } = clockBetweenDates(futureDate, today);
 
     if (weeks > ZERO) {
