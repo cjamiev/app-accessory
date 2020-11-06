@@ -43,6 +43,7 @@ const createElement = (item) => {
     timerDiv.className = 'timer-cell  flex-item';
     labelSpan.innerHTML = item.label;
     timerSpan.setAttribute('data-date', item.value);
+    timerSpan.innerHTML = 'Loading...';
 
     timerDiv.appendChild(labelSpan);
     timerDiv.appendChild(timerSpan);

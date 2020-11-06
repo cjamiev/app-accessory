@@ -30,6 +30,7 @@ const loadItems = () => {
 
       const elTimer = document.createElement('span');
       elTimer.setAttribute('data-date', entry.value);
+      elTimer.innerHTML = 'Loading...';
       elParent.appendChild(elTimer);
 
       const date = entry.value.split(',').map(item => Number(item));
