@@ -12,7 +12,6 @@ const copyToClipboard = text => {
   document.execCommand('copy');
   document.body.removeChild(copyText);
   setOutput({ error: false, message: 'Successfully copied' });
-  setTimeout(removeOutput, 5000);
 };
 
 const copyContentToClipboard = (elementId) => {
@@ -45,6 +44,7 @@ const setOutput = (data) => {
   alertField.classList.remove('error');
   alertField.classList.add(alertClass);
   alertFieldContainer.classList.add('alert-field-active');
+  setTimeout(removeOutput, 5000);
 };
 
 const removeOutput = () => {
