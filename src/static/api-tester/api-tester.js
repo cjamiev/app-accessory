@@ -22,7 +22,6 @@ const testApi = () => {
   else {
     api.post(url, JSON.parse(payload), { sendFullResponse: true }).then(({ promise, response }) => {
       promise.then(res => {
-        console.log(res);
         document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
       });
       document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;

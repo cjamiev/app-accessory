@@ -6,15 +6,15 @@ const loadTotal = () => {
     const weekFields = document.querySelectorAll(`[data-week="${fieldId}"]`);
     let weekTotal = ZERO;
     weekFields.forEach(item => {
-      console.log(Number(item.value));
       weekTotal += Number(item.value);
     });
 
-    field.innerHTML = weekTotal;
+    field.innerHTML = Math.round(weekTotal * 100) / 100;
     total += weekTotal;
   });
 
-  document.getElementById('total').innerHTML = total;
+  document.getElementById('total').innerHTML = Math.round(total * 100) / 100;
+  save();
 };
 
 const changeByDays = (date, days) => new Date(date.getTime() + days * DAY_IN_MILLISECONDS);
@@ -60,7 +60,6 @@ const createCalendarWeek = (week, id) => {
   week.forEach(day => {
     const el = document.createElement('div');
     el.className = 'calendar-day';
-    el.id = day.getMonth() + '-' + day.getDate();
 
     const spanEl = document.createElement('span');
     spanEl.innerHTML = day.getDate();
@@ -71,6 +70,7 @@ const createCalendarWeek = (week, id) => {
     inEl.onchange = loadTotal;
     inEl.className = 'calender-day-input';
     inEl.setAttribute('data-week', id);
+    inEl.id = day.getMonth() + '-' + day.getDate();
 
     el.appendChild(spanEl);
     el.appendChild(inEl);
@@ -146,4 +146,26 @@ const createCalendarMonth = (baseDay) => {
   monthDiv.appendChild(parentDiv);
 
   return monthDiv;
+};
+
+const save = () => {
+  const weekFields = document.querySelectorAll('[data-week]');
+  const data = [];
+  weekFields.forEach(field => {
+    const fieldData = {
+      id: field.id,
+      value: field.value
+    };
+    field.value && data.push(fieldData);
+  });
+  localStorage.setItem('calender-data', JSON.stringify(data));
+};
+
+const loadCalender = () => {
+  const data = localStorage.getItem('calender-data') || '[]';
+  const calenderData = JSON.parse(data);
+
+  calenderData.forEach(field => {
+    document.getElementById(field.id).value = field.value;
+  });
 };
