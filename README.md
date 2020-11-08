@@ -83,6 +83,9 @@ Command can be 'block' for pop up terminal or any other string for no terminal.
 
 ![Clipboard Feature](./documentation/clipboard-feature.png)
 
+### Calender
+This page is used to store log numerical data for the month such as running miles or expenses.
+
 ### Snippets
 This page is used to store commonly used html tags, javascript functions, css and other code snippets.
 

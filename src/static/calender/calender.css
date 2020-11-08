@@ -1,0 +1,72 @@
+.title {
+  text-align: center;
+}
+
+.calender-month {
+  margin: 10px auto;
+  display: inline;
+}
+
+.calender-header {
+  display: flex;
+  flex-direction: row;
+  height: 25px;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+.calender-header-span {
+  flex: 1;
+  border: 1px solid black;
+}
+
+.calender-week {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+}
+
+.calendar-day {
+  flex: 1;
+  border: 1px solid black;
+  text-align: center;
+  position: relative;
+  background-color: rgb(40, 44, 52);
+  color: white;
+}
+
+.calender-day-span {
+  position: absolute;
+  left: 2px;
+  top: -2px;
+}
+
+.calender-day-input {
+  margin-top: 15px;
+  width: 40%;
+}
+
+.total-filler {
+  flex: 7
+}
+
+.total-cell {
+  flex: 1;
+  text-align: center;
+  background-color: rgb(40, 44, 52);
+  color: white;
+  display: grid;
+  place-items: center;
+}
+
+.total-week-cell {
+  flex: 1;
+  border: 1px solid black;
+  text-align: center;
+  position: relative;
+  background-color: rgb(40, 44, 52);
+  color: white;
+  display: grid;
+  place-items: center;
+}

@@ -5,9 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" type="text/css" href="../css/all.css">
-  <link rel="stylesheet" type="text/css" href="./clipboard.css">
-  <link rel="stylesheet" type="text/css" href="./response-block.css">
-  <title>Clipboard</title>
+  <link rel="stylesheet" type="text/css" href="./calender.css">
+  <title>Calender</title>
 </head>
 
 <body>
@@ -23,10 +22,10 @@
           <a class="nav-link" href="../home/index.html">Home App</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./index.html">Clipboard</a>
+          <a class="nav-link" href="../clipboard/index.html">Clipboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../calender/index.html">Calender</a>
+          <a class="nav-link" href="./index.html">Calender</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="../snippets/index.html">Snippets</a>
@@ -46,15 +45,22 @@
 
   <div class="main">
     <div id="main-content" class="center">
+      <h1 id="title" class="title"></h1>
     </div>
-    <div id="response" class="responseBlock" placeholder="results will show here..." contenteditable></div>
   </div>
 
   <script src="../js/api.js"></script>
   <script src="../js/utility.js"></script>
   <script src="../js/clock.js"></script>
   <script src="../js/onload.js"></script>
-  <script src="clipboard.js"></script>
+  <script src="calender.js"></script>
+  <script>
+    const monthDiv = createCalendarMonth();
+    const monthName = months[new Date().getMonth()];
+
+    document.getElementById('title').innerHTML = monthName;
+    document.getElementById('main-content').appendChild(monthDiv);
+  </script>
 
 </body>
 
