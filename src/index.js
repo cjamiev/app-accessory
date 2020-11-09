@@ -41,6 +41,7 @@ const STATUS_OK = 200;
 const STATUS_ERROR = 500;
 const IO_DIRECTORY = './storage/io';
 const CLIPBOARD_DIRECTORY = './storage/clipboard';
+const CALENDER_DIRECTORY = './storage/calender';
 const METHOD_POST = 'POST';
 
 const cors = res => {
@@ -137,6 +138,23 @@ const handleClipboardResponse = (request, response) => {
   });
 
   response.end(JSON.stringify({ data }), UTF8);
+};
+
+const handleCalenderResponse = async (request, response) => {
+  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
+
+  if (request.method === METHOD_POST) {
+    const payload = await resolvePostBody(request);
+    const content = payload.content || '';
+    const filename = payload.filename;
+    const data = writeToFile(CALENDER_DIRECTORY + '/' + filename, JSON.stringify(content));
+
+    response.end(JSON.stringify({ data }), UTF8);
+  } else {
+    const filename = request.url.split('/calender-data/')[1];
+    const data = loadFile(CALENDER_DIRECTORY + '/' + filename);
+    response.end(JSON.stringify({ data }), UTF8);
+  }
 };
 
 const handleMockServerResponse = async (request, response) => {
@@ -266,6 +284,9 @@ http.createServer((request, response) => {
   }
   else if (request.url.includes('clipboard-config')) {
     handleClipboardResponse(request, response);
+  }
+  else if (request.url.includes('calender-data')) {
+    handleCalenderResponse(request, response);
   }
   else if (request.url.includes('api/mockserver')) {
     handleMockServerResponse(request, response);

@@ -78,11 +78,24 @@
 
 .calender-btn {
   flex: 1;
-  background-color: #020713;
+  background-color: #001133;
   border: 1px solid #001133;
   color: white;
+  margin: 5px;
 }
 
 .calender-btn:hover {
+  background-color: #020713;
+}
+
+.save-btn {
+  flex: 1;
+  background-color: #020713;
+  border: 1px solid #001133;
+  color: white;
+  margin: 5px;
+}
+
+.save-btn:hover {
   background-color: #001133;
 }

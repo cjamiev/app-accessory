@@ -14,7 +14,6 @@ const loadTotal = () => {
   });
 
   document.getElementById('total').innerHTML = Math.round(total * 100) / 100;
-  save();
 };
 
 const changeByDays = (date, days) => new Date(date.getTime() + days * DAY_IN_MILLISECONDS);
@@ -159,21 +158,21 @@ const save = () => {
     data.push(fieldData);
   });
   const mode = document.getElementById('calender-title').innerHTML;
-  localStorage.setItem(mode.toLocaleLowerCase(), JSON.stringify(data));
+  api.post('/calender-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then(result => result);
 };
 
 const loadCalender = (title) => {
   const mode = title ? title : document.getElementById('calender-title').innerHTML;
-  const data = localStorage.getItem(mode.toLocaleLowerCase()) || '[]';
-  const calenderData = JSON.parse(data);
-
-  calenderData.forEach(field => {
-    document.getElementById(field.id).value = field.value;
+  api.get('/calender-data/' + mode.toLocaleLowerCase() + '.json').then(result => {
+    const calenderData = JSON.parse(result.data);
+    calenderData.forEach(field => {
+      document.getElementById(field.id).value = field.value;
+    });
+    loadTotal();
   });
 };
 
 const switchMode = (title) => {
   document.getElementById('calender-title').innerHTML = title;
   loadCalender(title);
-  loadTotal();
 };
