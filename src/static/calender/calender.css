@@ -78,6 +78,11 @@
 
 .calender-btn {
   flex: 1;
-  background: darkblue;
+  background-color: #020713;
+  border: 1px solid #001133;
   color: white;
+}
+
+.calender-btn:hover {
+  background-color: #001133;
 }
