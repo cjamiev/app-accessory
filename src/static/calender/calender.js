@@ -53,10 +53,15 @@ const getEntireMonth = (selectedDay) => {
 };
 
 const createCalendarWeek = (week, id) => {
+  const today = new Date();
   const parentDiv = document.createElement('div');
   parentDiv.className = 'calender-week';
 
   week.forEach(day => {
+    if (today.getDate() === day.getDate() && today.getMonth() === day.getMonth()) {
+      parentDiv.className = 'calender-week calender-week-highlight';
+    }
+
     const el = document.createElement('div');
     el.className = 'calendar-day';
 
@@ -158,7 +163,9 @@ const save = () => {
     data.push(fieldData);
   });
   const mode = document.getElementById('calender-title').innerHTML;
-  api.post('/calender-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then(result => result);
+  api.post('/calender-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then(result => {
+    setOutput(result.data);
+  });
 };
 
 const loadCalender = (title) => {
@@ -176,3 +183,13 @@ const switchMode = (title) => {
   document.getElementById('calender-title').innerHTML = title;
   loadCalender(title);
 };
+
+document.getElementById('main-content').style.zoom = "150%";
+const monthDiv = createCalendarMonth();
+const monthName = months[new Date().getMonth()];
+
+document.getElementById('page-title').innerHTML = monthName;
+document.getElementById('calender-title').after(monthDiv);
+
+loadCalender();
+loadTotal();
