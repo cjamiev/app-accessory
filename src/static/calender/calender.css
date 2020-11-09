@@ -70,3 +70,14 @@
   display: grid;
   place-items: center;
 }
+
+.calender-btn-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.calender-btn {
+  flex: 1;
+  background: darkblue;
+  color: white;
+}

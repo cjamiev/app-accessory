@@ -156,16 +156,24 @@ const save = () => {
       id: field.id,
       value: field.value
     };
-    field.value && data.push(fieldData);
+    data.push(fieldData);
   });
-  localStorage.setItem('calender-data', JSON.stringify(data));
+  const mode = document.getElementById('calender-title').innerHTML;
+  localStorage.setItem(mode.toLocaleLowerCase(), JSON.stringify(data));
 };
 
-const loadCalender = () => {
-  const data = localStorage.getItem('calender-data') || '[]';
+const loadCalender = (title) => {
+  const mode = title ? title : document.getElementById('calender-title').innerHTML;
+  const data = localStorage.getItem(mode.toLocaleLowerCase()) || '[]';
   const calenderData = JSON.parse(data);
 
   calenderData.forEach(field => {
     document.getElementById(field.id).value = field.value;
   });
+};
+
+const switchMode = (title) => {
+  document.getElementById('calender-title').innerHTML = title;
+  loadCalender(title);
+  loadTotal();
 };

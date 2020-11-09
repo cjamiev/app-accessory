@@ -45,7 +45,12 @@
 
   <div class="main">
     <div id="main-content" class="center">
-      <h1 id="title" class="title"></h1>
+      <h1 id="page-title" class="title"></h1>
+      <div class="calender-btn-group">
+        <button class="calender-btn" onclick="switchMode('Expenses')">Expenses</button>
+        <button class="calender-btn" onclick="switchMode('Running')">Running</button>
+      </div>
+      <h2 id="calender-title" class="title">Expenses</h2>
     </div>
   </div>
 
@@ -58,7 +63,7 @@
     const monthDiv = createCalendarMonth();
     const monthName = months[new Date().getMonth()];
 
-    document.getElementById('title').innerHTML = monthName;
+    document.getElementById('page-title').innerHTML = monthName;
     document.getElementById('main-content').appendChild(monthDiv);
 
     loadCalender();
