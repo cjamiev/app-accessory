@@ -66,6 +66,9 @@
       <div id="storage-methods" class="snippet-column">
         <span>Storage</span>
       </div>
+      <div id="css-snippets" class="snippet-column">
+        <span>CSS</span>
+      </div>
     </div>
   </div>
 
@@ -73,47 +76,6 @@
   <script src="./snippets.js"></script>
   <script src="../js/clock.js"></script>
   <script src="../js/onload.js"></script>
-  <script>
-    const htmlTagsParent = document.getElementById('html-tags');
-    htmlTags.map(entry => {
-      const childBtn = document.createElement('button');
-      childBtn.className = 'snippet-btn';
-      childBtn.onclick = () => { loadHTMLTags(entry.label); };
-      childBtn.innerHTML = entry.label;
-
-      htmlTagsParent.appendChild(childBtn);
-    });
-
-    const dateMethodsParent = document.getElementById('date-methods');
-    dateMethods.map(entry => {
-      const childBtn = document.createElement('button');
-      childBtn.className = 'snippet-btn';
-      childBtn.onclick = () => { loadDateMethod(entry.label); };
-      childBtn.innerHTML = entry.label;
-
-      dateMethodsParent.appendChild(childBtn);
-    });
-
-    const eventMethodsParent = document.getElementById('event-methods');
-    eventMethods.map(entry => {
-      const childBtn = document.createElement('button');
-      childBtn.className = 'snippet-btn';
-      childBtn.onclick = () => { loadEventMethod(entry.label); };
-      childBtn.innerHTML = entry.label;
-
-      eventMethodsParent.appendChild(childBtn);
-    });
-
-    const storageMethodsParent = document.getElementById('storage-methods');
-    storageMethods.map(entry => {
-      const childBtn = document.createElement('button');
-      childBtn.className = 'snippet-btn';
-      childBtn.onclick = () => { loadStorageMethod(entry.label); };
-      childBtn.innerHTML = entry.label;
-
-      storageMethodsParent.appendChild(childBtn);
-    });
-  </script>
 
 </body>
 

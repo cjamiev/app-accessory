@@ -50,6 +50,11 @@ const storageMethods = [
   { label: 'Clear', value: 'clear()' }
 ];
 
+const cssSnippets = [
+  { label: 'focus', value: '*:focus { \n  box-shadow: 0 0 5px rgba(255,0,0,1); \n  padding: 3px 0px 3px 3px; \n  margin: 5px 1px 3px 0px; \n  border: 1px solid rgba(144,0,0,1); \n}' },
+  { label: 'blur', value: '* { \n  filter: blur(4px) \n}' }
+];
+
 const loadData = (label, data, escapeHTML = false) => {
   const entry = data.find(item => item.label === label);
   document.getElementById('copy-snippet').innerHTML = escapeHTML ? replaceHTMLCharactersWithEscapeCharacters(entry.value) : entry.value;
@@ -61,3 +66,54 @@ const loadHTMLTags = label => loadData(label, htmlTags, true);
 const loadEventMethod = label => loadData(label, eventMethods);
 const loadDateMethod = label => loadData(label, dateMethods);
 const loadStorageMethod = label => loadData(label, storageMethods);
+const loadCssSnippets = label => loadData(label, cssSnippets);
+
+const htmlTagsParent = document.getElementById('html-tags');
+htmlTags.map(entry => {
+  const childBtn = document.createElement('button');
+  childBtn.className = 'snippet-btn';
+  childBtn.onclick = () => { loadHTMLTags(entry.label); };
+  childBtn.innerHTML = entry.label;
+
+  htmlTagsParent.appendChild(childBtn);
+});
+
+const dateMethodsParent = document.getElementById('date-methods');
+dateMethods.map(entry => {
+  const childBtn = document.createElement('button');
+  childBtn.className = 'snippet-btn';
+  childBtn.onclick = () => { loadDateMethod(entry.label); };
+  childBtn.innerHTML = entry.label;
+
+  dateMethodsParent.appendChild(childBtn);
+});
+
+const eventMethodsParent = document.getElementById('event-methods');
+eventMethods.map(entry => {
+  const childBtn = document.createElement('button');
+  childBtn.className = 'snippet-btn';
+  childBtn.onclick = () => { loadEventMethod(entry.label); };
+  childBtn.innerHTML = entry.label;
+
+  eventMethodsParent.appendChild(childBtn);
+});
+
+const storageMethodsParent = document.getElementById('storage-methods');
+storageMethods.map(entry => {
+  const childBtn = document.createElement('button');
+  childBtn.className = 'snippet-btn';
+  childBtn.onclick = () => { loadStorageMethod(entry.label); };
+  childBtn.innerHTML = entry.label;
+
+  storageMethodsParent.appendChild(childBtn);
+});
+
+const cssSnippetsParent = document.getElementById('css-snippets');
+cssSnippets.map(entry => {
+  const childBtn = document.createElement('button');
+  childBtn.className = 'snippet-btn';
+  childBtn.onclick = () => { loadCssSnippets(entry.label); };
+  childBtn.innerHTML = entry.label;
+
+  cssSnippetsParent.appendChild(childBtn);
+});
