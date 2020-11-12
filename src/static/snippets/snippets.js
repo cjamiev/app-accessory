@@ -50,9 +50,11 @@ const storageMethods = [
   { label: 'Clear', value: 'clear()' }
 ];
 
-const cssSnippets = [
+const customSnippets = [
   { label: 'focus', value: '*:focus { \n  box-shadow: 0 0 5px rgba(255,0,0,1); \n  padding: 3px 0px 3px 3px; \n  margin: 5px 1px 3px 0px; \n  border: 1px solid rgba(144,0,0,1); \n}' },
-  { label: 'blur', value: '* { \n  filter: blur(4px) \n}' }
+  { label: 'blur', value: '* { \n  filter: blur(4px) \n}' },
+  { label: 'grid', value: 'display: grid;\ngrid-template-columns: 1fr 1fr 1fr 1fr 1fr;\ngrid-template-rows: 1fr 1fr;' },
+  { label: 'dropdown', value: '\n\t\t.custom-dropdown {\n\t\t\tposition: relative;\n\t\t\tdisplay: inline-block;\n\t\t}\n\n\t\t.custom-dropdown .dropdown-content {\n\t\t\tvisibility: hidden;\n\t\t\tposition: absolute;\n\n\t\t\tborder: 1px solid black;\n\t\t\tpadding: 5px 5px;\n\t\t\tmargin: 0 0 5px 5px;\n\t\t\tz-index: 1;\n\t\t\ttop: 100%;\n\t\t\tleft: 50%;\n\t\t}\n\n\t\t.dropdown-content {\n\t\t\tdisplay: flex;\n\t\t}\n\n\t\t.custom-dropdown-active .dropdown-content {\n\t\t\tvisibility: visible;\n\t\t}\n\t<div id="custom-dropdown" class="custom-dropdown" onClick="toggle()">\n\t\tClick Me\n\t\t<div id="dropdown-content" class="dropdown-content">Content</div>\n\t</div>\n\t\tconst toggle = () => {\n\t\t\tdocument.getElementById("custom-dropdown").classList.toggle("custom-dropdown-active");\n\t\t}' }
 ];
 
 const loadData = (label, data, escapeHTML = false) => {
@@ -66,7 +68,7 @@ const loadHTMLTags = label => loadData(label, htmlTags, true);
 const loadEventMethod = label => loadData(label, eventMethods);
 const loadDateMethod = label => loadData(label, dateMethods);
 const loadStorageMethod = label => loadData(label, storageMethods);
-const loadCssSnippets = label => loadData(label, cssSnippets);
+const loadCustomSnippets = label => loadData(label, customSnippets);
 
 const htmlTagsParent = document.getElementById('html-tags');
 htmlTags.map(entry => {
@@ -108,12 +110,12 @@ storageMethods.map(entry => {
   storageMethodsParent.appendChild(childBtn);
 });
 
-const cssSnippetsParent = document.getElementById('css-snippets');
-cssSnippets.map(entry => {
+const customSnippetsParent = document.getElementById('custom-snippets');
+customSnippets.map(entry => {
   const childBtn = document.createElement('button');
   childBtn.className = 'snippet-btn';
-  childBtn.onclick = () => { loadCssSnippets(entry.label); };
+  childBtn.onclick = () => { loadCustomSnippets(entry.label); };
   childBtn.innerHTML = entry.label;
 
-  cssSnippetsParent.appendChild(childBtn);
+  customSnippetsParent.appendChild(childBtn);
 });
