@@ -75,8 +75,12 @@ const resolvePostBody = async (request) => {
     });
 
     request.on('end', () => {
+      try {
       const result = queryData.length && JSON.parse(queryData.join().toString('utf8'));
       resolve(result);
+      } catch (e) {
+        resolve(e);
+      }
     });
   });
 
