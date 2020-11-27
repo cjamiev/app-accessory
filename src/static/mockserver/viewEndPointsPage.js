@@ -1,3 +1,5 @@
+const RESPONSE_ERROR = 'Response must be valid JSON format';
+
 const viewDetails = item => {
   return () => {
     document.getElementById('view-response-details').innerHTML = JSON.stringify(item, undefined, 2);
@@ -19,16 +21,17 @@ const loadResponse = ({ method, url, responsePath }) => {
         const viewResponseDetails = document.getElementById('view-response-details');
         viewResponseDetails.value = JSON.stringify(mockResponse.data, undefined, 2);
         viewResponseDetails.setAttribute('data-method-url', JSON.stringify({ method, url }));
+        document.getElementById('view-endpoints-message').innerHTML = '';
       });
   };
 };
 
 const updateEndpoint = () => {
   const viewResponseDetails = document.getElementById('view-response-details');
-  const response = JSON.parse(viewResponseDetails.value);
-  const request = JSON.parse(viewResponseDetails.getAttribute('data-method-url'));
+  const response = parseJSONObject(viewResponseDetails.value);
+  const request = parseJSONObject(viewResponseDetails.getAttribute('data-method-url'));
 
-  console.log(response);
+  const responseError = isValidJSONObject(JSON.stringify(response)) ? '' : RESPONSE_ERROR;
 
   const payload = {
     content: {
@@ -37,21 +40,25 @@ const updateEndpoint = () => {
     }
   };
 
-  fetch('/api/mockserver/updateMockEndpoint', {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload),
-    method: 'POST'
-  })
-  .then(resp => resp.json())
-  .then(data => {
-    document.getElementById('view-endpoints-message').innerHTML = data.message || 'Successfully updated endpoint';
-  })
-  .catch(err => {
-    document.getElementById('view-endpoints-message').innerHTML = err.message;
-  });
+  if(responseError) {
+    document.getElementById('view-endpoints-message').innerHTML = responseError;
+  } else {
+    fetch('/api/mockserver/updateMockEndpoint', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+      method: 'POST'
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        document.getElementById('view-endpoints-message').innerHTML = data.message || 'Successfully updated endpoint';
+      })
+      .catch(err => {
+        document.getElementById('view-endpoints-message').innerHTML = err.message;
+      });
+  }
 };
 
 const createRow = ({ method, url, responsePath }) => {
