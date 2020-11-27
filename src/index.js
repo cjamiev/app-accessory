@@ -27,7 +27,6 @@ const {
 const port = process.argv[2] || 999;
 const ROOT_DIR = './src/static/';
 const UTF8 = 'utf-8';
-const TYPE_JSON = 'application/json';
 const TYPE_OCTET = 'application/octet-stream';
 const mimeTypes = {
   '.ico': 'image/x-icon',
@@ -36,14 +35,14 @@ const mimeTypes = {
   '.css': 'text/css'
 };
 const STANDARD_HEADER = { 'Content-Type': 'application/json' };
-const mockServerError = { message: 'mock server error has occurred' };
-const NOT_FOUND = 'file not found';
+const MOCK_SERVER_ERROR = 'mock server error has occurred';
+const NOT_FOUND = 'Not found';
 const STATUS_OK = 200;
 const STATUS_ERROR = 500;
+const METHOD_POST = 'POST';
 const IO_DIRECTORY = './storage/io';
 const CLIPBOARD_DIRECTORY = './storage/clipboard';
 const CALENDER_DIRECTORY = './storage/calender';
-const METHOD_POST = 'POST';
 
 const cors = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -77,21 +76,26 @@ const resolvePostBody = async (request) => {
 
     request.on('end', () => {
       try {
-      const result = queryData.length && JSON.parse(queryData.join().toString('utf8'));
-      resolve(result);
+        const result = queryData.length && JSON.parse(queryData.join().toString('utf8'));
+        resolve(result);
       } catch (e) {
         resolve(e);
       }
     });
   });
 
-  const result = await promise;
-  return result;
+  return await promise;
+};
+
+const send = (response, { data = {}, message = '', error = false }) => {
+  const status = error ? STATUS_ERROR : STATUS_OK;
+
+  response.writeHead(status, STANDARD_HEADER);
+  response.end(JSON.stringify({ data, message, error }), UTF8);
 };
 
 const handleWriteResponse = async (request, response) => {
   const payload = await resolvePostBody(request);
-  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
 
   const content = payload.content || '';
   const filename = payload.filename || new Date().toString().slice(4, 24).replace(/ /g, '.').replace(/:/g, '.');
@@ -99,54 +103,38 @@ const handleWriteResponse = async (request, response) => {
 
   const data = writeToFile(filepath + filename, content);
 
-  response.end(JSON.stringify({ data }), UTF8);
+  send(response, { data });
 };
 
 const handleReadResponse = (request, response) => {
-  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-
   const queryParams = url.parse(request.url, true).query;
 
-  if (queryParams.read === 'true') {
-    const data = loadFile(IO_DIRECTORY + '/' + queryParams.name + '.' + queryParams.ext);
-    response.end(JSON.stringify({ data }), UTF8);
-  }
-  else {
-    const data = readDirectory(IO_DIRECTORY);
-    response.end(JSON.stringify({ data }), UTF8);
-  }
+  const data = queryParams.read === 'true' ?
+    loadFile(IO_DIRECTORY + '/' + queryParams.name + '.' + queryParams.ext) :
+    readDirectory(IO_DIRECTORY);
+
+  send(response, { data });
 };
 
 const handleCommandResponse = (request, response) => {
   exec(getCommand(request.url), { encoding: UTF8 }, (error, stdout, stderr) => {
-    if (error) {
-      response.writeHead(STATUS_ERROR, { 'Content-Type': TYPE_JSON });
-      response.end(JSON.stringify({
-        error: true,
-        message: error || stderr
-      }));
-    }
-    else {
-      response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-      response.end(JSON.stringify({ message: stderr.concat(stdout) }), UTF8);
-    }
+    error ?
+      send(response, { message: error || stderr, error: true }) :
+      send(response, { message: stderr.concat(stdout) });
   });
 };
 
 const handleClipboardResponse = (request, response) => {
-  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-
   const directories = readDirectory(CLIPBOARD_DIRECTORY);
   const data = [];
   directories.forEach(filename => {
     data.push(loadFile(CLIPBOARD_DIRECTORY + '/' + filename));
   });
 
-  response.end(JSON.stringify({ data }), UTF8);
+  send(response, { data });
 };
 
 const handleCalenderResponse = async (request, response) => {
-  response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
 
   if (request.method === METHOD_POST) {
     const payload = await resolvePostBody(request);
@@ -154,81 +142,79 @@ const handleCalenderResponse = async (request, response) => {
     const filename = payload.filename;
     const data = writeToFile(CALENDER_DIRECTORY + '/' + filename, JSON.stringify(content));
 
-    response.end(JSON.stringify({ data }), UTF8);
+    send(response, { data });
   } else {
     const filename = request.url.split('/calender-data/')[1];
     const data = loadFile(CALENDER_DIRECTORY + '/' + filename);
-    response.end(JSON.stringify({ data }), UTF8);
+
+    send(response, { data });
   }
 };
 
-const handleMockServerResponse = async (request, response) => {
-  if (request.url.includes('config') && request.method === METHOD_POST) {
-    const payload = await resolvePostBody(request);
+const handleMockServerPostResponses = async (request, response) => {
+  const payload = await resolvePostBody(request);
+
+  if (request.url.includes('config')) {
     const message = updateConfiguration(payload);
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify(message), UTF8);
+
+    send(response, { message });
+  }
+  else if (request.url.includes('loadMockResponse')) {
+    const data = loadMockResponse(payload.responsePath);
+
+    send(response, { data });
+  }
+  else if (request.url.includes('deleteMockEndpoint')) {
+    const message = removeMockRequestsEntry(payload);
+
+    send(response, { message });
+  }
+  else if (request.url.includes('createMockEndpoint')) {
+    const message = createMockFile(payload);
+
+    send(response, { message });
+  }
+  else if (request.url.includes('updateMockEndpoint')) {
+    const message = updateMockFile(payload);
+
+    send(response, { message });
+  }
+};
+
+const handleMockServerResponse = (request, response) => {
+  if (request.method === METHOD_POST) {
+    handleMockServerPostResponses(request, response);
   }
   else if (request.url.includes('config')) {
     const data = loadConfiguration();
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({ data }), UTF8);
+
+    send(response, { data });
   }
   else if (request.url.includes('mockRequests')) {
     const data = loadMockRequests();
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({ data }), UTF8);
-  }
-  else if (request.url.includes('loadMockResponse')) {
-    const payload = await resolvePostBody(request);
-    const data = loadMockResponse(payload.responsePath);
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({ data }), UTF8);
-  }
-  else if (request.url.includes('deleteMockEndpoint')) {
-    const payload = await resolvePostBody(request);
-    const message = removeMockRequestsEntry(payload);
 
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify(message), UTF8);
-  }
-  else if (request.url.includes('createMockEndpoint')) {
-    const payload = await resolvePostBody(request);
-    const message = createMockFile(payload);
-
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify(message), UTF8);
-  }
-  else if (request.url.includes('updateMockEndpoint')) {
-    const payload = await resolvePostBody(request);
-    const message = updateMockFile(payload);
-
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify(message), UTF8);
+    send(response, { data });
   }
   else if (request.url.includes('clearLog')) {
     const message = clearLog();
 
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify(message), UTF8);
+    send(response, { message });
   }
   else if (request.url.includes('loadLog')) {
     const data = loadLog();
 
-    response.writeHead(STATUS_OK, { 'Content-Type': TYPE_JSON });
-    response.end(JSON.stringify({ data }), UTF8);
+    send(response, { data });
   }
 };
 
 const handleStaticResponse = (request, response) => {
-  const filePath = (request.url === '/' || request.url === '/index.html') ? ROOT_DIR + 'index.html' : ROOT_DIR + request.url;
+  const filePath = ROOT_DIR + request.url;
   const extname = String(path.extname(filePath)).toLowerCase();
   const contentType = mimeTypes[extname] || TYPE_OCTET;
 
   fs.readFile(filePath, (error, content) => {
     if (error) {
-      response.writeHead(STATUS_ERROR);
-      response.end(NOT_FOUND);
+      send(response, { message: NOT_FOUND, error: true });
     } else {
       response.writeHead(STATUS_OK, { 'Content-Type': contentType });
       response.end(content, UTF8);
@@ -251,8 +237,7 @@ const handleMockResponse = async ({ payload, reqUrl, method }, response) => {
     response.end(JSON.stringify(matchedResponse.body), UTF8);
   }
   else {
-    response.writeHead(STATUS_OK, STANDARD_HEADER);
-    response.end(JSON.stringify({ message: 'Not Found' }), UTF8);
+    send(response, { message: NOT_FOUND, error: true });
   }
 };
 
@@ -268,8 +253,7 @@ const handleDefaultResponse = async (request, response) => {
     logEntry(request.url, payload);
   }
   if (error) {
-    response.writeHead(STATUS_ERROR, STANDARD_HEADER);
-    response.end(JSON.stringify(mockServerError), UTF8);
+    send(response, { message: MOCK_SERVER_ERROR, error: true});
   }
   else if (matchedUrl) {
     response.writeHead(overrideStatusCode, STANDARD_HEADER);

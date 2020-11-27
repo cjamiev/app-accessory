@@ -7,6 +7,7 @@ const {
   deleteFile
 } = require('./util');
 
+const CONFIG_SUCCESS_MESSAGE = 'Updated configuration';
 const CONFIG_OVERRIDE_PATH = './storage/config/config.json';
 const MOCK_FILE_PATH = './storage/mock';
 const MOCK_REQUESTS_PATH = './storage/config/mockPaths.json';
@@ -20,6 +21,7 @@ const DEFAULT_CONFIG = {
   overrideStatusCode: 200,
   overrideResponse: {}
 };
+
 const loadMockRequests = () => {
   return loadJSONFromFile(MOCK_REQUESTS_PATH, []);
 };
@@ -32,7 +34,6 @@ const getMatchedMockResponse = (url, method) => {
   const mockRequests = loadMockRequests();
   const matchedMockRequest = mockRequests.find(entry => entry.url === url && entry.method === method);
   if (matchedMockRequest) {
-
     return loadMockResponse(matchedMockRequest.responsePath);
   }
 
@@ -62,7 +63,7 @@ const createMockFile = ({ content, filename }) => {
   const messageOne = updateMockRequests(content.request, filename);
   const messageTwo = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
 
-  return messageTwo;
+  return messageOne || messageTwo;
 };
 
 const updateMockFile = ({ content }) => {
@@ -125,7 +126,7 @@ const updateConfiguration = (payloadConfig) => {
   const updatedConfig = constructValidConfig(payloadConfig);
   const errorMessage = updateFile(CONFIG_OVERRIDE_PATH, updatedConfig);
 
-  return errorMessage ? { message: errorMessage } : { message: 'updated configuration' };
+  return errorMessage ? errorMessage : CONFIG_SUCCESS_MESSAGE;
 };
 
 const loadLog = () => {
