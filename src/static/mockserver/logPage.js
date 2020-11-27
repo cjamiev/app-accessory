@@ -12,8 +12,9 @@ const createRow = entry => {
     const value = entry[item];
     if (typeof value === 'object') {
       const viewObjectButton = document.createElement('button');
-      viewObjectButton.innerHTML = 'Click to see value below';
+      viewObjectButton.innerHTML = 'Load';
       viewObjectButton.onclick = viewDetails(value);
+      viewObjectButton.className = 'btns';
       const newCell = document.createElement('td');
       newCell.appendChild(viewObjectButton);
       tr.appendChild(newCell);

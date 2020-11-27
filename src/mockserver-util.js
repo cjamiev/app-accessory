@@ -60,7 +60,16 @@ const updateMockRequests = (request, filename) => {
 
 const createMockFile = ({ content, filename }) => {
   const messageOne = updateMockRequests(content.request, filename);
-  const message = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
+  const messageTwo = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
+
+  return messageTwo;
+};
+
+const updateMockFile = ({ content }) => {
+  const mockRequests = loadMockRequests();
+  const matched = mockRequests.find(entry => entry.url === content.request.url && entry.method === content.request.method);
+
+  const message = updateFile(matched.responsePath, content.response);
 
   return message;
 };
@@ -139,6 +148,7 @@ const clearLog = () => {
 
 module.exports = {
   createMockFile,
+  updateMockFile,
   removeMockRequestsEntry,
   loadMockRequests,
   loadMockResponse,

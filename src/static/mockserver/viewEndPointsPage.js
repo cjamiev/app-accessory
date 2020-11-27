@@ -4,7 +4,7 @@ const viewDetails = item => {
   };
 };
 
-const loadResponse = responsePath => {
+const loadResponse = ({ method, url, responsePath }) => {
   return () => {
     fetch('/api/mockserver/loadMockResponse', {
       headers: {
@@ -16,9 +16,42 @@ const loadResponse = responsePath => {
     })
       .then(resp => resp.json())
       .then(mockResponse => {
-        document.getElementById('view-response-details').innerHTML = JSON.stringify(mockResponse.data, undefined, 2);
+        const viewResponseDetails = document.getElementById('view-response-details');
+        viewResponseDetails.value = JSON.stringify(mockResponse.data, undefined, 2);
+        viewResponseDetails.setAttribute('data-method-url', JSON.stringify({ method, url }));
       });
   };
+};
+
+const updateEndpoint = () => {
+  const viewResponseDetails = document.getElementById('view-response-details');
+  const response = JSON.parse(viewResponseDetails.value);
+  const request = JSON.parse(viewResponseDetails.getAttribute('data-method-url'));
+
+  console.log(response);
+
+  const payload = {
+    content: {
+      request,
+      response
+    }
+  };
+
+  fetch('/api/mockserver/updateMockEndpoint', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+    method: 'POST'
+  })
+  .then(resp => resp.json())
+  .then(data => {
+    document.getElementById('view-endpoints-message').innerHTML = data.message || 'Successfully updated endpoint';
+  })
+  .catch(err => {
+    document.getElementById('view-endpoints-message').innerHTML = err.message;
+  });
 };
 
 const createRow = ({ method, url, responsePath }) => {
@@ -40,14 +73,16 @@ const createRow = ({ method, url, responsePath }) => {
   }
   if (responsePath) {
     const viewObjectButton = document.createElement('button');
-    viewObjectButton.innerHTML = 'Load Response';
-    viewObjectButton.onclick = loadResponse(responsePath);
+    viewObjectButton.innerHTML = 'Load';
+    viewObjectButton.onclick = loadResponse({ method, url, responsePath });
+    viewObjectButton.className = 'btns';
     detailsCell.appendChild(viewObjectButton);
   }
 
   const viewObjectButton = document.createElement('button');
-  viewObjectButton.innerHTML = 'Delete Entry';
+  viewObjectButton.innerHTML = 'Delete';
   viewObjectButton.onclick = deleteEndpoint({ method, url, responsePath });
+  viewObjectButton.className = 'btns';
   detailsCell.appendChild(viewObjectButton);
 
   tr.appendChild(methodCell);

@@ -50,29 +50,39 @@
 
     <section class="parent-container">
       <h2> Configuration</h2>
-      <div>
-        <label>Delay(ms):<input id="payload-config-delay" type="text"></label><br>
-        <label>Urls to Delay:<input id="payload-config-delayUrls" type="text">(enter comma separated values, leave
-          empty
-          if all endpoints are to delayed)</label><br>
-        <label>Run Log:</label>
-        <label><input id="payload-config-log-true" type="radio" name="payload-config-log" value="true">Yes</label>
-        <label><input id="payload-config-log-false" type="radio" name="payload-config-log" value="false">No</label>
-        <br>
-        <label>Error all endpoints:</label>
-        <label><input id="payload-config-error-true" type="radio" name="payload-config-error" value="true">Yes</label>
-        <label><input id="payload-config-error-false" type="radio" name="payload-config-error" value="false">No</label>
-        <br>
-        <label>Urls to Override:</label><input id="payload-config-overrideUrls" type="text">(enter comma separated
-        values)<br>
-        <label>Status Code for Override(s):</label><input id="payload-config-overrideStatusCode" type="text"><br>
-        <label>JSON Response for Override(s):</label><br>
+      <div class="flex-column">
+        <div>
+          <label>Run Log</label>
+          <label><input id="payload-config-log-true" type="radio" name="payload-config-log" value="true">Yes</label>
+          <label><input id="payload-config-log-false" type="radio" name="payload-config-log" value="false">No</label>
+        </div>
+        <div>
+          <label>Error all Endpoints</label>
+          <label><input id="payload-config-error-true" type="radio" name="payload-config-error" value="true">Yes</label>
+          <label><input id="payload-config-error-false" type="radio" name="payload-config-error"
+              value="false">No</label>
+        </div>
+      </div>
+      <div class="flex-column">
+        <h2>Delay Responses</h2>
+        <label class="">Time(ms)</label>
+        <input id="payload-config-delay" class="input-field" type="text">
+        <label>Comma seperated Urls, blank = all</label>
+        <input id="payload-config-delayUrls" class="input-field" type="text">
+      </div>
+      <div class="flex-column">
+        <h2>Override Endpoints</h2>
+        <label>Enter comma seperated Urls</label>
+        <input id="payload-config-overrideUrls" class="input-field" type="text">
+        <label>Status Code</label>
+        <input id="payload-config-overrideStatusCode" class="input-field" type="text">
+        <label>Response</label>
         <textarea id="payload-config-overrideResponse" rows="20" cols="100"></textarea>
+      </div>
+      <div>
         <br>
-
-        <input type="button" value="Submit" onClick="updateConfiguration()">
-        <input type="button" value="Validate JSON format" onClick="validateOverrideResponse()">
-        <p>Changes to all fields will take effect without restart </p>
+        <button class="btns" onClick="updateConfiguration()">Update</button>
+        <button class="btns" onClick="validateOverrideResponse()">Validate JSON</button>
         <p id="payload-config-message"></p>
       </div>
     </section>

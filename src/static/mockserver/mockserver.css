@@ -67,3 +67,36 @@ table th {
   flex: 3;
   margin: 10px;
 }
+
+.btns {
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  margin: 0 5px;
+}
+
+.config-container {
+  width: 75%;
+  display: flex;
+}
+
+.input-field {
+  width: 200px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(40, 44, 52);;
+  color: white;
+  place-items: center;
+  width: 720px;
+}
+
+.flex-row {
+  display: flex;
+}

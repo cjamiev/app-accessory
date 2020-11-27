@@ -68,8 +68,9 @@
       </div>
 
       <h2>View Response Details</h2>
-      <textarea id="view-response-details" rows="20" cols="100" readonly></textarea><br>
-      <button onClick="copyToClipboard('view-response-details')">Copy Details to Clipboard</button>
+      <textarea id="view-response-details" rows="20" cols="100"></textarea><br>
+      <button class="btns" onClick="copyToClipboard('view-response-details')">Copy</button>
+      <button class="btns" onClick="updateEndpoint()">Update Endpoint</button>
       <p id="view-endpoints-message"></p>
     </section>
   </div>
