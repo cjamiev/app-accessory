@@ -56,37 +56,46 @@
     <section class="parent-container">
       <h2> Create New Mock Endpoint</h2>
       <div>
-        <label>Mock File Name:
+        <button id="payload-mode" class="btns" onClick="switchMode()">Raw Text Mode</button>
+        <label>Optional File Name:
           <input id="payload-create-endpoint-file-name" type="text">
         </label>
         <br>
-        <label>Request Url:<input id="payload-create-endpoint-url" type="text"></label><br>
-        <label>Request Method:
-          <select id="payload-create-endpoint-method">
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-          </select>
-        </label><br>
-        <label>Response Headers:</label><br>
-        <textarea id="payload-create-endpoint-response-headers" rows="3"
-          cols="50">{"Content-Type": "application/json"}</textarea>
-        <br>
-        <label>Response Status Code:
-          <select id="payload-create-endpoint-response-status-code">
-            <option value="200">200</option>
-            <option value="404">404</option>
-            <option value="500">500</option>
-          </select>
-        </label>
-        <br>
-        <div class="payload-group">
-          <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
-            placeholder="Enter body response..."></textarea>
-          <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
-            placeholder="Enter conditional response..."></textarea>
+        <div id="payload-create-content-container" class="show">
+          <textarea id="payload-create-endpoint-content" class="payload-content" rows="50" cols="150"></textarea>
         </div>
-        <input type="button" value="Submit" onClick="createMockEndpoint()">
-        <input type="button" value="Validate JSON format" onClick="validateResponseBody()">
+        <div id="payload-create-form-container" class="hide">
+          <div class="flex-column">
+            <h2>Request</h2>
+            <label>Url</label>
+            <input id="payload-create-endpoint-url" type="text">
+            <label>Method</label>
+            <select id="payload-create-endpoint-method">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+            </select>
+            <label>Headers</label>
+            <textarea id="payload-create-endpoint-response-headers" rows="3"
+              cols="50">{"Content-Type": "application/json"}</textarea>
+          </div>
+          <div class="flex-column">
+            <label>Response Status Code:
+              <select id="payload-create-endpoint-response-status-code">
+                <option value="200">200</option>
+                <option value="400">400</option>
+                <option value="403">403</option>
+                <option value="404">404</option>
+                <option value="500">500</option>
+                <option value="503">503</option>
+              </select>
+            </label>
+            <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
+              placeholder="Enter body response..."></textarea>
+            <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
+              placeholder="Enter conditional response..."></textarea>
+          </div>
+        </div>
+        <button class="btns" onClick="createMockEndpoint()">Submit</button>
         <p id="payload-create-endpoint-message"></p>
       </div>
     </section>

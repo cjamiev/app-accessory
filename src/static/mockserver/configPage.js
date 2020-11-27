@@ -1,12 +1,7 @@
 const DELAY_ERROR = 'Delay must be a valid number (milliseconds)';
 const OVERRIDE_RESPONSE_ERROR = 'Override Response Body must be valid JSON';
 
-const DELAY_ONE_SECOND = 1000;
-
-const validateOverrideResponse = () => {
-  document.getElementById('payload-config-message').innerHTML = '';
-  validateJSON('payload-config-overrideResponse', 'payload-config-message', 'Override Response Body');
-};
+const DELAY_ONE_SECOND = 250;
 
 const setConfigHTML = (data) => {
   document.getElementById('payload-config-delay').value = data.delay;

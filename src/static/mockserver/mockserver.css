@@ -97,6 +97,15 @@ table th {
   width: 720px;
 }
 
-.flex-row {
-  display: flex;
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.payload-content {
+  padding: 10px;
+  margin-top: 5px;
 }
