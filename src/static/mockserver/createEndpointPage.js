@@ -30,17 +30,19 @@ const DEFAULT_MOCK_DATA = {
   }
 };
 
-const onLoad = () => {
-  document.getElementById('payload-create-endpoint-content').value = JSON.stringify(DEFAULT_MOCK_DATA, undefined, 2);
-  document.getElementById('payload-create-endpoint-url').value = DEFAULT_MOCK_DATA.request.url;
-  document.getElementById('payload-create-endpoint-response-headers').value = JSON.stringify(DEFAULT_MOCK_DATA.response.headers);
-  document.getElementById('payload-create-endpoint-response-body').value = JSON.stringify(DEFAULT_MOCK_DATA.response.body, undefined, 2);
-  document.getElementById('payload-create-endpoint-conditional-response-body').value = JSON.stringify(DEFAULT_MOCK_DATA.response.conditionalResponse, undefined, 2);
+const onLoad = (content) => {
+  document.getElementById('payload-create-endpoint-content').value = JSON.stringify(content, undefined, 2);
+  document.getElementById('payload-create-endpoint-url').value = content.request.url;
+  document.getElementById('payload-create-endpoint-response-headers').value = JSON.stringify(content.response.headers);
+  document.getElementById('payload-create-endpoint-response-body').value = JSON.stringify(content.response.body, undefined, 2);
+  document.getElementById('payload-create-endpoint-conditional-response-body').value = JSON.stringify(content.response.conditionalResponse, undefined, 2);
 };
 
 const switchMode = () => {
   const modeEl = document.getElementById('payload-mode');
   const mode = modeEl.innerHTML;
+  const content = getUserInput(mode);
+  onLoad(content);
   if(mode === MODE_RAW_TEXT){
     modeEl.innerHTML = MODE_FORM_TEXT;
     document.getElementById('payload-create-content-container').className = 'hide';
@@ -53,8 +55,7 @@ const switchMode = () => {
   }
 };
 
-const getUserInput = () => {
-  const mode = document.getElementById('payload-mode').innerHTML;
+const getUserInput = (mode) => {
   if(mode === 'Raw Text Mode') {
     return parseJSONObject(document.getElementById('payload-create-endpoint-content').value);
   } else {
@@ -82,7 +83,8 @@ const getUserInput = () => {
 
 const createMockEndpoint = () => {
   const name = document.getElementById('payload-create-endpoint-file-name').value;
-  const content = getUserInput();
+  const mode = document.getElementById('payload-mode').innerHTML;
+  const content = getUserInput(mode);
   const cleanedUrl = content.request.url.replace(/[<>://\\|?*]/g,'-');
   const filename = name ? name : `${content.request.method}-${cleanedUrl}.json`;
 
@@ -116,4 +118,4 @@ const createMockEndpoint = () => {
   }
 };
 
-onLoad();
+onLoad(DEFAULT_MOCK_DATA);
