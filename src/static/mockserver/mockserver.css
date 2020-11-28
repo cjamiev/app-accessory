@@ -73,6 +73,7 @@ table th {
   color: white;
   border-radius: 4px;
   margin: 0 5px;
+  width: 150px;
 }
 
 .config-container {
@@ -91,7 +92,7 @@ table th {
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;
-  background-color: rgb(40, 44, 52);;
+  background-color: rgb(40, 44, 52);
   color: white;
   place-items: center;
   width: 720px;
@@ -108,4 +109,36 @@ table th {
 .payload-content {
   padding: 10px;
   margin-top: 5px;
+}
+
+.form-request-fields-container {
+  display: grid;
+  grid-template-areas: 
+  'title title title title'
+  'url url headers headers'
+  'method method headers headers';
+  grid-gap: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(40, 44, 52);
+  color: white;
+  width: 720px;
+  margin-top: 5px;
+}
+
+.form-request-field-title { 
+  grid-area: title; 
+  text-align: center;
+}
+.form-request-field-url { 
+  grid-area: url; 
+  margin-left: 5px;
+}
+.form-request-field-headers { 
+  grid-area: headers; 
+}
+.form-request-field-method { 
+  grid-area: method; 
+  margin-left: 5px;
+  margin-bottom: 5px;
 }

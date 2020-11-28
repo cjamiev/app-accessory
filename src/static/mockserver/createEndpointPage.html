@@ -4,11 +4,6 @@
 <head>
   <link rel="stylesheet" type="text/css" href="../css/all.css">
   <link rel="stylesheet" type="text/css" href="mockserver.css">
-  <style>
-    .payload-group {
-      display: flex;
-    }
-  </style>
 </head>
 
 <body>
@@ -56,30 +51,37 @@
     <section class="parent-container">
       <h2> Create New Mock Endpoint</h2>
       <div>
-        <button id="payload-mode" class="btns" onClick="switchMode()">Raw Text Mode</button>
+        <button id="payload-mode" class="btns" onClick="switchMode()">Form Mode</button>
         <label>Optional File Name:
           <input id="payload-create-endpoint-file-name" type="text">
         </label>
         <br>
-        <div id="payload-create-content-container" class="show">
+        <div id="payload-create-content-container" class="hide">
           <textarea id="payload-create-endpoint-content" class="payload-content" rows="50" cols="150"></textarea>
         </div>
-        <div id="payload-create-form-container" class="hide">
-          <div class="flex-column">
-            <h2>Request</h2>
-            <label>Url</label>
-            <input id="payload-create-endpoint-url" type="text">
-            <label>Method</label>
-            <select id="payload-create-endpoint-method">
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-            </select>
-            <label>Headers</label>
-            <textarea id="payload-create-endpoint-response-headers" rows="3"
-              cols="50">{"Content-Type": "application/json"}</textarea>
+        <div id="payload-create-form-container" class="show">
+          <div class="form-request-fields-container">
+            <h2 class="form-request-field-title">Request</h2>
+            <div class="form-request-field-url">
+              <label>Url</label><br />
+              <input id="payload-create-endpoint-url" type="text">
+            </div>
+            <div class="form-request-field-method">
+              <label>Method</label><br />
+              <select id="payload-create-endpoint-method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+              </select>
+            </div>
+            <div class="form-request-field-headers">
+              <label>Headers</label><br />
+              <textarea id="payload-create-endpoint-response-headers" rows="3"
+                cols="50">{"Content-Type": "application/json"}</textarea>
+            </div>
           </div>
           <div class="flex-column">
-            <label>Response Status Code:
+            <h2>Response</h2>
+            <label>Status Code
               <select id="payload-create-endpoint-response-status-code">
                 <option value="200">200</option>
                 <option value="400">400</option>
@@ -89,8 +91,10 @@
                 <option value="503">503</option>
               </select>
             </label>
+            <label>Body</label>
             <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
               placeholder="Enter body response..."></textarea>
+            <label>Conditional Response</label>
             <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
               placeholder="Enter conditional response..."></textarea>
           </div>
