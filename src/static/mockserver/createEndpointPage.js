@@ -135,7 +135,7 @@ const createMockEndpoint = () => {
         setOutput({ message: data.message || 'Successfully created endpoint', error: data.error });
       })
       .catch(err => {
-        setOutput(err);
+        setOutput({ message: err.message, error: true });
       });
   }
 };

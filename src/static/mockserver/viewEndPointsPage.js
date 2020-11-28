@@ -53,10 +53,10 @@ const updateEndpoint = () => {
     })
       .then(resp => resp.json())
       .then(data => {
-        document.getElementById('view-endpoints-message').innerHTML = data.message || 'Successfully updated endpoint';
+        setOutput({ message: data.message || 'Successfully updated endpoint', error: data.error });
       })
       .catch(err => {
-        document.getElementById('view-endpoints-message').innerHTML = err.message;
+        setOutput({ message: err.message, error: true });
       });
   }
 };
@@ -148,8 +148,8 @@ const deleteEndpoint = (endpoint) => {
       method: 'POST'
     })
       .then(resp => resp.json())
-      .then(response => {
-        document.getElementById('view-endpoints-message').innerHTML = response.message;
+      .then(data => {
+        setOutput({ message: data.message || 'Successfully deleted endpoint', error: data.error });
         deleteAllChildren(document.getElementById('view-endpoints-body'));
         loadEndpoints();
       });
