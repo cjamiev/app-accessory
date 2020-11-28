@@ -21,7 +21,7 @@ table th {
   color: white;
 }
 
-.log-table-container {
+.parent-container {
   flex: 8;
   margin: 10px;
 }
