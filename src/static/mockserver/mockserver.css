@@ -137,7 +137,6 @@ table th {
 }
 .form-request-field-method { 
   grid-area: method; 
-  margin-top: 5px;
 }
 
 @media screen and (max-width: 1400px) {

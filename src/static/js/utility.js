@@ -15,8 +15,13 @@ const copyToClipboard = text => {
 };
 
 const copyContentToClipboard = (elementId) => {
-  copyToClipboard(document.getElementById(elementId).innerHTML);
-
+  const innerHtml = document.getElementById(elementId).innerHTML;
+  if(innerHtml) {
+    copyToClipboard(innerHtml);
+  }
+  else {
+    copyToClipboard(document.getElementById(elementId).value);
+  }
 };
 
 const copyHTMLContentToClipboard = (elementId) => {

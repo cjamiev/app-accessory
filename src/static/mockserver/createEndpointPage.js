@@ -1,9 +1,12 @@
 const MODE_RAW_TEXT = 'Raw Text Mode';
 const MODE_FORM_TEXT = 'Form Mode';
 const FILENAME_ERROR = 'File name is required';
-const URL_ERROR = 'Url is required';
+const REQUEST_ERROR = 'Request url and method are required';
+const CONTENT_ERROR = 'Content must be valid JSON format and must contain request and response keys';
 const HEADERS_ERROR = 'Headers must be valid JSON format';
-const BODY_ERROR = 'BODY must be valid JSON format';
+const BODY_ERROR = 'Body must be valid JSON format';
+const CONDITIONAL_RESPONSE_ERROR = 'Conditional Response must be valid JSON format';
+const STATUS_ERROR = 'Status must be valid number';
 const DEFAULT_MOCK_DATA = {
   request: {
     url: '/test',
@@ -11,6 +14,7 @@ const DEFAULT_MOCK_DATA = {
   },
   response: {
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     status: 200,
@@ -33,7 +37,7 @@ const DEFAULT_MOCK_DATA = {
 const onLoad = (content) => {
   document.getElementById('payload-create-endpoint-content').value = JSON.stringify(content, undefined, 2);
   document.getElementById('payload-create-endpoint-url').value = content.request.url;
-  document.getElementById('payload-create-endpoint-response-headers').value = JSON.stringify(content.response.headers);
+  document.getElementById('payload-create-endpoint-response-headers').value = JSON.stringify(content.response.headers, undefined, 2);
   document.getElementById('payload-create-endpoint-response-body').value = JSON.stringify(content.response.body, undefined, 2);
   document.getElementById('payload-create-endpoint-conditional-response-body').value = JSON.stringify(content.response.conditionalResponse, undefined, 2);
 };
@@ -78,25 +82,50 @@ const getUserInput = (mode) => {
   }
 };
 
+const checkResponseErrors = (response) => {
+  const statusError = isNumber(response.status) ? '': STATUS_ERROR;
+  const headersError = isValidJSONObject(JSON.stringify(response.headers)) ? '' : HEADERS_ERROR;
+  const bodyError = isValidJSONObject(JSON.stringify(response.body)) ? '' : BODY_ERROR;
+  const conditionalResponseError = isValidJSONObject(JSON.stringify(response.conditionalResponse)) ? '' : CONDITIONAL_RESPONSE_ERROR;
+
+  if(statusError || headersError || bodyError || conditionalResponseError) {
+    return 'ERRORS: ' + statusError + ' ' + headersError + ' ' + bodyError + ' ' + conditionalResponseError;
+  }
+
+  return '';
+};
+
+const checkErrors = (content) => {
+  const contentError = isValidJSONObject(JSON.stringify(content)) ? '' : CONTENT_ERROR;
+  if(contentError || !content.request || !content.response) {
+    return 'ERRORS: ' + contentError;
+  }
+  else if(!content.request.url || !content.request.method){
+    return 'ERRORS: ' + REQUEST_ERROR;
+  }
+  else {
+    return checkResponseErrors(content.response);
+  }
+};
+
 const createMockEndpoint = () => {
   const name = document.getElementById('payload-create-endpoint-file-name').value;
   const mode = document.getElementById('payload-mode').innerHTML;
   const content = getUserInput(mode);
-  const cleanedUrl = content.request.url.replace(/[<>://\\|?*]/g,'-');
-  const filename = name ? name : `${content.request.method}-${cleanedUrl}.json`;
+  const error = checkErrors(content);
 
-  const payload = {
-    filename,
-    content
-  };
-
-  const urlError = content.request.url ? '' : URL_ERROR;
-  const headersError = isValidJSONObject(JSON.stringify(content.response.headers)) ? '' : HEADERS_ERROR;
-  const bodyError = isValidJSONObject(JSON.stringify(content.response.body)) ? '' : BODY_ERROR;
-
-  if (urlError || headersError || bodyError) {
-    document.getElementById('payload-create-endpoint-message').innerHTML = 'ERRORS:' + urlError + ' ' + headersError + ' ' + bodyError;
+  if (error) {
+    document.getElementById('payload-create-endpoint-message').innerHTML = error;
   } else {
+    const cleanedUrl = content.request.url.replace(/[<>://\\|?*]/g,'-');
+    const urlError = content.request.url ? '' : URL_ERROR;
+    const filename = name ? name : `${content.request.method}-${cleanedUrl}.json`;
+
+    const payload = {
+      filename,
+      content
+    };
+
     fetch('/api/mockserver/createMockEndpoint', {
       headers: {
         'Accept': 'application/json',
@@ -107,10 +136,10 @@ const createMockEndpoint = () => {
     })
       .then(resp => resp.json())
       .then(data => {
-        document.getElementById('payload-create-endpoint-message').innerHTML = data.message || 'Successfully created endpoint';
+        setOutput({message:'Successfully created endpoint'});
       })
       .catch(err => {
-        document.getElementById('payload-create-endpoint-message').innerHTML = err.message;
+        setOutput(err);
       });
   }
 };

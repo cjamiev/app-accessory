@@ -69,16 +69,17 @@
 
       <h2>View Response Details</h2>
       <textarea id="view-response-details" rows="20" cols="100"></textarea><br>
-      <button class="btns" onClick="copyToClipboard('view-response-details')">Copy</button>
+      <button class="btns" onClick="copyContentToClipboard('view-response-details')">Copy</button>
       <button class="btns" onClick="updateEndpoint()">Update Endpoint</button>
       <p id="view-endpoints-message"></p>
     </section>
   </div>
 
-  <script src="common.js"></script>
-  <script src="viewEndpointsPage.js"></script>
+  <script src="../js/utility.js"></script>
   <script src="../js/clock.js"></script>
   <script src="../js/onload.js"></script>
+  <script src="common.js"></script>
+  <script src="viewEndpointsPage.js"></script>
 </body>
 
 </html>

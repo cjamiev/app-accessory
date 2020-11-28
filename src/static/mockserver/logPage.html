@@ -67,15 +67,16 @@
     <div class="right-side">
       <h2>View Request Details</h2>
       <textarea id="log-payload-details" rows="20" cols="100" readonly></textarea><br>
-      <button class="btns" onClick="copyToClipboard('log-payload-details')">Copy</button>
+      <button class="btns" onClick="copyContentToClipboard('log-payload-details')">Copy</button>
       <button class="btns" onClick="clearLog()">Clear log</button>
     </div>
   </div>
 
-  <script src="common.js"></script>
-  <script src="logPage.js"></script>
+  <script src="../js/utility.js"></script>
   <script src="../js/clock.js"></script>
   <script src="../js/onload.js"></script>
+  <script src="common.js"></script>
+  <script src="logPage.js"></script>
 </body>
 
 </html>

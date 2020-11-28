@@ -6,15 +6,6 @@ const deleteAllChildren = parent => {
   }
 };
 
-const copyToClipboard = (id) => {
-  const temporaryElement = document.createElement('input');
-  document.body.appendChild(temporaryElement);
-  temporaryElement.value = document.getElementById(id).innerHTML;
-  temporaryElement.select();
-  document.execCommand('copy', false);
-  temporaryElement.remove();
-};
-
 const getNumberValue = name => {
   const element = document.getElementById(name);
 
