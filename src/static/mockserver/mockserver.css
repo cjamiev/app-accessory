@@ -21,9 +21,23 @@ table th {
   color: white;
 }
 
-.parent-container {
+.log-table-container {
   flex: 8;
   margin: 10px;
+}
+
+@media screen and (max-width: 1400px) {
+  .log-payload-details {
+    width: 300px;
+    height: 250px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .log-payload-details {
+    width: 650px;
+    height: 350px;
+  }
 }
 
 .topnav {

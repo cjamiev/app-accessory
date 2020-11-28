@@ -48,11 +48,11 @@
       <a class="mock-navigation" href="logPage.html">Logger</a>
     </div>
 
-    <section class="parent-container">
+    <section class="log-table-container">
       <h2>Logs</h2>
       <p>Run Log must be set to yes in configuration</p>
       <div>
-        <table class="log-table">
+        <table>
           <thead>
             <tr>
               <th>Timestamp</th>
@@ -66,7 +66,7 @@
     </section>
     <div class="right-side">
       <h2>View Request Details</h2>
-      <textarea id="log-payload-details" rows="20" cols="100" readonly></textarea><br>
+      <textarea id="log-payload-details" class="log-payload-details" readonly></textarea><br>
       <button class="btns" onClick="copyContentToClipboard('log-payload-details')">Copy</button>
       <button class="btns" onClick="clearLog()">Clear log</button>
     </div>
