@@ -41,18 +41,15 @@ const onLoad = (content) => {
 const switchMode = () => {
   const modeEl = document.getElementById('payload-mode');
   const mode = modeEl.innerHTML;
+  const updatedMode = mode === MODE_RAW_TEXT ? MODE_FORM_TEXT: MODE_RAW_TEXT;
   const content = getUserInput(mode);
+
+  modeEl.innerHTML = updatedMode;
   onLoad(content);
-  if(mode === MODE_RAW_TEXT){
-    modeEl.innerHTML = MODE_FORM_TEXT;
-    document.getElementById('payload-create-content-container').className = 'hide';
-    document.getElementById('payload-create-form-container').className = 'show';
-  }
-  else {
-    modeEl.innerHTML = MODE_RAW_TEXT;
-    document.getElementById('payload-create-content-container').className = 'show';
-    document.getElementById('payload-create-form-container').className = 'hide';
-  }
+  document.getElementById('payload-create-content-container').classList.toggle('hide');
+  document.getElementById('payload-create-content-container').classList.toggle('show');
+  document.getElementById('payload-create-form-container').classList.toggle('hide');
+  document.getElementById('payload-create-form-container').classList.toggle('show');
 };
 
 const getUserInput = (mode) => {
