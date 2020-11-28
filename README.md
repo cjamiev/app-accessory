@@ -83,28 +83,25 @@ Command can be 'block' for pop up terminal or any other string for no terminal.
 
 ![Clipboard Feature](./documentation/clipboard-feature.png)
 
-### Calender
+### Calendar
 This page is used to store log numerical data for the month such as running miles or expenses.
+
+![Calendar Feature](./documentation/calendar-feature.png)
 
 ### Snippets
 This page is used to store commonly used html tags, javascript functions, css and other code snippets.
 
-### Mock Server
-These pages can be used to create custom mock endpoints (including conditional post calls) as well as view endpoints and have configuration for timed delays of responses.
+![Snippets Feature](./documentation/snippets-feature.png)
 
-Example of conditionalResponse format
-```
-"conditionalResponse": [
-  {
-    "payload": {
-      "user": "CJV"
-    },
-    "body": {
-      "key3": "value3"
-    }
-  }
-]
-```
+### Mock Server
+These pages can be used to create custom mock endpoints.
+- Create a mock end point
+- View mock end point details (update and delete)
+- View and update config for adding delay, overriding urls. 
+- Log of all end points hitting of this server and payloads send. 
+
+![Create Mock Endpoint Feature](./documentation/create-mock-endpoint-feature.png)
+![View Mock Endpoint Feature](./documentation/view-mock-endpoint-feature.png)
 
 ### API Testing
 This page is used to test api calls.
@@ -113,13 +110,13 @@ This page is used to test api calls.
 You can add the following to another project while this project is running to record api calls:
 
 ```
-post: (filename, payload) => {
+post: (filename, content) => {
     return fetch('http://localhost:999/write', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ filename, content:payload}),
+      body: JSON.stringify({ filename, content }),
       method: 'POST',
       crossDomain: true
     })
@@ -128,5 +125,39 @@ post: (filename, payload) => {
   }
 ```
 
-Future Features
-- Format button for Read/Write files
+Content should have the following structure
+```
+{
+  request: {
+    url: '/test',
+    method: 'POST'
+  },
+  response: {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    status: 200,
+    body: {
+      test: 'testing post'
+    },
+    conditionalResponse: [
+      {
+        payload: {
+          key: 'condition'
+        },
+        body: {
+          test: 'testing conditional post'
+        }
+      }
+    ]
+  }
+}
+```
+
+For autonaming filename use
+```
+const cleanedUrl = content.request.url.replace(/[<>://\\|?*]/g,'-');
+const urlError = content.request.url ? '' : URL_ERROR;
+const filename = name ? name : `${content.request.method}-${cleanedUrl}.json`;
+```
