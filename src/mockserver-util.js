@@ -7,6 +7,7 @@ const {
   deleteFile
 } = require('./util');
 
+const ENTRY_ALREADY_EXISTS_MESSAGE = 'A mock with the specified method and url already exists.';
 const CONFIG_SUCCESS_MESSAGE = 'Updated configuration';
 const CONFIG_OVERRIDE_PATH = './storage/config/config.json';
 const MOCK_FILE_PATH = './storage/mock';
@@ -61,9 +62,15 @@ const updateMockRequests = (request, filename) => {
 
 const createMockFile = ({ content, filename }) => {
   const messageOne = updateMockRequests(content.request, filename);
-  const messageTwo = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
 
-  return messageOne || messageTwo;
+  if(messageOne) {
+    return { message: messageOne, error: true };
+  }
+  else {
+    const message = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
+
+    return message ? { message, error: true } : { message };
+  }
 };
 
 const updateMockFile = ({ content }) => {

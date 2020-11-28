@@ -88,20 +88,16 @@ const checkResponseErrors = (response) => {
   const bodyError = isValidJSONObject(JSON.stringify(response.body)) ? '' : BODY_ERROR;
   const conditionalResponseError = isValidJSONObject(JSON.stringify(response.conditionalResponse)) ? '' : CONDITIONAL_RESPONSE_ERROR;
 
-  if(statusError || headersError || bodyError || conditionalResponseError) {
-    return 'ERRORS: ' + statusError + ' ' + headersError + ' ' + bodyError + ' ' + conditionalResponseError;
-  }
-
-  return '';
+  return statusError + ' ' + headersError + ' ' + bodyError + ' ' + conditionalResponseError;
 };
 
 const checkErrors = (content) => {
   const contentError = isValidJSONObject(JSON.stringify(content)) ? '' : CONTENT_ERROR;
   if(contentError || !content.request || !content.response) {
-    return 'ERRORS: ' + contentError;
+    return contentError;
   }
   else if(!content.request.url || !content.request.method){
-    return 'ERRORS: ' + REQUEST_ERROR;
+    return REQUEST_ERROR;
   }
   else {
     return checkResponseErrors(content.response);
@@ -114,7 +110,7 @@ const createMockEndpoint = () => {
   const content = getUserInput(mode);
   const error = checkErrors(content);
 
-  if (error) {
+  if (error.replace(/ /g,'')) {
     document.getElementById('payload-create-endpoint-message').innerHTML = error;
   } else {
     const cleanedUrl = content.request.url.replace(/[<>://\\|?*]/g,'-');
@@ -136,7 +132,7 @@ const createMockEndpoint = () => {
     })
       .then(resp => resp.json())
       .then(data => {
-        setOutput({message:'Successfully created endpoint'});
+        setOutput({ message: data.message || 'Successfully created endpoint', error: data.error });
       })
       .catch(err => {
         setOutput(err);
