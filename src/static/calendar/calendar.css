@@ -2,12 +2,12 @@
   text-align: center;
 }
 
-.calender-month {
+.calendar-month {
   margin: 10px auto;
   display: inline;
 }
 
-.calender-header {
+.calendar-header {
   display: flex;
   flex-direction: row;
   height: 25px;
@@ -16,19 +16,19 @@
   text-align: center;
 }
 
-.calender-header-span {
+.calendar-header-span {
   flex: 1;
   border: 1px solid black;
 }
 
-.calender-week {
+.calendar-week {
   display: flex;
   flex-direction: row;
   height: 50px;
   background-color: rgb(40, 44, 52);
 }
 
-.calender-week-highlight {
+.calendar-week-highlight {
   background-color: rgb(60, 60, 60);
 }
 
@@ -40,13 +40,13 @@
   color: white;
 }
 
-.calender-day-span {
+.calendar-day-span {
   position: absolute;
   left: 2px;
   top: -2px;
 }
 
-.calender-day-input {
+.calendar-day-input {
   margin-top: 15px;
   width: 40%;
 }
@@ -76,12 +76,12 @@
   place-items: center;
 }
 
-.calender-btn-group {
+.calendar-btn-group {
   display: flex;
   flex-direction: row;
 }
 
-.calender-btn {
+.calendar-btn {
   flex: 1;
   background-color: #001133;
   border: 1px solid #001133;
@@ -89,7 +89,7 @@
   margin: 5px;
 }
 
-.calender-btn:hover {
+.calendar-btn:hover {
   background-color: #020713;
 }
 

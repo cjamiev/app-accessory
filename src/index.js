@@ -42,7 +42,7 @@ const STATUS_ERROR = 500;
 const METHOD_POST = 'POST';
 const IO_DIRECTORY = './storage/io';
 const CLIPBOARD_DIRECTORY = './storage/clipboard';
-const CALENDER_DIRECTORY = './storage/calender';
+const CALENDAR_DIRECTORY = './storage/calendar';
 
 const cors = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -134,18 +134,18 @@ const handleClipboardResponse = (request, response) => {
   send(response, { data });
 };
 
-const handleCalenderResponse = async (request, response) => {
+const handleCalendarResponse = async (request, response) => {
 
   if (request.method === METHOD_POST) {
     const payload = await resolvePostBody(request);
     const content = payload.content || '';
     const filename = payload.filename;
-    const data = writeToFile(CALENDER_DIRECTORY + '/' + filename, JSON.stringify(content));
+    const data = writeToFile(CALENDAR_DIRECTORY + '/' + filename, JSON.stringify(content));
 
     send(response, { data });
   } else {
-    const filename = request.url.split('/calender-data/')[1];
-    const data = loadFile(CALENDER_DIRECTORY + '/' + filename);
+    const filename = request.url.split('/calendar-data/')[1];
+    const data = loadFile(CALENDAR_DIRECTORY + '/' + filename);
 
     send(response, { data });
   }
@@ -281,8 +281,8 @@ http.createServer((request, response) => {
   else if (request.url.includes('clipboard-config')) {
     handleClipboardResponse(request, response);
   }
-  else if (request.url.includes('calender-data')) {
-    handleCalenderResponse(request, response);
+  else if (request.url.includes('calendar-data')) {
+    handleCalendarResponse(request, response);
   }
   else if (request.url.includes('api/mockserver')) {
     handleMockServerResponse(request, response);

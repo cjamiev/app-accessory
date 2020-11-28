@@ -55,11 +55,11 @@ const getEntireMonth = (selectedDay) => {
 const createCalendarWeek = (week, id) => {
   const today = new Date();
   const parentDiv = document.createElement('div');
-  parentDiv.className = 'calender-week';
+  parentDiv.className = 'calendar-week';
 
   week.forEach(day => {
     if (today.getDate() === day.getDate() && today.getMonth() === day.getMonth()) {
-      parentDiv.className = 'calender-week calender-week-highlight';
+      parentDiv.className = 'calendar-week calendar-week-highlight';
     }
 
     const el = document.createElement('div');
@@ -67,12 +67,12 @@ const createCalendarWeek = (week, id) => {
 
     const spanEl = document.createElement('span');
     spanEl.innerHTML = day.getDate();
-    spanEl.className = 'calender-day-span';
+    spanEl.className = 'calendar-day-span';
 
     const inEl = document.createElement('input');
     inEl.type = 'text';
     inEl.onchange = loadTotal;
-    inEl.className = 'calender-day-input';
+    inEl.className = 'calendar-day-input';
     inEl.setAttribute('data-week', id);
     inEl.id = day.getMonth() + '-' + day.getDate();
 
@@ -93,33 +93,33 @@ const createCalendarMonth = (baseDay) => {
   const thisMonth = getEntireMonth(baseDay);
   const monthDiv = document.createElement('div');
   monthDiv.id = 'current-month';
-  monthDiv.className = 'calender-month';
+  monthDiv.className = 'calendar-month';
 
   const calendarHeader = document.createElement('div');
-  calendarHeader.className = 'calender-header';
+  calendarHeader.className = 'calendar-header';
   const sundayHeader = document.createElement('span');
-  sundayHeader.className = 'calender-header-span';
+  sundayHeader.className = 'calendar-header-span';
   sundayHeader.innerHTML = 'Sunday';
   const mondayHeader = document.createElement('span');
-  mondayHeader.className = 'calender-header-span';
+  mondayHeader.className = 'calendar-header-span';
   mondayHeader.innerHTML = 'Monday';
   const tuesdayHeader = document.createElement('span');
-  tuesdayHeader.className = 'calender-header-span';
+  tuesdayHeader.className = 'calendar-header-span';
   tuesdayHeader.innerHTML = 'Tuesday';
   const wednesdayHeader = document.createElement('span');
-  wednesdayHeader.className = 'calender-header-span';
+  wednesdayHeader.className = 'calendar-header-span';
   wednesdayHeader.innerHTML = 'Wednesday';
   const thursdayHeader = document.createElement('span');
-  thursdayHeader.className = 'calender-header-span';
+  thursdayHeader.className = 'calendar-header-span';
   thursdayHeader.innerHTML = 'Thursday';
   const fridayHeader = document.createElement('span');
-  fridayHeader.className = 'calender-header-span';
+  fridayHeader.className = 'calendar-header-span';
   fridayHeader.innerHTML = 'Friday';
   const saturdayHeader = document.createElement('span');
-  saturdayHeader.className = 'calender-header-span';
+  saturdayHeader.className = 'calendar-header-span';
   saturdayHeader.innerHTML = 'Saturday';
   const totalHeader = document.createElement('span');
-  totalHeader.className = 'calender-header-span';
+  totalHeader.className = 'calendar-header-span';
   totalHeader.innerHTML = 'Total';
   calendarHeader.appendChild(sundayHeader);
   calendarHeader.appendChild(mondayHeader);
@@ -137,7 +137,7 @@ const createCalendarMonth = (baseDay) => {
   });
 
   const parentDiv = document.createElement('div');
-  parentDiv.className = 'calender-week';
+  parentDiv.className = 'calendar-week';
   const totalFillerEl = document.createElement('div');
   totalFillerEl.className = 'total-filler';
   const totalEl = document.createElement('div');
@@ -162,17 +162,17 @@ const save = () => {
     };
     data.push(fieldData);
   });
-  const mode = document.getElementById('calender-title').innerHTML;
-  api.post('/calender-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then(result => {
+  const mode = document.getElementById('calendar-title').innerHTML;
+  api.post('/calendar-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then(result => {
     setOutput(result.data);
   });
 };
 
-const loadCalender = (title) => {
-  const mode = title ? title : document.getElementById('calender-title').innerHTML;
-  api.get('/calender-data/' + mode.toLocaleLowerCase() + '.json').then(result => {
-    const calenderData = JSON.parse(result.data);
-    calenderData.forEach(field => {
+const loadCalendar = (title) => {
+  const mode = title ? title : document.getElementById('calendar-title').innerHTML;
+  api.get('/calendar-data/' + mode.toLocaleLowerCase() + '.json').then(result => {
+    const calendarData = JSON.parse(result.data);
+    calendarData.forEach(field => {
       document.getElementById(field.id).value = field.value;
     });
     loadTotal();
@@ -180,8 +180,8 @@ const loadCalender = (title) => {
 };
 
 const switchMode = (title) => {
-  document.getElementById('calender-title').innerHTML = title;
-  loadCalender(title);
+  document.getElementById('calendar-title').innerHTML = title;
+  loadCalendar(title);
 };
 
 document.getElementById('main-content').style.zoom = "150%";
@@ -189,7 +189,7 @@ const monthDiv = createCalendarMonth();
 const monthName = months[new Date().getMonth()];
 
 document.getElementById('page-title').innerHTML = monthName;
-document.getElementById('calender-title').after(monthDiv);
+document.getElementById('calendar-title').after(monthDiv);
 
-loadCalender();
+loadCalendar();
 loadTotal();
