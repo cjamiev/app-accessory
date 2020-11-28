@@ -117,9 +117,8 @@ table th {
   'title title title title'
   'url url headers headers'
   'method method headers headers';
-  grid-gap: 5px;
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
   background-color: rgb(40, 44, 52);
   color: white;
   width: 720px;
@@ -131,14 +130,64 @@ table th {
   text-align: center;
 }
 .form-request-field-url { 
-  grid-area: url; 
-  margin-left: 5px;
+  grid-area: url;
 }
 .form-request-field-headers { 
   grid-area: headers; 
 }
 .form-request-field-method { 
   grid-area: method; 
-  margin-left: 5px;
-  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 1400px) {
+  .form-response-fields-container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(40, 44, 52);
+    color: white;
+    width: 720px;
+  }
+
+  .form-response-field-conditional { 
+    margin-top: 5px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .form-response-fields-container {
+    display: grid;
+    grid-template-areas: 
+    'title title title title'
+    'status status status status'
+    'body body conditional conditional';
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(40, 44, 52);
+    color: white;
+    width: 1500px;
+    margin: 10px 0;
+  }
+
+  .form-response-field-conditional { 
+    grid-area: conditional; 
+  }
+}
+
+.form-response-field-title { 
+  grid-area: title; 
+  text-align: center;
+}
+.form-response-field-status { 
+  grid-area: status;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.form-response-field-body { 
+  grid-area: body; 
 }

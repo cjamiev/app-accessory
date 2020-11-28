@@ -79,9 +79,9 @@
                 cols="50">{"Content-Type": "application/json"}</textarea>
             </div>
           </div>
-          <div class="flex-column">
-            <h2>Response</h2>
-            <label>Status Code
+          <div class="form-response-fields-container">
+            <h2 class="form-response-field-title">Response</h2>
+            <label class="form-response-field-status">Status Code
               <select id="payload-create-endpoint-response-status-code">
                 <option value="200">200</option>
                 <option value="400">400</option>
@@ -91,12 +91,16 @@
                 <option value="503">503</option>
               </select>
             </label>
-            <label>Body</label>
-            <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
-              placeholder="Enter body response..."></textarea>
-            <label>Conditional Response</label>
-            <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
-              placeholder="Enter conditional response..."></textarea>
+            <div class="form-response-field-body">
+              <label>Body</label><br />
+              <textarea id="payload-create-endpoint-response-body" rows="20" cols="100"
+                placeholder="Enter body response..."></textarea>
+            </div>
+            <div class="form-response-field-conditional">
+              <label>Conditional Response</label><br />
+              <textarea id="payload-create-endpoint-conditional-response-body" rows="20" cols="100"
+                placeholder="Enter conditional response..."></textarea>
+            </div>
           </div>
         </div>
         <button class="btns" onClick="createMockEndpoint()">Submit</button>
