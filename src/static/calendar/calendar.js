@@ -173,7 +173,10 @@ const loadCalendar = (title) => {
   api.get('/calendar-data/' + mode.toLocaleLowerCase() + '.json').then(result => {
     const calendarData = JSON.parse(result.data);
     calendarData.forEach(field => {
-      document.getElementById(field.id).value = field.value;
+      const dateCell = document.getElementById(field.id);
+      if(dateCell){
+        dateCell.value = field.value;
+      }
     });
     loadTotal();
   });
