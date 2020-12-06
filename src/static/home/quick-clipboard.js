@@ -1,12 +1,12 @@
 const loadItems = () => {
-  const clipboardData = JSON.parse((localStorage.getItem('clipboard') || '[]'));
+  const clipboardData = JSON.parse(localStorage.getItem('clipboard') || '[]');
   const quickClipboard = document.getElementById('quick-clipboard');
   const copyBtns = document.querySelectorAll('.quick-clipboard-copy-btn');
   const timerEls = document.querySelectorAll('.quick-clipboard-timer');
-  Array.prototype.forEach.call(copyBtns, el => {
+  Array.prototype.forEach.call(copyBtns, (el) => {
     quickClipboard.removeChild(el);
   });
-  Array.prototype.forEach.call(timerEls, el => {
+  Array.prototype.forEach.call(timerEls, (el) => {
     quickClipboard.removeChild(el);
   });
   clipboardData.forEach((entry, index) => {
@@ -14,12 +14,13 @@ const loadItems = () => {
       const el = document.createElement('button');
       el.className = 'quick-clipboard-copy-btn';
       el.setAttribute('data-clip-item', index);
-      el.onclick = () => { copyToClipboard(entry.value); };
+      el.onclick = () => {
+        copyToClipboard(entry.value);
+      };
       el.innerHTML = entry.name;
 
       quickClipboard.appendChild(el);
-    }
-    else if (entry.operationType === 'timer') {
+    } else if (entry.operationType === 'timer') {
       const elParent = document.createElement('div');
       elParent.className = 'quick-clipboard-timer';
       elParent.setAttribute('data-clip-item', index);
@@ -33,12 +34,14 @@ const loadItems = () => {
       elTimer.innerHTML = 'Loading...';
       elParent.appendChild(elTimer);
 
-      const date = entry.value.split(',').map(item => Number(item));
+      const date = entry.value.split(',').map((item) => Number(item));
       const futureDate = new Date(...date);
       const today = new Date();
       const diff = futureDate.getTime() - today.getTime();
 
-      setTimeout(() => { alert(entry.name + ' is done!'); }, diff);
+      setTimeout(() => {
+        alert(entry.name + ' is done!');
+      }, diff);
 
       quickClipboard.appendChild(elParent);
     }
@@ -74,7 +77,7 @@ const getInputValue = (operationType) => {
   const year = document.getElementById('new-item-year').value;
   const month = document.getElementById('new-item-month').value - 1;
   const day = document.getElementById('new-item-day').value;
-  const hour = document.getElementById('new-item-hour').value % 12 + amOrpm;
+  const hour = (document.getElementById('new-item-hour').value % 12) + amOrpm;
   const minute = document.getElementById('new-item-minute').value;
   const second = document.getElementById('new-item-second').value;
 
@@ -82,11 +85,11 @@ const getInputValue = (operationType) => {
 };
 
 const addNewItem = () => {
-  const operationType = [...document.getElementsByName('operation')].find(el => el.checked).value;
+  const operationType = [...document.getElementsByName('operation')].find((el) => el.checked).value;
   const name = document.getElementById('new-item-name').value;
   const value = getInputValue(operationType);
 
-  const clipboard = JSON.parse((localStorage.getItem('clipboard') || '[]'));
+  const clipboard = JSON.parse(localStorage.getItem('clipboard') || '[]');
   clipboard.push({ name, value, operationType });
   localStorage.setItem('clipboard', JSON.stringify(clipboard));
   showQuickClipboardForm();
@@ -96,20 +99,24 @@ const addNewItem = () => {
 const deleteMode = () => {
   const copyBtns = document.querySelectorAll('.quick-clipboard-copy-btn');
   const timers = document.querySelectorAll('.quick-clipboard-timer');
-  Array.prototype.forEach.call(copyBtns, el => {
+  Array.prototype.forEach.call(copyBtns, (el) => {
     el.classList.toggle('quick-clipboard-copy-btn-delete');
-    el.onclick = () => { deleteClipboardItem(el.innerHTML); };
+    el.onclick = () => {
+      deleteClipboardItem(el.innerHTML);
+    };
   });
-  Array.prototype.forEach.call(timers, el => {
+  Array.prototype.forEach.call(timers, (el) => {
     el.classList.toggle('quick-clipboard-copy-btn-delete');
     const name = el.children[0].innerHTML;
-    el.onclick = () => { deleteClipboardItem(name); };
+    el.onclick = () => {
+      deleteClipboardItem(name);
+    };
   });
 };
 
-const deleteClipboardItem = text => {
-  const clipboardData = JSON.parse((localStorage.getItem('clipboard') || '[]'));
-  const updatedClipboardData = clipboardData.filter(item => item.name !== text);
+const deleteClipboardItem = (text) => {
+  const clipboardData = JSON.parse(localStorage.getItem('clipboard') || '[]');
+  const updatedClipboardData = clipboardData.filter((item) => item.name !== text);
   localStorage.setItem('clipboard', JSON.stringify(updatedClipboardData));
   loadItems();
 };
@@ -123,8 +130,7 @@ const quickClipboardOperation = (op) => {
     timerFieldsClockEl.classList = ['timer-fields-hide'];
     timerFieldsDateEl.classList = ['timer-fields-hide'];
     copyFieldsEl.classList = [''];
-  }
-  else {
+  } else {
     copyFieldsEl.classList = ['copy-fields-hide'];
     timerFieldsClockEl.classList = [''];
     timerFieldsDateEl.classList = [''];

@@ -1,14 +1,14 @@
-const viewDetails = item => {
+const viewDetails = (item) => {
   return () => {
     document.getElementById('log-payload-details').innerHTML = JSON.stringify(item, undefined, 2);
   };
 };
 
-const createRow = entry => {
+const createRow = (entry) => {
   const tr = document.createElement('tr');
   const keys = Object.keys(entry);
 
-  keys.forEach(item => {
+  keys.forEach((item) => {
     const value = entry[item];
     if (typeof value === 'object') {
       const viewObjectButton = document.createElement('button');
@@ -31,7 +31,7 @@ const createRow = entry => {
 const setTableHTML = (data) => {
   const tableBody = document.getElementById('log-body');
 
-  data.forEach(entry => {
+  data.forEach((entry) => {
     const newRow = createRow(entry);
     tableBody.appendChild(newRow);
   });
@@ -39,23 +39,21 @@ const setTableHTML = (data) => {
 
 const loadLog = () => {
   fetch('/api/mockserver/loadLog')
-    .then(resp => resp.json())
-    .then(result => {
+    .then((resp) => resp.json())
+    .then((result) => {
       setTableHTML(result.data);
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 const clearLog = () => {
   fetch('/api/mockserver/clearLog')
-    .then(resp => resp.json())
-    .then(data => {
+    .then((resp) => resp.json())
+    .then((data) => {
       loadLog();
       location.reload();
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 loadLog();

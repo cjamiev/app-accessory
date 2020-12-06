@@ -1,4 +1,17 @@
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
 const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const WEEK_IN_MILLISECONDS = 604800000;
 const DAY_IN_MILLISECONDS = 86400000;
@@ -26,7 +39,7 @@ const getCurrentClock = () => {
   return hours + ':' + minutes + ':' + seconds + ' ' + amOrpm;
 };
 
-const secondsToClock = s => {
+const secondsToClock = (s) => {
   const hours = Math.floor(s / SIXTY_TIMES_SIXTY);
   const minutes = Math.floor(s / SIXTY) % SIXTY;
   const seconds = s % SIXTY;
@@ -34,7 +47,7 @@ const secondsToClock = s => {
   return { hours, minutes, seconds };
 };
 
-const minutesToClock = m => {
+const minutesToClock = (m) => {
   const hours = Math.floor(m / SIXTY);
   const minutes = m % SIXTY;
   const seconds = ZERO;
@@ -53,9 +66,9 @@ const normalizeClock = (h = ZERO, m = ZERO, s = ZERO) => {
   return { hours, minutes, seconds };
 };
 
-const getFormattedMinutes = minutes => (minutes < DOUBLE_DIGIT ? `:0${minutes}` : `:${minutes}`);
+const getFormattedMinutes = (minutes) => (minutes < DOUBLE_DIGIT ? `:0${minutes}` : `:${minutes}`);
 
-const getFormattedSeconds = seconds => (seconds < DOUBLE_DIGIT ? `:0${seconds}` : `:${seconds}`);
+const getFormattedSeconds = (seconds) => (seconds < DOUBLE_DIGIT ? `:0${seconds}` : `:${seconds}`);
 
 const formattedClock = (h = ZERO, m = ZERO, s = ZERO) => {
   const { hours, minutes, seconds } = normalizeClock(h, m, s);
@@ -73,10 +86,17 @@ const clockBetweenDates = (date1, date2) => {
   const weeks = Math.floor(diff / WEEK_IN_MILLISECONDS);
   const days = Math.floor((diff - weeks * WEEK_IN_MILLISECONDS) / DAY_IN_MILLISECONDS);
   const hours = Math.floor((diff - weeks * WEEK_IN_MILLISECONDS - days * DAY_IN_MILLISECONDS) / HOUR_IN_MILLISECONDS);
-  const minutes = Math.floor((diff - weeks * WEEK_IN_MILLISECONDS - days * DAY_IN_MILLISECONDS - hours * HOUR_IN_MILLISECONDS) / MINUTE_IN_MILLISECONDS);
+  const minutes = Math.floor(
+    (diff - weeks * WEEK_IN_MILLISECONDS - days * DAY_IN_MILLISECONDS - hours * HOUR_IN_MILLISECONDS) /
+      MINUTE_IN_MILLISECONDS
+  );
   const seconds = Math.floor(
-    (diff - weeks * WEEK_IN_MILLISECONDS - days * DAY_IN_MILLISECONDS - hours * HOUR_IN_MILLISECONDS - minutes * MINUTE_IN_MILLISECONDS) /
-    SECOND_IN_MILLISECONDS
+    (diff -
+      weeks * WEEK_IN_MILLISECONDS -
+      days * DAY_IN_MILLISECONDS -
+      hours * HOUR_IN_MILLISECONDS -
+      minutes * MINUTE_IN_MILLISECONDS) /
+      SECOND_IN_MILLISECONDS
   );
 
   return { weeks, days, hours, minutes, seconds };
@@ -95,36 +115,32 @@ const getDateAtSetTime = (date, { hours = ZERO, minutes = ZERO, seconds = ZERO }
 const daysBetween = (date1, date2) => {
   const tempDate1 = getDateAtSetTime(date1, {});
   const tempDate2 = getDateAtSetTime(date2, {});
-  const numberOfDays = Math.round(
-    Math.abs(tempDate1.getTime() - tempDate2.getTime()) / DAY_IN_MILLISECONDS
-  );
+  const numberOfDays = Math.round(Math.abs(tempDate1.getTime() - tempDate2.getTime()) / DAY_IN_MILLISECONDS);
 
   return isNaN(numberOfDays) ? null : numberOfDays;
 };
 
-const weeksBetween = (date1, date2) => parseFloat((daysBetween(date1, date2) / DAYS_IN_A_WEEK).toFixed(PRECISION_LEVEL));
+const weeksBetween = (date1, date2) =>
+  parseFloat((daysBetween(date1, date2) / DAYS_IN_A_WEEK).toFixed(PRECISION_LEVEL));
 
 const countdown = () => {
   const timerElements = document.querySelectorAll('[data-date]');
   const today = new Date();
 
-  timerElements.forEach(el => {
+  timerElements.forEach((el) => {
     const data = el.getAttribute('data-date');
     const isStringFormat = data.split(',').length > 2;
-    const parsedData = isStringFormat ? data.split(',').map(item => Number(item)) : data;
+    const parsedData = isStringFormat ? data.split(',').map((item) => Number(item)) : data;
     const futureDate = isStringFormat ? new Date(...parsedData) : new Date(parsedData);
     const { weeks, days, hours, minutes, seconds } = clockBetweenDates(futureDate, today);
 
     if (weeks > ZERO) {
       el.innerHTML = weeks + ' week(s) and ' + (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
-    }
-    else if (days > ZERO) {
+    } else if (days > ZERO) {
       el.innerHTML = (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
-    }
-    else if (hours > ZERO || minutes > ZERO || seconds > ZERO) {
+    } else if (hours > ZERO || minutes > ZERO || seconds > ZERO) {
       el.innerHTML = formattedClock(hours, minutes, seconds);
-    }
-    else {
+    } else {
       el.className = 'blinking-alert';
       el.innerHTML = 'DONE!!!';
     }

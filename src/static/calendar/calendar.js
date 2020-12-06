@@ -1,11 +1,11 @@
 const loadTotal = () => {
   const totalFields = document.querySelectorAll('[data-week-total]');
   let total = ZERO;
-  totalFields.forEach(field => {
+  totalFields.forEach((field) => {
     const fieldId = field.getAttribute('data-week-total');
     const weekFields = document.querySelectorAll(`[data-week="${fieldId}"]`);
     let weekTotal = ZERO;
-    weekFields.forEach(item => {
+    weekFields.forEach((item) => {
       weekTotal += Number(item.value);
     });
 
@@ -28,7 +28,15 @@ const getEntireWeek = (selectedDay) => {
   const sixthDayOfWeek = changeByDays(baseDay, 5 - baseDay.getDay());
   const seventhDayOfWeek = changeByDays(baseDay, 6 - baseDay.getDay());
 
-  return [firstDayOfWeek, secondDayOfWeek, thirdDayOfWeek, fourthDayOfWeek, fifthDayOfWeek, sixthDayOfWeek, seventhDayOfWeek];
+  return [
+    firstDayOfWeek,
+    secondDayOfWeek,
+    thirdDayOfWeek,
+    fourthDayOfWeek,
+    fifthDayOfWeek,
+    sixthDayOfWeek,
+    seventhDayOfWeek
+  ];
 };
 
 const getEntireMonth = (selectedDay) => {
@@ -40,7 +48,10 @@ const getEntireMonth = (selectedDay) => {
     weeksOfMonth.push(getEntireWeek(lastDayofMonth));
   }
 
-  const numberOfWeeksOfMonthInMonth = weeksOfMonth.length > ZERO ? Math.ceil(lastDayofMonth.getDate() / DAYS_IN_A_WEEK) - 1 : Math.ceil(lastDayofMonth.getDate() / DAYS_IN_A_WEEK);
+  const numberOfWeeksOfMonthInMonth =
+    weeksOfMonth.length > ZERO
+      ? Math.ceil(lastDayofMonth.getDate() / DAYS_IN_A_WEEK) - 1
+      : Math.ceil(lastDayofMonth.getDate() / DAYS_IN_A_WEEK);
   let count = ZERO;
   while (count < numberOfWeeksOfMonthInMonth) {
     count++;
@@ -57,7 +68,7 @@ const createCalendarWeek = (week, id) => {
   const parentDiv = document.createElement('div');
   parentDiv.className = 'calendar-week';
 
-  week.forEach(day => {
+  week.forEach((day) => {
     if (today.getDate() === day.getDate() && today.getMonth() === day.getMonth()) {
       parentDiv.className = 'calendar-week calendar-week-highlight';
     }
@@ -155,7 +166,7 @@ const createCalendarMonth = (baseDay) => {
 const save = () => {
   const weekFields = document.querySelectorAll('[data-week]');
   const data = [];
-  weekFields.forEach(field => {
+  weekFields.forEach((field) => {
     const fieldData = {
       id: field.id,
       value: field.value
@@ -163,18 +174,18 @@ const save = () => {
     data.push(fieldData);
   });
   const mode = document.getElementById('calendar-title').innerHTML;
-  api.post('/calendar-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then(result => {
+  api.post('/calendar-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then((result) => {
     setOutput(result.data);
   });
 };
 
 const loadCalendar = (title) => {
   const mode = title ? title : document.getElementById('calendar-title').innerHTML;
-  api.get('/calendar-data/' + mode.toLocaleLowerCase() + '.json').then(result => {
+  api.get('/calendar-data/' + mode.toLocaleLowerCase() + '.json').then((result) => {
     const calendarData = JSON.parse(result.data);
-    calendarData.forEach(field => {
+    calendarData.forEach((field) => {
       const dateCell = document.getElementById(field.id);
-      if(dateCell){
+      if (dateCell) {
         dateCell.value = field.value;
       }
     });
@@ -187,7 +198,7 @@ const switchMode = (title) => {
   loadCalendar(title);
 };
 
-document.getElementById('main-content').style.zoom = "150%";
+document.getElementById('main-content').style.zoom = '150%';
 const monthDiv = createCalendarMonth();
 const monthName = months[new Date().getMonth()];
 

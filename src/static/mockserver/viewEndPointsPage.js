@@ -1,6 +1,6 @@
 const RESPONSE_ERROR = 'Response must be valid JSON format';
 
-const viewDetails = item => {
+const viewDetails = (item) => {
   return () => {
     document.getElementById('view-response-details').innerHTML = JSON.stringify(item, undefined, 2);
   };
@@ -10,14 +10,14 @@ const loadResponse = ({ method, url, responsePath }) => {
   return () => {
     fetch('/api/mockserver/loadMockResponse', {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ responsePath }),
       method: 'POST'
     })
-      .then(resp => resp.json())
-      .then(mockResponse => {
+      .then((resp) => resp.json())
+      .then((mockResponse) => {
         const viewResponseDetails = document.getElementById('view-response-details');
         viewResponseDetails.value = JSON.stringify(mockResponse.data, undefined, 2);
         viewResponseDetails.setAttribute('data-method-url', JSON.stringify({ method, url }));
@@ -40,22 +40,22 @@ const updateEndpoint = () => {
     }
   };
 
-  if(responseError) {
+  if (responseError) {
     document.getElementById('view-endpoints-message').innerHTML = responseError;
   } else {
     fetch('/api/mockserver/updateMockEndpoint', {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload),
       method: 'POST'
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         setOutput({ message: data.message || 'Successfully updated endpoint', error: data.error });
       })
-      .catch(err => {
+      .catch((err) => {
         setOutput({ message: err.message, error: true });
       });
   }
@@ -112,7 +112,7 @@ const setTableHTML = (data) => {
     return 0;
   });
 
-  data.forEach(entry => {
+  data.forEach((entry) => {
     const newRow = createRow(entry);
     tableBody.appendChild(newRow);
   });
@@ -122,7 +122,7 @@ const filterTableBySearch = () => {
   const filterBy = document.getElementById('view-endpoints-filter').value;
   const mockContent = JSON.parse(sessionStorage.getItem('mockContent'));
 
-  const filteredMockContent = mockContent.filter(entry => entry.url.includes(filterBy));
+  const filteredMockContent = mockContent.filter((entry) => entry.url.includes(filterBy));
 
   deleteAllChildren(document.getElementById('view-endpoints-body'));
   setTableHTML(filteredMockContent);
@@ -130,8 +130,8 @@ const filterTableBySearch = () => {
 
 const loadEndpoints = () => {
   fetch('/api/mockserver/mockRequests')
-    .then(resp => resp.json())
-    .then(mockContent => {
+    .then((resp) => resp.json())
+    .then((mockContent) => {
       sessionStorage.setItem('mockContent', JSON.stringify(mockContent.data));
       setTableHTML(mockContent.data);
     });
@@ -141,14 +141,14 @@ const deleteEndpoint = (endpoint) => {
   return () => {
     fetch('/api/mockserver/deleteMockEndpoint', {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(endpoint),
       method: 'POST'
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         setOutput({ message: data.message || 'Successfully deleted endpoint', error: data.error });
         deleteAllChildren(document.getElementById('view-endpoints-body'));
         loadEndpoints();

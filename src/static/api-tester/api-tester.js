@@ -13,18 +13,21 @@ const testApi = () => {
 
   if (method === 'GET') {
     api.get(url, { sendFullResponse: true }).then(({ promise, response }) => {
-      promise.then(res => {
+      promise.then((res) => {
         document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
       });
-      document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;
+      document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${
+        response.url
+      }\nHeaders: ${JSON.stringify(response.headers)}`;
     });
-  }
-  else {
+  } else {
     api.post(url, JSON.parse(payload), { sendFullResponse: true }).then(({ promise, response }) => {
-      promise.then(res => {
+      promise.then((res) => {
         document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
       });
-      document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${response.url}\nHeaders: ${JSON.stringify(response.headers)}`;
+      document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${
+        response.url
+      }\nHeaders: ${JSON.stringify(response.headers)}`;
     });
   }
-}
+};

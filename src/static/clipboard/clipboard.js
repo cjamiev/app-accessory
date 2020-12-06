@@ -7,21 +7,23 @@ const createElement = (item) => {
     link.className = 'links flex-item';
 
     return [link];
-  }
-  else if (item.type === 'copy') {
+  } else if (item.type === 'copy') {
     const copyBtn = document.createElement('button');
     copyBtn.innerHTML = item.label;
     copyBtn.className = 'copy-btn flex-item';
-    copyBtn.onclick = () => { copyToClipboard(item.value); };
+    copyBtn.onclick = () => {
+      copyToClipboard(item.value);
+    };
 
     return [copyBtn];
-  }
-  else if (item.type === 'command') {
+  } else if (item.type === 'command') {
     const commandBtn = document.createElement('button');
 
     commandBtn.innerHTML = item.label;
     commandBtn.className = 'command-btn flex-item';
-    commandBtn.onclick = () => { executeCommand(item.value.mode, item.value.name, item.value.argsId); };
+    commandBtn.onclick = () => {
+      executeCommand(item.value.mode, item.value.name, item.value.argsId);
+    };
 
     if (item.value.argsId) {
       const commandInput = document.createElement('input');
@@ -34,8 +36,7 @@ const createElement = (item) => {
     }
 
     return [commandBtn];
-  }
-  else if (item.type === 'timer') {
+  } else if (item.type === 'timer') {
     const timerDiv = document.createElement('div');
     const labelSpan = document.createElement('span');
     const timerSpan = document.createElement('span');
@@ -54,10 +55,10 @@ const createElement = (item) => {
     labelSpan.innerHTML = item.label;
 
     return [labelSpan];
-  }
-  else if (item.type === 'group') {
-
-    return item.value.map(groupItem => createElement(groupItem)).reduce((current, total) => total.concat(current), []);
+  } else if (item.type === 'group') {
+    return item.value
+      .map((groupItem) => createElement(groupItem))
+      .reduce((current, total) => total.concat(current), []);
   }
 };
 
@@ -69,12 +70,12 @@ const createListEntry = (listEntry) => {
   listContent.id = listEntry.listId;
   listContent.className = 'list-content';
 
-  listEntry.listData.forEach(item => {
+  listEntry.listData.forEach((item) => {
     const childElements = createElement(item);
     const listDiv = document.createElement('div');
     listDiv.classList.add('clipboard-cell');
 
-    childElements.forEach(element => {
+    childElements.forEach((element) => {
       listDiv.prepend(element);
     });
 
@@ -100,8 +101,7 @@ const createListEntries = (entries) => {
     section.appendChild(title);
   }
 
-
-  entries.sectionData.forEach(entry => {
+  entries.sectionData.forEach((entry) => {
     const listContainer = document.createElement('div');
 
     listContainer.className = 'list-group';
@@ -117,8 +117,8 @@ const createListEntries = (entries) => {
   main.appendChild(section);
 };
 
-api.get('/clipboard-config').then(result => {
-  result.data.forEach(sectionData => {
+api.get('/clipboard-config').then((result) => {
+  result.data.forEach((sectionData) => {
     createListEntries(JSON.parse(sectionData));
   });
 });

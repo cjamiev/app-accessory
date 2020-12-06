@@ -2,7 +2,7 @@ const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
   const content = document.getElementById('contentData').innerHTML;
 
-  api.post('/write', { filename, content }).then(result => {
+  api.post('/write', { filename, content }).then((result) => {
     setOutput(result.data);
     getAllFiles();
   });
@@ -11,13 +11,13 @@ const writeToFile = () => {
 };
 
 const getAllFiles = () => {
-  api.get('/read').then(result => {
+  api.get('/read').then((result) => {
     const filenames = result.data;
 
     const fileDiv = document.getElementById('all-files');
     const fileEls = document.querySelectorAll('.file-btn');
 
-    Array.prototype.forEach.call(fileEls, el => {
+    Array.prototype.forEach.call(fileEls, (el) => {
       fileDiv.removeChild(el);
     });
 
@@ -25,7 +25,9 @@ const getAllFiles = () => {
       const button = document.createElement('button');
       button.className = 'file-btn';
       button.setAttribute('data-clip-item', index);
-      button.onclick = () => { loadFile(name); };
+      button.onclick = () => {
+        loadFile(name);
+      };
       button.innerHTML = name;
 
       fileDiv.appendChild(button);
@@ -38,7 +40,7 @@ const loadFile = (filename) => {
 
   const url = '/?read=true&name=' + nameAndExt[0] + '&ext=' + nameAndExt[1];
 
-  api.get(url).then(result => {
+  api.get(url).then((result) => {
     document.getElementById('contentData').innerHTML = result.data;
     document.getElementById('filenameData').value = filename;
   });
@@ -51,7 +53,9 @@ const sortFile = (descending = false) => {
   const delimiter = DELIMITERS[delimiterValue];
   const content = contentDataElement.innerHTML;
 
-  contentDataElement.innerHTML = descending ? sortDecendingByDelimiter(content, delimiter) : sortByDelimiter(content, delimiter);
+  contentDataElement.innerHTML = descending
+    ? sortDecendingByDelimiter(content, delimiter)
+    : sortByDelimiter(content, delimiter);
 };
 
 const splitFileLines = () => {

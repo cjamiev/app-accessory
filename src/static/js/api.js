@@ -1,5 +1,5 @@
 const HEADERS = {
-  'Accept': 'application/json',
+  Accept: 'application/json',
   'Content-Type': 'application/json'
 };
 
@@ -11,10 +11,10 @@ const api = {
       method: 'POST',
       crossDomain: options.crossDomain || false
     })
-      .then(resp => {
+      .then((resp) => {
         return options.sendFullResponse ? { response: resp, promise: resp.json() } : resp.json();
       })
-      .catch(error => console.log('error:', error));
+      .catch((error) => console.log('error:', error));
   },
   get: (url, options = {}) => {
     return fetch(url, {
@@ -22,10 +22,10 @@ const api = {
       method: 'GET',
       crossDomain: options.crossDomain || false
     })
-      .then(resp => {
+      .then((resp) => {
         return options.sendFullResponse ? { response: resp, promise: resp.json() } : resp.json();
       })
-      .catch(error => console.log('error:', error));
+      .catch((error) => console.log('error:', error));
   }
 };
 
@@ -37,26 +37,28 @@ const executeCommand = (mode = 'simple', filename, inputEl) => {
     method: 'GET',
     headers: HEADERS
   })
-    .then(response => response.json())
-    .then(result => {
+    .then((response) => response.json())
+    .then((result) => {
       if (mode === 'simple') {
         const responseDiv = document.getElementById('response');
         const responseElements = [...document.getElementsByClassName('card-text')];
-        responseElements.forEach(el => {
+        responseElements.forEach((el) => {
           responseDiv.removeChild(el);
         });
 
         if (typeof result.message === 'string') {
-          const lines = result.message.replace('\r', '').split('\n').filter(line => line);
-          lines.forEach(line => {
+          const lines = result.message
+            .replace('\r', '')
+            .split('\n')
+            .filter((line) => line);
+          lines.forEach((line) => {
             const p = document.createElement('p');
             p.innerHTML = line;
             p.classList.add('card-text');
 
             responseDiv.appendChild(p);
           });
-        }
-        else {
+        } else {
           const p = document.createElement('p');
           p.innerHTML = JSON.stringify(result.message);
           p.classList.add('card-text');
@@ -65,5 +67,5 @@ const executeCommand = (mode = 'simple', filename, inputEl) => {
         }
       }
     })
-    .catch(error => console.log('error:', error));
+    .catch((error) => console.log('error:', error));
 };

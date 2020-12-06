@@ -1,10 +1,11 @@
 const DELIMITERS = [',', '\n', ' '];
 const sortByDelimiter = (content, delimiter = ' ') => content.split(delimiter).sort().join(delimiter);
-const sortDecendingByDelimiter = (content, delimiter = ' ') => content.split(delimiter).sort().reverse().join(delimiter);
+const sortDecendingByDelimiter = (content, delimiter = ' ') =>
+  content.split(delimiter).sort().reverse().join(delimiter);
 const replaceHTMLCharactersWithEscapeCharacters = (text) => text.replace(/</gm, '&lt;').replace(/>/gm, '&gt;');
 const replaceEscapeCharactersWithHTMLCharacters = (text) => text.replace(/&lt;/gm, '<').replace(/&gt;/gm, '>');
 
-const copyToClipboard = text => {
+const copyToClipboard = (text) => {
   const copyText = document.createElement('textarea');
   copyText.value = text;
   document.body.appendChild(copyText);
@@ -16,10 +17,9 @@ const copyToClipboard = text => {
 
 const copyContentToClipboard = (elementId) => {
   const innerHtml = document.getElementById(elementId).innerHTML;
-  if(innerHtml) {
+  if (innerHtml) {
     copyToClipboard(innerHtml);
-  }
-  else {
+  } else {
     copyToClipboard(document.getElementById(elementId).value);
   }
 };
@@ -29,7 +29,7 @@ const copyHTMLContentToClipboard = (elementId) => {
   copyToClipboard(text);
 };
 
-const parseObject = obj => {
+const parseObject = (obj) => {
   try {
     JSON.parse(obj);
   } catch (e) {
@@ -58,7 +58,7 @@ const removeOutput = () => {
   alertField.classList.remove('success');
   alertField.classList.remove('error');
   alertFieldContainer.classList.remove('alert-field-active');
-}
+};
 
 const validateJson = () => {
   const response = parseObject(document.getElementById('contentData').innerHTML);

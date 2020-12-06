@@ -1,11 +1,4 @@
-const {
-  isBoolean,
-  isNumber,
-  isObject,
-  loadJSONFromFile,
-  updateFile,
-  deleteFile
-} = require('./util');
+const { isBoolean, isNumber, isObject, loadJSONFromFile, updateFile, deleteFile } = require('./util');
 
 const ENTRY_ALREADY_EXISTS_MESSAGE = 'A mock with the specified method and url already exists.';
 const CONFIG_SUCCESS_MESSAGE = 'Updated configuration';
@@ -33,7 +26,7 @@ const loadMockResponse = (filepath) => {
 
 const getMatchedMockResponse = (url, method) => {
   const mockRequests = loadMockRequests();
-  const matchedMockRequest = mockRequests.find(entry => entry.url === url && entry.method === method);
+  const matchedMockRequest = mockRequests.find((entry) => entry.url === url && entry.method === method);
   if (matchedMockRequest) {
     return loadMockResponse(matchedMockRequest.responsePath);
   }
@@ -44,7 +37,7 @@ const getMatchedMockResponse = (url, method) => {
 const updateMockRequests = (request, filename) => {
   const mockRequests = loadMockRequests();
 
-  const matched = mockRequests.find(entry => entry.url === request.url && entry.method === request.method);
+  const matched = mockRequests.find((entry) => entry.url === request.url && entry.method === request.method);
 
   if (matched) {
     return ENTRY_ALREADY_EXISTS_MESSAGE;
@@ -63,10 +56,9 @@ const updateMockRequests = (request, filename) => {
 const createMockFile = ({ content, filename }) => {
   const messageOne = updateMockRequests(content.request, filename);
 
-  if(messageOne) {
+  if (messageOne) {
     return { message: messageOne, error: true };
-  }
-  else {
+  } else {
     const message = updateFile(MOCK_FILE_PATH + '/' + filename, content.response);
 
     return message ? { message, error: true } : { message };
@@ -75,7 +67,9 @@ const createMockFile = ({ content, filename }) => {
 
 const updateMockFile = ({ content }) => {
   const mockRequests = loadMockRequests();
-  const matched = mockRequests.find(entry => entry.url === content.request.url && entry.method === content.request.method);
+  const matched = mockRequests.find(
+    (entry) => entry.url === content.request.url && entry.method === content.request.method
+  );
 
   const message = updateFile(matched.responsePath, content.response);
 
@@ -85,10 +79,9 @@ const updateMockFile = ({ content }) => {
 const removeMockRequestsEntry = ({ url, method, responsePath }) => {
   const mockRequests = loadMockRequests();
 
-  const updatedMockRequests = (!mockRequests.length) ?
-    [] :
-    mockRequests
-      .filter(entry => !(entry.url === url && entry.method === method));
+  const updatedMockRequests = !mockRequests.length
+    ? []
+    : mockRequests.filter((entry) => !(entry.url === url && entry.method === method));
 
   deleteFile(responsePath);
 
@@ -103,9 +96,15 @@ const constructValidConfig = (payloadConfig) => {
   const log = isBoolean(payloadConfig.log) ? payloadConfig.log : existingConfig.log;
   const logfile = isBoolean(payloadConfig.logfile) ? payloadConfig.logfile : existingConfig.logfile;
   const error = isBoolean(payloadConfig.error) ? payloadConfig.error : existingConfig.error;
-  const overrideUrls = Array.isArray(payloadConfig.overrideUrls) ? payloadConfig.overrideUrls : existingConfig.overrideUrls;
-  const overrideStatusCode = isNumber(payloadConfig.overrideStatusCode) ? payloadConfig.overrideStatusCode : existingConfig.overrideStatusCode;
-  const overrideResponse = isObject(payloadConfig.overrideResponse) ? payloadConfig.overrideResponse : existingConfig.overrideResponse;
+  const overrideUrls = Array.isArray(payloadConfig.overrideUrls)
+    ? payloadConfig.overrideUrls
+    : existingConfig.overrideUrls;
+  const overrideStatusCode = isNumber(payloadConfig.overrideStatusCode)
+    ? payloadConfig.overrideStatusCode
+    : existingConfig.overrideStatusCode;
+  const overrideResponse = isObject(payloadConfig.overrideResponse)
+    ? payloadConfig.overrideResponse
+    : existingConfig.overrideResponse;
 
   return {
     delay,
@@ -142,7 +141,9 @@ const loadLog = () => {
 
 const logEntry = (url, payload) => {
   const date = new Date();
-  const timestamp = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  const timestamp = `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   const currentLog = loadLog();
   const updatedLog = currentLog.concat([{ timestamp, url, payload }]);

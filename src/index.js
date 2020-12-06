@@ -4,12 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const exec = child_process.exec;
-const {
-  isEqual,
-  writeToFile,
-  loadFile,
-  readDirectory
-} = require('./util');
+const { isEqual, writeToFile, loadFile, readDirectory } = require('./util');
 const {
   createMockFile,
   updateMockFile,
@@ -44,7 +39,7 @@ const IO_DIRECTORY = './storage/io';
 const CLIPBOARD_DIRECTORY = './storage/clipboard';
 const CALENDAR_DIRECTORY = './storage/calendar';
 
-const cors = res => {
+const cors = (res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
@@ -52,7 +47,7 @@ const cors = res => {
 };
 
 const COMMAND_STR = 'cd ./storage/scripts && start cmd.exe';
-const getCommand = requestUrl => {
+const getCommand = (requestUrl) => {
   const queryParameters = requestUrl.split('?')[1].split('&');
   const mode = queryParameters[0].split('=')[1];
   const command = queryParameters[1].split('=')[1];
@@ -60,8 +55,7 @@ const getCommand = requestUrl => {
 
   if (mode === 'detach') {
     return `${COMMAND_STR} /c ${command} ${args}`;
-  }
-  else if (mode === 'block') {
+  } else if (mode === 'block') {
     return `${COMMAND_STR} /k ${command} ${args}`;
   }
   return `cd ./storage/scripts && ${command} ${args}`;
@@ -109,25 +103,26 @@ const handleWriteResponse = async (request, response) => {
 const handleReadResponse = (request, response) => {
   const queryParams = url.parse(request.url, true).query;
 
-  const data = queryParams.read === 'true' ?
-    loadFile(IO_DIRECTORY + '/' + queryParams.name + '.' + queryParams.ext) :
-    readDirectory(IO_DIRECTORY);
+  const data =
+    queryParams.read === 'true'
+      ? loadFile(IO_DIRECTORY + '/' + queryParams.name + '.' + queryParams.ext)
+      : readDirectory(IO_DIRECTORY);
 
   send(response, { data });
 };
 
 const handleCommandResponse = (request, response) => {
   exec(getCommand(request.url), { encoding: UTF8 }, (error, stdout, stderr) => {
-    error ?
-      send(response, { message: error || stderr, error: true }) :
-      send(response, { message: stderr.concat(stdout) });
+    error
+      ? send(response, { message: error || stderr, error: true })
+      : send(response, { message: stderr.concat(stdout) });
   });
 };
 
 const handleClipboardResponse = (request, response) => {
   const directories = readDirectory(CLIPBOARD_DIRECTORY);
   const data = [];
-  directories.forEach(filename => {
+  directories.forEach((filename) => {
     data.push(loadFile(CLIPBOARD_DIRECTORY + '/' + filename));
   });
 
@@ -135,7 +130,6 @@ const handleClipboardResponse = (request, response) => {
 };
 
 const handleCalendarResponse = async (request, response) => {
-
   if (request.method === METHOD_POST) {
     const payload = await resolvePostBody(request);
     const content = payload.content || '';
@@ -158,23 +152,19 @@ const handleMockServerPostResponses = async (request, response) => {
     const message = updateConfiguration(payload);
 
     send(response, { message });
-  }
-  else if (request.url.includes('loadMockResponse')) {
+  } else if (request.url.includes('loadMockResponse')) {
     const data = loadMockResponse(payload.responsePath);
 
     send(response, { data });
-  }
-  else if (request.url.includes('deleteMockEndpoint')) {
+  } else if (request.url.includes('deleteMockEndpoint')) {
     const message = removeMockRequestsEntry(payload);
 
     send(response, { message });
-  }
-  else if (request.url.includes('createMockEndpoint')) {
+  } else if (request.url.includes('createMockEndpoint')) {
     const { message, error } = createMockFile(payload);
 
     send(response, { message, error });
-  }
-  else if (request.url.includes('updateMockEndpoint')) {
+  } else if (request.url.includes('updateMockEndpoint')) {
     const message = updateMockFile(payload);
 
     send(response, { message });
@@ -184,23 +174,19 @@ const handleMockServerPostResponses = async (request, response) => {
 const handleMockServerResponse = (request, response) => {
   if (request.method === METHOD_POST) {
     handleMockServerPostResponses(request, response);
-  }
-  else if (request.url.includes('config')) {
+  } else if (request.url.includes('config')) {
     const data = loadConfiguration();
 
     send(response, { data });
-  }
-  else if (request.url.includes('mockRequests')) {
+  } else if (request.url.includes('mockRequests')) {
     const data = loadMockRequests();
 
     send(response, { data });
-  }
-  else if (request.url.includes('clearLog')) {
+  } else if (request.url.includes('clearLog')) {
     const message = clearLog();
 
     send(response, { message });
-  }
-  else if (request.url.includes('loadLog')) {
+  } else if (request.url.includes('loadLog')) {
     const data = loadLog();
 
     send(response, { data });
@@ -226,17 +212,17 @@ const handleMockResponse = async ({ payload, reqUrl, method }, response) => {
   const matchedResponse = getMatchedMockResponse(reqUrl, method);
 
   if (matchedResponse && matchedResponse.conditionalResponse) {
-    const matchedConditionalResponse = matchedResponse.conditionalResponse.find(item => isEqual(item.payload, payload));
-    const responsePayload = matchedConditionalResponse && matchedConditionalResponse.body || matchedResponse.body;
+    const matchedConditionalResponse = matchedResponse.conditionalResponse.find((item) =>
+      isEqual(item.payload, payload)
+    );
+    const responsePayload = (matchedConditionalResponse && matchedConditionalResponse.body) || matchedResponse.body;
 
     response.writeHead(matchedResponse.status, matchedResponse.headers);
     response.end(JSON.stringify(responsePayload), UTF8);
-  }
-  else if (matchedResponse) {
+  } else if (matchedResponse) {
     response.writeHead(matchedResponse.status, matchedResponse.headers);
     response.end(JSON.stringify(matchedResponse.body), UTF8);
-  }
-  else {
+  } else {
     send(response, { message: NOT_FOUND, error: true });
   }
 };
@@ -244,8 +230,8 @@ const handleMockResponse = async ({ payload, reqUrl, method }, response) => {
 const handleDefaultResponse = async (request, response) => {
   const { delay, delayUrls, error, log, overrideUrls, overrideStatusCode, overrideResponse } = loadConfiguration();
   const shouldDelayAllUrls = !delayUrls.length;
-  const shouldDelayThisUrl = delayUrls.some(item => item === request.url);
-  const matchedUrl = overrideUrls.some(endpoint => endpoint === request.url);
+  const shouldDelayThisUrl = delayUrls.some((item) => item === request.url);
+  const matchedUrl = overrideUrls.some((endpoint) => endpoint === request.url);
 
   const payload = request.method === METHOD_POST ? await resolvePostBody(request) : {};
 
@@ -253,46 +239,40 @@ const handleDefaultResponse = async (request, response) => {
     logEntry(request.url, payload);
   }
   if (error) {
-    send(response, { message: MOCK_SERVER_ERROR, error: true});
-  }
-  else if (matchedUrl) {
+    send(response, { message: MOCK_SERVER_ERROR, error: true });
+  } else if (matchedUrl) {
     response.writeHead(overrideStatusCode, STANDARD_HEADER);
     response.end(JSON.stringify(overrideResponse), UTF8);
-  }
-  else if (shouldDelayAllUrls || shouldDelayThisUrl) {
-    setTimeout(() => { handleMockResponse({ payload, reqUrl: request.url, method: request.method }, response); }, delay);
-  }
-  else {
+  } else if (shouldDelayAllUrls || shouldDelayThisUrl) {
+    setTimeout(() => {
+      handleMockResponse({ payload, reqUrl: request.url, method: request.method }, response);
+    }, delay);
+  } else {
     handleMockResponse({ payload, reqUrl: request.url, method: request.method }, response);
   }
 };
 
-http.createServer((request, response) => {
-  cors(response);
-  if (request.url.includes('write')) {
-    handleWriteResponse(request, response);
-  }
-  else if (request.url.includes('read')) {
-    handleReadResponse(request, response);
-  }
-  else if (request.url.includes('command')) {
-    handleCommandResponse(request, response);
-  }
-  else if (request.url.includes('clipboard-config')) {
-    handleClipboardResponse(request, response);
-  }
-  else if (request.url.includes('calendar-data')) {
-    handleCalendarResponse(request, response);
-  }
-  else if (request.url.includes('api/mockserver')) {
-    handleMockServerResponse(request, response);
-  }
-  else if (path.extname(request.url)) {
-    handleStaticResponse(request, response);
-  }
-  else {
-    handleDefaultResponse(request, response);
-  }
-}).listen(parseInt(port));
+http
+  .createServer((request, response) => {
+    cors(response);
+    if (request.url.includes('write')) {
+      handleWriteResponse(request, response);
+    } else if (request.url.includes('read')) {
+      handleReadResponse(request, response);
+    } else if (request.url.includes('command')) {
+      handleCommandResponse(request, response);
+    } else if (request.url.includes('clipboard-config')) {
+      handleClipboardResponse(request, response);
+    } else if (request.url.includes('calendar-data')) {
+      handleCalendarResponse(request, response);
+    } else if (request.url.includes('api/mockserver')) {
+      handleMockServerResponse(request, response);
+    } else if (path.extname(request.url)) {
+      handleStaticResponse(request, response);
+    } else {
+      handleDefaultResponse(request, response);
+    }
+  })
+  .listen(parseInt(port));
 
 console.log(`Server listening on port ${port}`);

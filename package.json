@@ -4,7 +4,9 @@
   "description": "App to help me be more efficient",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js 999"
+    "start": "node src/index.js 999",
+    "format": "prettier --write \"src/**/*.js\"",
+    "fix": "eslint --ext .js src/ -f html -o ./coverage/eslint-report.html"
   },
   "author": "CJV",
   "license": "ISC",

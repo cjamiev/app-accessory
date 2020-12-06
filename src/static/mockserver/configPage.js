@@ -23,12 +23,11 @@ const setConfigHTML = (data) => {
 
 const loadConfiguration = () => {
   fetch('/api/mockserver/config')
-    .then(resp => resp.json())
-    .then(result => {
+    .then((resp) => resp.json())
+    .then((result) => {
       setConfigHTML(result.data);
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 const updateConfiguration = () => {
@@ -54,22 +53,23 @@ const updateConfiguration = () => {
   const overrideResponseError = isValidJSONObject(JSON.stringify(overrideResponse)) ? '' : OVERRIDE_RESPONSE_ERROR;
 
   if (delayError || overrideResponseError) {
-    document.getElementById('payload-config-message').innerHTML = 'ERRORS:' + ' ' + delayError + ' ' + overrideResponseError;
+    document.getElementById('payload-config-message').innerHTML =
+      'ERRORS:' + ' ' + delayError + ' ' + overrideResponseError;
   } else {
     fetch('/api/mockserver/config', {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload),
       method: 'POST'
     })
-      .then(resp => resp.json())
-      .then(result => {
+      .then((resp) => resp.json())
+      .then((result) => {
         setTimeout(loadConfiguration(), DELAY_ONE_SECOND);
         document.getElementById('payload-config-message').innerHTML = result.message;
       })
-      .catch(err => {
+      .catch((err) => {
         document.getElementById('payload-config-message').innerHTML = err.message;
       });
   }

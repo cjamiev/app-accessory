@@ -2,24 +2,24 @@ const fs = require('fs');
 
 const UTF8 = 'utf-8';
 
-const isNumber = value => typeof value === 'number';
-const isBoolean = value => typeof value === 'boolean';
-const isString = value => typeof value === 'string';
-const isObject = value => typeof value === 'object';
-const isObjectLike = value => value !== null && typeof value === 'object';
+const isNumber = (value) => typeof value === 'number';
+const isBoolean = (value) => typeof value === 'boolean';
+const isString = (value) => typeof value === 'string';
+const isObject = (value) => typeof value === 'object';
+const isObjectLike = (value) => value !== null && typeof value === 'object';
 const xOr = (a, b) => (!a && b) || (a && !b);
-const isNotEmpty = targetObject => {
+const isNotEmpty = (targetObject) => {
   if (!targetObject || !Object.keys(targetObject).length) {
     return false;
   }
 
   const entries = Object.keys(targetObject);
-  const atLeastOneNotNull = entries.some(key => !isNil(targetObject[key]));
+  const atLeastOneNotNull = entries.some((key) => !isNil(targetObject[key]));
 
   return atLeastOneNotNull;
 };
-const isNil = value => value === null || value === undefined;
-const isEmpty = targetObject => !isNotEmpty(targetObject);
+const isNil = (value) => value === null || value === undefined;
+const isEmpty = (targetObject) => !isNotEmpty(targetObject);
 const isEqual = (entry1, entry2) => {
   if (!(isObjectLike(entry1) && isObjectLike(entry1))) {
     return entry1 === entry2;
@@ -88,7 +88,7 @@ const loadJSONFromFile = (path, defaultValue) => {
   return fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, UTF8)) : defaultValue;
 };
 
-const readDirectory = dir => fs.readdirSync(dir);
+const readDirectory = (dir) => fs.readdirSync(dir);
 
 module.exports = {
   isNumber,
