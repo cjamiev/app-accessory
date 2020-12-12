@@ -56,11 +56,11 @@ const onLoad = (content) => {
 
 const switchMode = () => {
   const modeEl = document.getElementById('payload-mode');
-  const mode = modeEl.innerHTML;
+  const mode = modeEl.textContent;
   const updatedMode = mode === MODE_RAW_TEXT ? MODE_FORM_TEXT : MODE_RAW_TEXT;
   const content = getUserInput(mode);
 
-  modeEl.innerHTML = updatedMode;
+  modeEl.textContent = updatedMode;
   onLoad(content);
   document.getElementById('payload-create-content-container').classList.toggle('hide');
   document.getElementById('payload-create-content-container').classList.toggle('show');
@@ -120,12 +120,12 @@ const checkErrors = (content) => {
 
 const createMockEndpoint = () => {
   const name = document.getElementById('payload-create-endpoint-file-name').value;
-  const mode = document.getElementById('payload-mode').innerHTML;
+  const mode = document.getElementById('payload-mode').textContent;
   const content = getUserInput(mode);
   const error = checkErrors(content);
 
   if (error.replace(/ /g, '')) {
-    document.getElementById('payload-create-endpoint-message').innerHTML = error;
+    document.getElementById('payload-create-endpoint-message').textContent = error;
   } else {
     const cleanedUrl = content.request.url.replace(/[<>://\\|?*]/g, '-');
     const urlError = content.request.url ? '' : URL_ERROR;

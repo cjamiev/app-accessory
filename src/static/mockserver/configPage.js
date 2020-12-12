@@ -53,7 +53,7 @@ const updateConfiguration = () => {
   const overrideResponseError = isValidJSONObject(JSON.stringify(overrideResponse)) ? '' : OVERRIDE_RESPONSE_ERROR;
 
   if (delayError || overrideResponseError) {
-    document.getElementById('payload-config-message').innerHTML =
+    document.getElementById('payload-config-message').textContent =
       'ERRORS:' + ' ' + delayError + ' ' + overrideResponseError;
   } else {
     fetch('/api/mockserver/config', {
@@ -67,10 +67,10 @@ const updateConfiguration = () => {
       .then((resp) => resp.json())
       .then((result) => {
         setTimeout(loadConfiguration(), DELAY_ONE_SECOND);
-        document.getElementById('payload-config-message').innerHTML = result.message;
+        document.getElementById('payload-config-message').textContent = result.message;
       })
       .catch((err) => {
-        document.getElementById('payload-config-message').innerHTML = err.message;
+        document.getElementById('payload-config-message').textContent = err.message;
       });
   }
 };

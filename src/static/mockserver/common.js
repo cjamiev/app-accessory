@@ -45,9 +45,9 @@ const validateJSON = (jsonFieldId, errorFieldId, fieldname) => {
   const body = parseJSONObject(document.getElementById(jsonFieldId).value);
   const isValid = isValidJSONObject(JSON.stringify(body));
   if (isValid) {
-    document.getElementById(errorFieldId).innerHTML += fieldname + ' is Valid ';
+    document.getElementById(errorFieldId).textContent += fieldname + ' is Valid ';
   } else {
-    document.getElementById(errorFieldId).innerHTML += fieldname + ' is NOT Valid JSON Format ';
+    document.getElementById(errorFieldId).textContent += fieldname + ' is NOT Valid JSON Format ';
   }
 };
 

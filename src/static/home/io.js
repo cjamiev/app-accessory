@@ -1,6 +1,6 @@
 const writeToFile = () => {
   const filename = document.getElementById('filenameData').value;
-  const content = document.getElementById('contentData').innerHTML;
+  const content = document.getElementById('contentData').textContent;
 
   api.post('/write', { filename, content }).then((result) => {
     setOutput(result.data);
@@ -28,7 +28,7 @@ const getAllFiles = () => {
       button.onclick = () => {
         loadFile(name);
       };
-      button.innerHTML = name;
+      button.textContent = name;
 
       fileDiv.appendChild(button);
     });
@@ -41,7 +41,7 @@ const loadFile = (filename) => {
   const url = '/?read=true&name=' + nameAndExt[0] + '&ext=' + nameAndExt[1];
 
   api.get(url).then((result) => {
-    document.getElementById('contentData').innerHTML = result.data;
+    document.getElementById('contentData').textContent = result.data;
     document.getElementById('filenameData').value = filename;
   });
 };
@@ -51,9 +51,9 @@ const sortFile = (descending = false) => {
   const delimiterSelection = document.getElementById('delimiterData');
   const delimiterValue = delimiterSelection.options[delimiterSelection.selectedIndex].value;
   const delimiter = DELIMITERS[delimiterValue];
-  const content = contentDataElement.innerHTML;
+  const content = contentDataElement.textContent;
 
-  contentDataElement.innerHTML = descending
+  contentDataElement.textContent = descending
     ? sortDecendingByDelimiter(content, delimiter)
     : sortByDelimiter(content, delimiter);
 };
@@ -63,9 +63,9 @@ const splitFileLines = () => {
   const delimiterSelection = document.getElementById('delimiterData');
   const delimiterValue = delimiterSelection.options[delimiterSelection.selectedIndex].value;
   const delimiter = DELIMITERS[delimiterValue];
-  const content = contentDataElement.innerHTML;
+  const content = contentDataElement.textContent;
 
-  contentDataElement.innerHTML = content.split(delimiter).join('\n');
+  contentDataElement.textContent = content.split(delimiter).join('\n');
 };
 
 const joinFileLines = () => {
@@ -73,29 +73,29 @@ const joinFileLines = () => {
   const delimiterSelection = document.getElementById('delimiterData');
   const delimiterValue = delimiterSelection.options[delimiterSelection.selectedIndex].value;
   const delimiter = DELIMITERS[delimiterValue];
-  const content = contentDataElement.innerHTML;
+  const content = contentDataElement.textContent;
 
-  contentDataElement.innerHTML = content.split('\n').join(delimiter);
+  contentDataElement.textContent = content.split('\n').join(delimiter);
 };
 
 const replaceAll = () => {
   const contentDataElement = document.getElementById('contentData');
 
-  const content = contentDataElement.innerHTML;
+  const content = contentDataElement.textContent;
   const find = document.getElementById('findData').value;
   const replaceText = document.getElementById('replaceData').value;
 
   const regex = new RegExp(find, 'gm');
-  contentDataElement.innerHTML = content.replace(regex, replaceText);
+  contentDataElement.textContent = content.replace(regex, replaceText);
 };
 
 const minifyContent = () => {
   const contentDataElement = document.getElementById('contentData');
 
-  const content = contentDataElement.innerHTML;
+  const content = contentDataElement.textContent;
   const result = content.replace(/\n|\t|\r/gm, '').replace(/[ ]{2,}/gm, ' ');
 
-  contentDataElement.innerHTML = result;
+  contentDataElement.textContent = result;
 };
 
 getAllFiles();

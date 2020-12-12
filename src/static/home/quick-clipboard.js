@@ -17,7 +17,7 @@ const loadItems = () => {
       el.onclick = () => {
         copyToClipboard(entry.value);
       };
-      el.innerHTML = entry.name;
+      el.textContent = entry.name;
 
       quickClipboard.appendChild(el);
     } else if (entry.operationType === 'timer') {
@@ -26,12 +26,12 @@ const loadItems = () => {
       elParent.setAttribute('data-clip-item', index);
 
       const elName = document.createElement('span');
-      elName.innerHTML = entry.name;
+      elName.textContent = entry.name;
       elParent.appendChild(elName);
 
       const elTimer = document.createElement('span');
       elTimer.setAttribute('data-date', entry.value);
-      elTimer.innerHTML = 'Loading...';
+      elTimer.textContent = 'Loading...';
       elParent.appendChild(elTimer);
 
       const date = entry.value.split(',').map((item) => Number(item));
@@ -57,7 +57,7 @@ const showQuickClipboardForm = () => {
   const hour = curTime.hour % 12 === 0 ? 12 : curTime.hour % 12;
 
   document.getElementById('new-item-name').value = '';
-  document.getElementById('new-item-value').innerHTML = '';
+  document.getElementById('new-item-value').textContent = '';
   document.getElementById('new-item-year').value = curTime.year;
   document.getElementById('new-item-month').value = curTime.month;
   document.getElementById('new-item-day').value = curTime.date;
@@ -69,7 +69,7 @@ const showQuickClipboardForm = () => {
 
 const getInputValue = (operationType) => {
   if (operationType === 'copy') {
-    return document.getElementById('new-item-value').innerHTML;
+    return document.getElementById('new-item-value').textContent;
   }
 
   const amOrpm = document.getElementById('amorpm').value === 'am' ? 0 : 12;
@@ -102,12 +102,12 @@ const deleteMode = () => {
   Array.prototype.forEach.call(copyBtns, (el) => {
     el.classList.toggle('quick-clipboard-copy-btn-delete');
     el.onclick = () => {
-      deleteClipboardItem(el.innerHTML);
+      deleteClipboardItem(el.textContent);
     };
   });
   Array.prototype.forEach.call(timers, (el) => {
     el.classList.toggle('quick-clipboard-copy-btn-delete');
-    const name = el.children[0].innerHTML;
+    const name = el.children[0].textContent;
     el.onclick = () => {
       deleteClipboardItem(name);
     };

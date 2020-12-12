@@ -2,7 +2,7 @@ const RESPONSE_ERROR = 'Response must be valid JSON format';
 
 const viewDetails = (item) => {
   return () => {
-    document.getElementById('view-response-details').innerHTML = JSON.stringify(item, undefined, 2);
+    document.getElementById('view-response-details').textContent = JSON.stringify(item, undefined, 2);
   };
 };
 
@@ -21,7 +21,7 @@ const loadResponse = ({ method, url, responsePath }) => {
         const viewResponseDetails = document.getElementById('view-response-details');
         viewResponseDetails.value = JSON.stringify(mockResponse.data, undefined, 2);
         viewResponseDetails.setAttribute('data-method-url', JSON.stringify({ method, url }));
-        document.getElementById('view-endpoints-message').innerHTML = '';
+        document.getElementById('view-endpoints-message').textContent = '';
       });
   };
 };
@@ -41,7 +41,7 @@ const updateEndpoint = () => {
   };
 
   if (responseError) {
-    document.getElementById('view-endpoints-message').innerHTML = responseError;
+    document.getElementById('view-endpoints-message').textContent = responseError;
   } else {
     fetch('/api/mockserver/updateMockEndpoint', {
       headers: {
@@ -67,7 +67,7 @@ const createRow = ({ method, url, responsePath }) => {
   const urlCell = document.createElement('td');
   const detailsCell = document.createElement('td');
 
-  methodCell.innerHTML = method || 'none';
+  methodCell.textContent = method || 'none';
   if (method.toUpperCase() === 'GET') {
     const methodLink = document.createElement('a');
     const linkText = document.createTextNode(url);
@@ -76,18 +76,18 @@ const createRow = ({ method, url, responsePath }) => {
     methodLink.appendChild(linkText);
     urlCell.appendChild(methodLink);
   } else {
-    urlCell.innerHTML = url || 'none';
+    urlCell.textContent = url || 'none';
   }
   if (responsePath) {
     const viewObjectButton = document.createElement('button');
-    viewObjectButton.innerHTML = 'Load';
+    viewObjectButton.textContent = 'Load';
     viewObjectButton.onclick = loadResponse({ method, url, responsePath });
     viewObjectButton.className = 'btns';
     detailsCell.appendChild(viewObjectButton);
   }
 
   const viewObjectButton = document.createElement('button');
-  viewObjectButton.innerHTML = 'Delete';
+  viewObjectButton.textContent = 'Delete';
   viewObjectButton.onclick = deleteEndpoint({ method, url, responsePath });
   viewObjectButton.className = 'btns';
   detailsCell.appendChild(viewObjectButton);

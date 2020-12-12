@@ -135,14 +135,14 @@ const countdown = () => {
     const { weeks, days, hours, minutes, seconds } = clockBetweenDates(futureDate, today);
 
     if (weeks > ZERO) {
-      el.innerHTML = weeks + ' week(s) and ' + (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
+      el.textContent = weeks + ' week(s) and ' + (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
     } else if (days > ZERO) {
-      el.innerHTML = (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
+      el.textContent = (days + hours / HOURS_IN_DAY).toPrecision(DECIMAL_FORMAT) + ' day(s)';
     } else if (hours > ZERO || minutes > ZERO || seconds > ZERO) {
-      el.innerHTML = formattedClock(hours, minutes, seconds);
+      el.textContent = formattedClock(hours, minutes, seconds);
     } else {
       el.className = 'blinking-alert';
-      el.innerHTML = 'DONE!!!';
+      el.textContent = 'DONE!!!';
     }
   });
 };

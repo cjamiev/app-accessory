@@ -1,7 +1,7 @@
 const createElement = (item) => {
   if (item.type === 'link') {
     const link = document.createElement('a');
-    link.innerHTML = item.label;
+    link.textContent = item.label;
     link.href = item.value;
     link.target = '_blank';
     link.className = 'links flex-item';
@@ -9,7 +9,7 @@ const createElement = (item) => {
     return [link];
   } else if (item.type === 'copy') {
     const copyBtn = document.createElement('button');
-    copyBtn.innerHTML = item.label;
+    copyBtn.textContent = item.label;
     copyBtn.className = 'copy-btn flex-item';
     copyBtn.onclick = () => {
       copyToClipboard(item.value);
@@ -19,7 +19,7 @@ const createElement = (item) => {
   } else if (item.type === 'command') {
     const commandBtn = document.createElement('button');
 
-    commandBtn.innerHTML = item.label;
+    commandBtn.textContent = item.label;
     commandBtn.className = 'command-btn flex-item';
     commandBtn.onclick = () => {
       executeCommand(item.value.mode, item.value.name, item.value.argsId);
@@ -42,9 +42,9 @@ const createElement = (item) => {
     const timerSpan = document.createElement('span');
 
     timerDiv.className = 'timer-cell  flex-item';
-    labelSpan.innerHTML = item.label;
+    labelSpan.textContent = item.label;
     timerSpan.setAttribute('data-date', item.value);
-    timerSpan.innerHTML = 'Loading...';
+    timerSpan.textContent = 'Loading...';
 
     timerDiv.appendChild(labelSpan);
     timerDiv.appendChild(timerSpan);
@@ -52,7 +52,7 @@ const createElement = (item) => {
     return [timerDiv];
   } else if (item.type === 'text') {
     const labelSpan = document.createElement('span');
-    labelSpan.innerHTML = item.label;
+    labelSpan.textContent = item.label;
 
     return [labelSpan];
   } else if (item.type === 'group') {
@@ -64,7 +64,7 @@ const createElement = (item) => {
 
 const createListEntry = (listEntry) => {
   const listTitle = document.createElement('div');
-  listTitle.innerHTML = listEntry.listTitle;
+  listTitle.textContent = listEntry.listTitle;
   listTitle.className = 'clipboard-header';
   const listContent = document.createElement('div');
   listContent.id = listEntry.listId;
@@ -96,7 +96,7 @@ const createListEntries = (entries) => {
   if (entries.sectionTitle) {
     const title = document.createElement('h2');
     title.className = 'section-title';
-    title.innerHTML = entries.sectionTitle;
+    title.textContent = entries.sectionTitle;
 
     section.appendChild(title);
   }

@@ -9,23 +9,23 @@ const switchAPIMethod = () => {
 const testApi = () => {
   const url = document.getElementById('api-url').value;
   const method = document.getElementById('api-method').value;
-  const payload = document.getElementById('api-body').innerHTML || '{}';
+  const payload = document.getElementById('api-body').textContent || '{}';
 
   if (method === 'GET') {
     api.get(url, { sendFullResponse: true }).then(({ promise, response }) => {
       promise.then((res) => {
-        document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
+        document.getElementById('api-response-body').textContent = JSON.stringify(res, null, 2);
       });
-      document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${
+      document.getElementById('api-response-headers').textContent = `Status: ${response.status}\nUrl: ${
         response.url
       }\nHeaders: ${JSON.stringify(response.headers)}`;
     });
   } else {
     api.post(url, JSON.parse(payload), { sendFullResponse: true }).then(({ promise, response }) => {
       promise.then((res) => {
-        document.getElementById('api-response-body').innerHTML = JSON.stringify(res, null, 2);
+        document.getElementById('api-response-body').textContent = JSON.stringify(res, null, 2);
       });
-      document.getElementById('api-response-headers').innerHTML = `Status: ${response.status}\nUrl: ${
+      document.getElementById('api-response-headers').textContent = `Status: ${response.status}\nUrl: ${
         response.url
       }\nHeaders: ${JSON.stringify(response.headers)}`;
     });

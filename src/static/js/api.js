@@ -53,14 +53,14 @@ const executeCommand = (mode = 'simple', filename, inputEl) => {
             .filter((line) => line);
           lines.forEach((line) => {
             const p = document.createElement('p');
-            p.innerHTML = line;
+            p.textContent = line;
             p.classList.add('card-text');
 
             responseDiv.appendChild(p);
           });
         } else {
           const p = document.createElement('p');
-          p.innerHTML = JSON.stringify(result.message);
+          p.textContent = JSON.stringify(result.message);
           p.classList.add('card-text');
 
           responseDiv.appendChild(p);

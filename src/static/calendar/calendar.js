@@ -9,11 +9,11 @@ const loadTotal = () => {
       weekTotal += Number(item.value);
     });
 
-    field.innerHTML = Math.round(weekTotal * 100) / 100;
+    field.textContent = Math.round(weekTotal * 100) / 100;
     total += weekTotal;
   });
 
-  document.getElementById('total').innerHTML = Math.round(total * 100) / 100;
+  document.getElementById('total').textContent = Math.round(total * 100) / 100;
 };
 
 const changeByDays = (date, days) => new Date(date.getTime() + days * DAY_IN_MILLISECONDS);
@@ -77,7 +77,7 @@ const createCalendarWeek = (week, id) => {
     el.className = 'calendar-day';
 
     const spanEl = document.createElement('span');
-    spanEl.innerHTML = day.getDate();
+    spanEl.textContent = day.getDate();
     spanEl.className = 'calendar-day-span';
 
     const inEl = document.createElement('input');
@@ -110,28 +110,28 @@ const createCalendarMonth = (baseDay) => {
   calendarHeader.className = 'calendar-header';
   const sundayHeader = document.createElement('span');
   sundayHeader.className = 'calendar-header-span';
-  sundayHeader.innerHTML = 'Sunday';
+  sundayHeader.textContent = 'Sunday';
   const mondayHeader = document.createElement('span');
   mondayHeader.className = 'calendar-header-span';
-  mondayHeader.innerHTML = 'Monday';
+  mondayHeader.textContent = 'Monday';
   const tuesdayHeader = document.createElement('span');
   tuesdayHeader.className = 'calendar-header-span';
-  tuesdayHeader.innerHTML = 'Tuesday';
+  tuesdayHeader.textContent = 'Tuesday';
   const wednesdayHeader = document.createElement('span');
   wednesdayHeader.className = 'calendar-header-span';
-  wednesdayHeader.innerHTML = 'Wednesday';
+  wednesdayHeader.textContent = 'Wednesday';
   const thursdayHeader = document.createElement('span');
   thursdayHeader.className = 'calendar-header-span';
-  thursdayHeader.innerHTML = 'Thursday';
+  thursdayHeader.textContent = 'Thursday';
   const fridayHeader = document.createElement('span');
   fridayHeader.className = 'calendar-header-span';
-  fridayHeader.innerHTML = 'Friday';
+  fridayHeader.textContent = 'Friday';
   const saturdayHeader = document.createElement('span');
   saturdayHeader.className = 'calendar-header-span';
-  saturdayHeader.innerHTML = 'Saturday';
+  saturdayHeader.textContent = 'Saturday';
   const totalHeader = document.createElement('span');
   totalHeader.className = 'calendar-header-span';
-  totalHeader.innerHTML = 'Total';
+  totalHeader.textContent = 'Total';
   calendarHeader.appendChild(sundayHeader);
   calendarHeader.appendChild(mondayHeader);
   calendarHeader.appendChild(tuesdayHeader);
@@ -153,7 +153,7 @@ const createCalendarMonth = (baseDay) => {
   totalFillerEl.className = 'total-filler';
   const totalEl = document.createElement('div');
   totalEl.className = 'total-cell';
-  totalEl.innerHTML = '0';
+  totalEl.textContent = '0';
   totalEl.id = 'total';
 
   parentDiv.appendChild(totalFillerEl);
@@ -173,14 +173,14 @@ const save = () => {
     };
     data.push(fieldData);
   });
-  const mode = document.getElementById('calendar-title').innerHTML;
+  const mode = document.getElementById('calendar-title').textContent;
   api.post('/calendar-data', { filename: mode.toLocaleLowerCase() + '.json', content: data }).then((result) => {
     setOutput(result.data);
   });
 };
 
 const loadCalendar = (title) => {
-  const mode = title ? title : document.getElementById('calendar-title').innerHTML;
+  const mode = title ? title : document.getElementById('calendar-title').textContent;
   api.get('/calendar-data/' + mode.toLocaleLowerCase() + '.json').then((result) => {
     const calendarData = JSON.parse(result.data);
     calendarData.forEach((field) => {
@@ -194,7 +194,7 @@ const loadCalendar = (title) => {
 };
 
 const switchMode = (title) => {
-  document.getElementById('calendar-title').innerHTML = title;
+  document.getElementById('calendar-title').textContent = title;
   loadCalendar(title);
 };
 
@@ -202,7 +202,7 @@ document.getElementById('main-content').style.zoom = '150%';
 const monthDiv = createCalendarMonth();
 const monthName = months[new Date().getMonth()];
 
-document.getElementById('page-title').innerHTML = monthName;
+document.getElementById('page-title').textContent = monthName;
 document.getElementById('calendar-title').after(monthDiv);
 
 loadCalendar();

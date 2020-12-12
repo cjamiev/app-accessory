@@ -91,10 +91,10 @@ const customSnippets = [
 
 const loadData = (label, data, escapeHTML = false) => {
   const entry = data.find((item) => item.label === label);
-  document.getElementById('copy-snippet').innerHTML = escapeHTML
+  document.getElementById('copy-snippet').textContent = escapeHTML
     ? replaceHTMLCharactersWithEscapeCharacters(entry.value)
     : entry.value;
-  document.getElementById('comments').innerHTML = entry.comments || '';
+  document.getElementById('comments').textContent = entry.comments || '';
   copyHTMLContentToClipboard('copy-snippet');
 };
 
@@ -111,7 +111,7 @@ htmlTags.map((entry) => {
   childBtn.onclick = () => {
     loadHTMLTags(entry.label);
   };
-  childBtn.innerHTML = entry.label;
+  childBtn.textContent = entry.label;
 
   htmlTagsParent.appendChild(childBtn);
 });
@@ -123,7 +123,7 @@ dateMethods.map((entry) => {
   childBtn.onclick = () => {
     loadDateMethod(entry.label);
   };
-  childBtn.innerHTML = entry.label;
+  childBtn.textContent = entry.label;
 
   dateMethodsParent.appendChild(childBtn);
 });
@@ -135,7 +135,7 @@ eventMethods.map((entry) => {
   childBtn.onclick = () => {
     loadEventMethod(entry.label);
   };
-  childBtn.innerHTML = entry.label;
+  childBtn.textContent = entry.label;
 
   eventMethodsParent.appendChild(childBtn);
 });
@@ -147,7 +147,7 @@ storageMethods.map((entry) => {
   childBtn.onclick = () => {
     loadStorageMethod(entry.label);
   };
-  childBtn.innerHTML = entry.label;
+  childBtn.textContent = entry.label;
 
   storageMethodsParent.appendChild(childBtn);
 });
@@ -159,7 +159,7 @@ customSnippets.map((entry) => {
   childBtn.onclick = () => {
     loadCustomSnippets(entry.label);
   };
-  childBtn.innerHTML = entry.label;
+  childBtn.textContent = entry.label;
 
   customSnippetsParent.appendChild(childBtn);
 });

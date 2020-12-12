@@ -1,6 +1,6 @@
 const viewDetails = (item) => {
   return () => {
-    document.getElementById('log-payload-details').innerHTML = JSON.stringify(item, undefined, 2);
+    document.getElementById('log-payload-details').textContent = JSON.stringify(item, undefined, 2);
   };
 };
 
@@ -12,7 +12,7 @@ const createRow = (entry) => {
     const value = entry[item];
     if (typeof value === 'object') {
       const viewObjectButton = document.createElement('button');
-      viewObjectButton.innerHTML = 'Load';
+      viewObjectButton.textContent = 'Load';
       viewObjectButton.onclick = viewDetails(value);
       viewObjectButton.className = 'btns';
       const newCell = document.createElement('td');
@@ -20,7 +20,7 @@ const createRow = (entry) => {
       tr.appendChild(newCell);
     } else {
       const newCell = document.createElement('td');
-      newCell.innerHTML = value || 'none';
+      newCell.textContent = value || 'none';
       tr.appendChild(newCell);
     }
   });

@@ -16,7 +16,7 @@ const copyToClipboard = (text) => {
 };
 
 const copyContentToClipboard = (elementId) => {
-  const innerHtml = document.getElementById(elementId).innerHTML;
+  const innerHtml = document.getElementById(elementId).textContent;
   if (innerHtml) {
     copyToClipboard(innerHtml);
   } else {
@@ -25,7 +25,7 @@ const copyContentToClipboard = (elementId) => {
 };
 
 const copyHTMLContentToClipboard = (elementId) => {
-  const text = replaceEscapeCharactersWithHTMLCharacters(document.getElementById(elementId).innerHTML);
+  const text = replaceEscapeCharactersWithHTMLCharacters(document.getElementById(elementId).textContent);
   copyToClipboard(text);
 };
 
@@ -41,7 +41,7 @@ const parseObject = (obj) => {
 const setOutput = (data) => {
   const alertField = document.getElementById('alert-field');
   const alertFieldContainer = document.getElementById('alert-field-container');
-  alertField.innerHTML = data.message;
+  alertField.textContent = data.message;
 
   const alertClass = data.error ? 'error' : 'success';
   alertField.classList.remove('success');
@@ -61,10 +61,10 @@ const removeOutput = () => {
 };
 
 const validateJson = () => {
-  const response = parseObject(document.getElementById('contentData').innerHTML);
+  const response = parseObject(document.getElementById('contentData').textContent);
   const alertField = document.getElementById('alert-field');
   const alertFieldContainer = document.getElementById('alert-field-container');
-  alertField.innerHTML = response.message;
+  alertField.textContent = response.message;
 
   const alertClass = response.error ? 'error' : 'success';
   alertField.classList.remove('success');
