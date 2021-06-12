@@ -1,9 +1,7 @@
 {
-  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.alwaysShowStatus": true,
   "eslint.options": {
     "extensions": [
       ".html",
@@ -12,5 +10,8 @@
   },
   "eslint.validate": [
     "javascript"
-  ]
+  ],
+  "files.exclude": {
+    "node_modules/":true
+  }
 }
